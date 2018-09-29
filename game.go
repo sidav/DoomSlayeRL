@@ -9,11 +9,11 @@ type game struct {
 	dung dungeon
 }
 
-func (g *game) runGame(){
+func (g *game) runGame() {
 	d := dungeon{}
 	d.initialize_level()
 	for {
 		renderLevel(&d)
-		playerControl(&d.player)
+		playerControl(&d)
 	}
 }
