@@ -6,6 +6,7 @@ import (
 )
 
 func renderLevel(d *dungeon) {
+	cw.Clear_console()
 	// render level
 	cw.Set_color(cw.BEIGE, nil)
 	for x := 0; x < levelsizex; x++ {
@@ -25,6 +26,7 @@ func renderLevel(d *dungeon) {
 	}
 
 	renderPlayerStats(d)
+	renderLog()
 
 	cw.Flush_console()
 }
@@ -33,4 +35,11 @@ func renderPlayerStats(d *dungeon) {
 	player := &d.player
 	cw.Set_color(cw.RED, nil)
 	cw.Put_string(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), 0, levelsizey)
+}
+
+func renderLog() {
+	cw.Set_color(cw.WHITE, nil)
+	for i := 0; i < LOG_HEIGHT; i++ {
+		cw.Put_string(log.last_msgs[i], 0, levelsizey+i+1)
+	}
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	cw "GoConsoleWrapper/console_wrapper"
-	"time"
 )
 
 func main() {
@@ -14,5 +13,4 @@ func main() {
 
 	g := game{}
 	g.runGame()
-	time.Sleep(1000 * time.Millisecond)
 }
