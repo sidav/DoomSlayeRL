@@ -1,8 +1,12 @@
 package main
 
 const (
-	levelsizex = 80
-	levelsizey = 25
+	levelsizex = 10
+	levelsizey = 10
+)
+
+var (
+	GAME_IS_RUNNING bool
 )
 
 type game struct {
@@ -12,7 +16,7 @@ type game struct {
 func (g *game) runGame() {
 	d := dungeon{}
 	d.initialize_level()
-	for {
+	for GAME_IS_RUNNING {
 		renderLevel(&d)
 		playerControl(&d)
 	}

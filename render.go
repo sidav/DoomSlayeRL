@@ -2,24 +2,35 @@ package main
 
 import (
 	cw "GoConsoleWrapper/console_wrapper"
+	"fmt"
 )
 
-func renderLevel(l *dungeon) {
+func renderLevel(d *dungeon) {
 	// render level
-	for x:=0; x<levelsizex; x++ {
-		for y:=0; y<levelsizey; y++{
-			cw.Put_char(l.tiles[x][y].Appearance, x, y)
+	cw.Set_color(cw.BEIGE, nil)
+	for x := 0; x < levelsizex; x++ {
+		for y := 0; y < levelsizey; y++ {
+			cw.Put_char(d.tiles[x][y].Appearance, x, y)
 		}
 	}
 	//render player
-	cw.Put_char(l.player.appearance, l.player.x, l.player.y)
+	cw.Set_color(cw.GREEN, nil)
+	cw.Put_char(d.player.appearance, d.player.x, d.player.y)
 	//render pawns
-	for i:=0; i<len(l.pawns); i++ {
-		app := l.pawns[i].appearance
-		x := l.pawns[i].x
-		y := l.pawns[i].y
+	for i := 0; i < len(d.pawns); i++ {
+		app := d.pawns[i].appearance
+		x := d.pawns[i].x
+		y := d.pawns[i].y
 		cw.Put_char(app, x, y)
 	}
+
+	renderPlayerStats(d)
+
 	cw.Flush_console()
 }
 
+func renderPlayerStats(d *dungeon) {
+	player := &d.player
+	cw.Set_color(cw.RED, nil)
+	cw.Put_string(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), 0, levelsizey)
+}

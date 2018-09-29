@@ -14,7 +14,7 @@ type dungeon struct {
 func (dung *dungeon) initialize_level() { //crap of course
 	dung.player = pawn{appearance: '@', x: 1, y: 1}
 	dung.pawns = make([]pawn, 0)
-	dung.pawns = append(dung.pawns, pawn{'@', 1, 1, 1})
+	// dung.pawns = append(dung.pawns, pawn{'@', 1, 1, 1})
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			dung.tiles[x][y].Appearance = ' '

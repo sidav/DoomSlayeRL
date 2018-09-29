@@ -2,7 +2,7 @@ package main
 
 type (
 	pawn struct {
-		appearance rune
-		hp, x, y int
+		appearance      rune
+		hp, maxhp, x, y int
 	}
 )
