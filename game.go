@@ -23,5 +23,6 @@ func (g *game) runGame() {
 	for GAME_IS_RUNNING {
 		renderLevel(&d)
 		playerControl(&d)
+		checkDeadPawns(&d)
 	}
 }

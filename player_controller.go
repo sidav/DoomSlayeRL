@@ -17,9 +17,9 @@ func playerControl(d *dungeon) {
 		GAME_IS_RUNNING = false
 	}
 
-	log.appendMessage(key_pressed)
+	// log.appendMessage(key_pressed)
 
 	if movex != 0 || movey != 0 {
-		movePawn(&d.player, d, movex, movey)
+		moveOrMeleeAttackPawn(&d.player, d, movex, movey)
 	}
 }

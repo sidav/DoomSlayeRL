@@ -5,6 +5,14 @@ import (
 	"fmt"
 )
 
+var (
+	cons_pawnColors = map[rune]int{
+		'@': cw.GREEN,
+		'z': cw.BEIGE,
+		'i': cw.RED,
+	}
+)
+
 func renderLevel(d *dungeon) {
 	cw.Clear_console()
 	// render level
@@ -15,20 +23,24 @@ func renderLevel(d *dungeon) {
 		}
 	}
 	//render player
-	cw.Set_color(cw.GREEN, nil)
-	cw.Put_char(d.player.appearance, d.player.x, d.player.y)
+	renderPawn(&d.player)
 	//render pawns
 	for i := 0; i < len(d.pawns); i++ {
-		app := d.pawns[i].appearance
-		x := d.pawns[i].x
-		y := d.pawns[i].y
-		cw.Put_char(app, x, y)
+		renderPawn(&d.pawns[i])
 	}
 
 	renderPlayerStats(d)
 	renderLog()
 
 	cw.Flush_console()
+}
+
+func renderPawn(p *pawn) {
+	app := p.appearance
+	cw.Set_color(cons_pawnColors[p.appearance], nil)
+	x := p.x
+	y := p.y
+	cw.Put_char(app, x, y)
 }
 
 func renderPlayerStats(d *dungeon) {
