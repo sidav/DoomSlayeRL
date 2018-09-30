@@ -78,9 +78,12 @@ func renderPlayerStats(d *dungeon) {
 	} else {
 		weaponline = "fists"
 	}
-
+	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
+		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
 	cw.Set_color(cw.RED, nil)
 	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp, curr_time/10, curr_time%10, weaponline), 0, levelsizey)
+	cw.Set_color(cw.RED, nil)
+	cw.Put_string(ammoLine, 0, levelsizey+1)
 }
 
 func renderLine(char rune, fromx, fromy, tox, toy int) {
@@ -94,7 +97,7 @@ func renderLine(char rune, fromx, fromy, tox, toy int) {
 func renderLog(flush bool) {
 	cw.Set_color(cw.WHITE, nil)
 	for i := 0; i < LOG_HEIGHT; i++ {
-		cw.Put_string(log.last_msgs[i], 0, levelsizey+i+1)
+		cw.Put_string(log.last_msgs[i], 0, levelsizey+i+2)
 	}
 	if flush {
 		cw.Flush_console()

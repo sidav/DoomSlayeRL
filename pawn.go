@@ -17,6 +17,7 @@ type (
 		meleeData       *p_meleeAttackData
 		playerData      *p_playerData
 		weaponInHands   *i_item
+		inventory       *inventory
 	}
 )
 

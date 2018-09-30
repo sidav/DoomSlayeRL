@@ -57,6 +57,11 @@ func plr_pickUpItem(d *dungeon) {
 			d.removeItemFromFloor(items[i])
 			log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
 			return
+		case "ammo":
+			p.inventory.addItem(item)
+			log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
+			d.removeItemFromFloor(item)
+			return
 		}
 	}
 	if len(items) == 0 {

@@ -4,7 +4,8 @@ func p_createPawn(name string, x, y int) *p_pawn {
 	var p p_pawn
 	switch name {
 	case "player":
-		p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{}, meleeData: &p_meleeAttackData{meleeAttackString: "punch", dnum: 2, dval: 6, dmod: 0}}
+		p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{},
+			meleeData: &p_meleeAttackData{meleeAttackString: "punch", dnum: 2, dval: 6, dmod: 0}, inventory: &inventory{}}
 	case "zombie":
 		p = p_pawn{appearance: 'z', name: name, maxhp: 10, meleeData: &p_meleeAttackData{meleeAttackString: "hits", dnum: 1, dval: 6, dmod: 0}}
 	case "imp":
