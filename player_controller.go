@@ -31,4 +31,13 @@ func playerControl(d *dungeon) {
 	if movex != 0 || movey != 0 {
 		m_moveOrMeleeAttackPawn(&d.player, d, movex, movey)
 	}
+	checkItemsOnFloor(d)
+}
+
+func checkItemsOnFloor(d *dungeon) {
+	px, py := d.player.getCoords()
+	item := d.getItemAt(px, py)
+	if item != nil {
+		log.appendMessage(fmt.Sprintf("You see here a %s", item.name))
+	}
 }

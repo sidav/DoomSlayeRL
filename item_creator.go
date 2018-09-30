@@ -17,6 +17,6 @@ func i_createItem(name string, x, y int) i_item {
 
 func i_createCorpseFor(p *p_pawn) i_item {
 	x, y := p.x, p.y
-	name := fmt.Sprintf("a %s corpse", p.name)
+	name := fmt.Sprintf("%s corpse", p.name)
 	return i_item{name: name, x: x, y: y, appearance: '%'}
 }

@@ -44,6 +44,26 @@ func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 	return false
 }
 
+func (d *dungeon) isItemPresent(ix, iy int) bool {
+	for i := 0; i < len(d.items); i++ {
+		x, y := d.items[i].x, d.items[i].y
+		if ix == x && iy == y {
+			return true
+		}
+	}
+	return false
+}
+
+func (d *dungeon) getItemAt(ix, iy int) *i_item {
+	for i := 0; i < len(d.items); i++ {
+		x, y := d.items[i].x, d.items[i].y
+		if ix == x && iy == y {
+			return &d.items[i]
+		}
+	}
+	return nil
+}
+
 func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 	px, py := dung.player.x, dung.player.y
 	if px == x && py == y {
