@@ -1,5 +1,7 @@
 package main
 
+import "GoRoguelike/routines"
+
 const (
 	levelsizex = 10
 	levelsizey = 10
@@ -16,7 +18,7 @@ type game struct {
 }
 
 func (g *game) runGame() {
-	randomize()
+	routines.Randomize()
 	GAME_IS_RUNNING = true
 	d := dungeon{}
 	d.initialize_level()

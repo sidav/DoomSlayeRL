@@ -2,6 +2,7 @@ package main
 
 import (
 	cw "GoConsoleWrapper/console_wrapper"
+	"GoRoguelike/routines"
 	"fmt"
 )
 
@@ -61,6 +62,14 @@ func renderPlayerStats(d *dungeon) {
 	player := &d.player
 	cw.Set_color(cw.RED, nil)
 	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d", player.hp, player.maxhp, curr_time/10, curr_time%10), 0, levelsizey)
+}
+
+func renderLine(char rune, fromx, fromy, tox, toy int) {
+	line := routines.GetLine(fromx, fromy, tox, toy)
+	cw.Set_color(cw.RED, nil)
+	for i := 0; i < len(line); i++ {
+		cw.Put_char(char, line[i].X, line[i].Y)
+	}
 }
 
 func renderLog() {

@@ -1,5 +1,7 @@
 package main
 
+import "GoRoguelike/routines"
+
 type (
 	p_meleeAttackData struct {
 		meleeAttackString string
@@ -12,13 +14,18 @@ type (
 		appearance      rune
 		hp, maxhp, x, y int
 		name            string
-		melee           *p_meleeAttackData
+		meleeData       *p_meleeAttackData
 		playerData      *p_playerData
+		weaponInHands   *i_item
 	}
 )
 
 func (m *p_meleeAttackData) rollForDamage() int {
-	return rollDice(m.dnum, m.dval, m.dmod)
+	return routines.RollDice(m.dnum, m.dval, m.dmod)
+}
+
+func (p *p_pawn) canMelee() bool {
+	return p.meleeData != nil
 }
 
 func (p *p_pawn) isPlayer() bool {

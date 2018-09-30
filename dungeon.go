@@ -1,5 +1,7 @@
 package main
 
+import "GoRoguelike/routines"
+
 type cell struct {
 	IsPassable bool
 	Appearance rune
@@ -29,11 +31,12 @@ func (dung *dungeon) initialize_level() { //crap of course
 	dung.spawnPawnAtRandomPosition("zombie")
 	dung.spawnPawnAtRandomPosition("imp")
 	dung.spawnPawnAtRandomPosition("archvile")
+	dung.items = append(dung.items, i_createWeapon("pistol", 4, 5))
 }
 
 func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
 	for tries := 0; tries < 1000; tries++ {
-		x, y := random(levelsizex), random(levelsizey)
+		x, y := routines.Random(levelsizex), routines.Random(levelsizey)
 		if dung.isTilePassableAndNotOccupied(x, y) {
 			dung.pawns = append(dung.pawns, p_createPawn(name, x, y))
 			return

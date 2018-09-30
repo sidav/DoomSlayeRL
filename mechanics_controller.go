@@ -17,7 +17,9 @@ func m_moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 		m_movePawn(p, d, x, y)
 	} else if d.isPawnPresent(nx, ny) {
 		victim := d.getPawnAt(nx, ny)
-		m_meleeAttack(p, victim)
+		if victim.isPlayer() || p.isPlayer() {
+			m_meleeAttack(p, victim)
+		}
 	}
 }
 

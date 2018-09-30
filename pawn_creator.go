@@ -4,15 +4,15 @@ func p_createPawn(name string, x, y int) p_pawn {
 	var p p_pawn
 	switch name {
 	case "player":
-		p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{}, melee: &p_meleeAttackData{meleeAttackString: "punch", dnum: 2, dval: 6, dmod: 0}}
+		p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{}, meleeData: &p_meleeAttackData{meleeAttackString: "punch", dnum: 2, dval: 6, dmod: 0}}
 	case "zombie":
-		p = p_pawn{appearance: 'z', name: name, maxhp: 10, melee: &p_meleeAttackData{meleeAttackString: "hits", dnum: 1, dval: 6, dmod: 0}}
+		p = p_pawn{appearance: 'z', name: name, maxhp: 10, meleeData: &p_meleeAttackData{meleeAttackString: "hits", dnum: 1, dval: 6, dmod: 0}}
 	case "imp":
-		p = p_pawn{appearance: 'i', name: name, maxhp: 25, melee: &p_meleeAttackData{meleeAttackString: "claws", dnum: 3, dval: 5, dmod: 1}}
+		p = p_pawn{appearance: 'i', name: name, maxhp: 25, meleeData: &p_meleeAttackData{meleeAttackString: "claws", dnum: 3, dval: 5, dmod: 1}}
 	case "archvile":
-		p = p_pawn{appearance: 'A', name: name, maxhp: 125, melee: &p_meleeAttackData{meleeAttackString: "burns", dnum: 10, dval: 2, dmod: 1}}
+		p = p_pawn{appearance: 'A', name: name, maxhp: 125, meleeData: &p_meleeAttackData{meleeAttackString: "burns", dnum: 10, dval: 2, dmod: 1}}
 	default:
-		p = p_pawn{appearance: '?', name: "Unknown monster " + name, maxhp: 25, melee: &p_meleeAttackData{meleeAttackString: "claws", dnum: 3, dval: 5, dmod: 1}}
+		p = p_pawn{appearance: '?', name: "Unknown monster " + name, maxhp: 25, meleeData: &p_meleeAttackData{meleeAttackString: "claws", dnum: 3, dval: 5, dmod: 1}}
 	}
 	p.x = x
 	p.y = y
