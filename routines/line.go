@@ -27,7 +27,7 @@ func GetLine(fromx, fromy, tox, toy int) []point {
 	if deltax >= deltay {
 		y := fromy
 		deltaerr := deltay
-		for x := fromx; x < tox+xmod; x += xmod {
+		for x := fromx; x != tox+xmod; x += xmod {
 			line = append(line, point{x, y})
 			error += deltaerr
 			if 2*error >= deltax {
@@ -38,7 +38,7 @@ func GetLine(fromx, fromy, tox, toy int) []point {
 	} else {
 		x := fromx
 		deltaerr := deltax
-		for y := fromy; y < toy+ymod; y += ymod {
+		for y := fromy; y != toy+ymod; y += ymod {
 			line = append(line, point{x, y})
 			error += deltaerr
 			if 2*error >= deltay {
