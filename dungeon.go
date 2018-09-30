@@ -15,8 +15,6 @@ type dungeon struct {
 func (dung *dungeon) initialize_level() { //crap of course
 	dung.player = p_createPawn("player", 1, 1)
 	dung.pawns = make([]p_pawn, 0)
-	dung.pawns = append(dung.pawns, p_createPawn("zombie", 5, 5))
-	dung.pawns = append(dung.pawns, p_createPawn("imp", 3, 1))
 	dung.items = append(dung.items, i_createItem("clip", 7, 8))
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
@@ -26,6 +24,18 @@ func (dung *dungeon) initialize_level() { //crap of course
 				dung.tiles[x][y].Appearance = '#'
 				dung.tiles[x][y].IsPassable = false
 			}
+		}
+	}
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("imp")
+}
+
+func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
+	for tries := 0; tries < 1000; tries++ {
+		x, y := random(levelsizex), random(levelsizey)
+		if dung.isTilePassableAndNotOccupied(x, y) {
+			dung.pawns = append(dung.pawns, p_createPawn(name, x, y))
+			return
 		}
 	}
 }

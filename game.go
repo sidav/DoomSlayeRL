@@ -16,6 +16,7 @@ type game struct {
 }
 
 func (g *game) runGame() {
+	randomize()
 	GAME_IS_RUNNING = true
 	d := dungeon{}
 	d.initialize_level()

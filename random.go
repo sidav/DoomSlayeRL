@@ -1,5 +1,9 @@
 package main
 
+import (
+	"time"
+)
+
 const (
 	_RANDOM_a = 513
 	_RANDOM_c = 313
@@ -11,7 +15,7 @@ var (
 )
 
 func randomize() {
-	_RANDOM_x = 0 // wow, so random
+	_RANDOM_x = int(time.Duration(time.Now().UnixNano())/time.Millisecond) % _RANDOM_m
 }
 
 func random(modulo int) int {

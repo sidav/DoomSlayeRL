@@ -1,6 +1,6 @@
 package main
 
-const LOG_HEIGHT = 3
+const LOG_HEIGHT = 5
 
 type LOG struct {
 	last_msgs [LOG_HEIGHT]string
