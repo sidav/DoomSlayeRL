@@ -45,8 +45,12 @@ func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 }
 
 func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
+	px, py := dung.player.x, dung.player.y
+	if px == x && py == y {
+		return &dung.player
+	}
 	for i := 0; i < len(dung.pawns); i++ {
-		px, py := dung.pawns[i].x, dung.pawns[i].y
+		px, py = dung.pawns[i].x, dung.pawns[i].y
 		if px == x && py == y {
 			return &dung.pawns[i]
 		}

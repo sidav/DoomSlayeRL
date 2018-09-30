@@ -60,7 +60,7 @@ func renderItem(i *i_item) {
 func renderPlayerStats(d *dungeon) {
 	player := &d.player
 	cw.Set_color(cw.RED, nil)
-	cw.Put_string(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), 0, levelsizey)
+	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d", player.hp, player.maxhp, curr_time/10, curr_time%10), 0, levelsizey)
 }
 
 func renderLog() {

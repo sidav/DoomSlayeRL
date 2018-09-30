@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func movePawn(p *p_pawn, d *dungeon, x, y int) {
+func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 	// px, py := p.x, p.y
 	nx, ny := p.x+x, p.y+y
 	if d.isTilePassableAndNotOccupied(nx, ny) {
@@ -11,14 +11,13 @@ func movePawn(p *p_pawn, d *dungeon, x, y int) {
 	}
 }
 
-func moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
+func m_moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 	nx, ny := p.x+x, p.y+y
 	if d.isTilePassableAndNotOccupied(nx, ny) {
-		movePawn(p, d, x, y)
+		m_movePawn(p, d, x, y)
 	} else if d.isPawnPresent(nx, ny) {
 		victim := d.getPawnAt(nx, ny)
-		victim.hp -= 10
-		log.appendMessage(fmt.Sprintf("You punch %s!", victim.name))
+		m_meleeAttack(p, victim)
 	}
 }
 
