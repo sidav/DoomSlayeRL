@@ -16,21 +16,31 @@ var (
 
 func renderLevel(d *dungeon) {
 	cw.Clear_console()
+	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
 	// render level
-	cw.Set_color(cw.BEIGE, nil)
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
-			cw.Put_char(d.tiles[x][y].Appearance, x, y)
+			if vismap[x][y] {
+				cw.Set_color(cw.BEIGE, nil)
+				cw.Put_char(d.tiles[x][y].Appearance, x, y)
+			} else {
+				cw.Set_color(cw.BLUE, nil)
+				cw.Put_char(d.tiles[x][y].Appearance, x, y)
+			}
 		}
 	}
 	//render items
 	for _, item := range d.items {
-		renderItem(item)
+		if vismap[item.x][item.y] {
+			renderItem(item)
+		}
 	}
 
 	//render pawns
-	for i := 0; i < len(d.pawns); i++ {
-		renderPawn(d.pawns[i])
+	for _, pawn := range d.pawns {
+		if vismap[pawn.x][pawn.y] {
+			renderPawn(pawn)
+		}
 	}
 
 	//render player

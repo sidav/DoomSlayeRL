@@ -43,6 +43,7 @@ func plr_fire(d *dungeon) {
 	if p.weaponInHands == nil {
 		log.appendMessage("You have nothing to fire with!")
 	}
+	log.appendMessage("Haha, firing is not implemented yet")
 }
 
 func plr_pickUpItem(d *dungeon) {

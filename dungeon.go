@@ -4,14 +4,9 @@ import (
 	"GoRoguelike/routines"
 )
 
-type cell struct {
-	IsPassable bool
-	Appearance rune
-}
-
 type dungeon struct {
 	player *p_pawn
-	tiles  [levelsizex][levelsizey]cell
+	tiles  [levelsizex][levelsizey]d_tile
 	pawns  []*p_pawn
 	items  []*i_item
 }
@@ -24,16 +19,40 @@ func (dung *dungeon) initialize_level() { //crap of course
 		for y := 0; y < levelsizey; y++ {
 			dung.tiles[x][y].Appearance = ' '
 			dung.tiles[x][y].IsPassable = true
-			if x*y == 0 || x == levelsizex-1 || y == levelsizey-1 {
+			if x*y == 0 || x == levelsizex-1 || y == levelsizey-1 || (y == 5 && x != levelsizey-2) {
 				dung.tiles[x][y].Appearance = '#'
 				dung.tiles[x][y].IsPassable = false
+				dung.tiles[x][y].opaque = true
 			}
 		}
 	}
-	dung.spawnPawnAtRandomPosition("zombie")
+	//dung.pawns = append(dung.pawns, p_createPawn("imp", 1, 9))
+	dung.pawns = append(dung.pawns, p_createPawn("imp", 5, 5))
+	//dung.spawnPawnAtRandomPosition("zombie")
 	//dung.spawnPawnAtRandomPosition("imp")
 	// dung.spawnPawnAtRandomPosition("archvile")
-	dung.items = append(dung.items, i_createWeapon("pistol", 4, 5))
+	dung.items = append(dung.items, i_createWeapon("pistol", 5, 6))
+}
+
+func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
+	line := routines.GetLine(fx, fy, tx, ty)
+	for i := 0; i < len(line); i++ {
+		if dung.tiles[line[i].X][line[i].Y].opaque {
+			return false
+		}
+	}
+	return true
+}
+
+func (d *dungeon) getListOfPawnsVisibleFrom(fx, fy int) []*p_pawn {
+	list := make([]*p_pawn, 0)
+	for _, pawn := range d.pawns {
+		x, y := pawn.x, pawn.y
+		if d.visibleLineExists(fx, fy, x, y) {
+			list = append(list, pawn)
+		}
+	}
+	return list
 }
 
 func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
