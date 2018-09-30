@@ -4,6 +4,7 @@ type (
 	i_weaponData struct {
 		slot, dnum, dval, dmod, ammo, maxammo int
 	}
+
 	i_item struct {
 		x, y       int
 		appearance rune

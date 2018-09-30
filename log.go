@@ -12,3 +12,8 @@ func (l *LOG) appendMessage(msg string) {
 	}
 	l.last_msgs[LOG_HEIGHT-1] = msg
 }
+
+func (l *LOG) warning(msg string) {
+	l.appendMessage(msg)
+	renderLog(true)
+}

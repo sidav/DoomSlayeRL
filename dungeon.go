@@ -1,6 +1,8 @@
 package main
 
-import "GoRoguelike/routines"
+import (
+	"GoRoguelike/routines"
+)
 
 type cell struct {
 	IsPassable bool
@@ -29,8 +31,8 @@ func (dung *dungeon) initialize_level() { //crap of course
 		}
 	}
 	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("imp")
-	dung.spawnPawnAtRandomPosition("archvile")
+	//dung.spawnPawnAtRandomPosition("imp")
+	// dung.spawnPawnAtRandomPosition("archvile")
 	dung.items = append(dung.items, i_createWeapon("pistol", 4, 5))
 }
 
@@ -72,6 +74,14 @@ func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 	return nil
 }
 
+func (d *dungeon) removePawn(p *p_pawn) {
+	for i := 0; i < len(d.pawns); i++ {
+		if p == &d.pawns[i] {
+			d.pawns = append(d.pawns[:i], d.pawns[i+1:]...) // ow it's fucking... magic!
+		}
+	}
+}
+
 func (d *dungeon) isItemPresent(ix, iy int) bool {
 	for i := 0; i < len(d.items); i++ {
 		x, y := d.items[i].x, d.items[i].y
@@ -80,6 +90,10 @@ func (d *dungeon) isItemPresent(ix, iy int) bool {
 		}
 	}
 	return false
+}
+
+func (d *dungeon) addItemToFloor(item *i_item) {
+	d.items = append(d.items, *item)
 }
 
 func (d *dungeon) getListOfItemsAt(ix, iy int) []*i_item {

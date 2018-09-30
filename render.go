@@ -37,7 +37,7 @@ func renderLevel(d *dungeon) {
 	renderPawn(&d.player)
 
 	renderPlayerStats(d)
-	renderLog()
+	renderLog(false)
 
 	cw.Flush_console()
 }
@@ -60,8 +60,15 @@ func renderItem(i *i_item) {
 
 func renderPlayerStats(d *dungeon) {
 	player := &d.player
+	var weaponline string
+	if player.weaponInHands != nil {
+		weaponline = fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,
+			player.weaponInHands.weaponData.maxammo)
+	} else {
+		weaponline = "fists"
+	}
 	cw.Set_color(cw.RED, nil)
-	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d", player.hp, player.maxhp, curr_time/10, curr_time%10), 0, levelsizey)
+	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp, curr_time/10, curr_time%10, weaponline), 0, levelsizey)
 }
 
 func renderLine(char rune, fromx, fromy, tox, toy int) {
@@ -72,9 +79,12 @@ func renderLine(char rune, fromx, fromy, tox, toy int) {
 	}
 }
 
-func renderLog() {
+func renderLog(flush bool) {
 	cw.Set_color(cw.WHITE, nil)
 	for i := 0; i < LOG_HEIGHT; i++ {
 		cw.Put_string(log.last_msgs[i], 0, levelsizey+i+1)
+	}
+	if flush {
+		cw.Flush_console()
 	}
 }
