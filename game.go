@@ -3,8 +3,8 @@ package main
 import "GoRoguelike/routines"
 
 const (
-	levelsizex = 10
-	levelsizey = 10
+	levelsizex = 15
+	levelsizey = 15
 )
 
 var (
@@ -25,7 +25,7 @@ func (g *game) runGame() {
 	log = LOG{}
 
 	for GAME_IS_RUNNING {
-		renderLevel(&d)
+		renderLevel(&d, true)
 		plr_playerControl(&d)
 		checkDeadPawns(&d)
 		for i := 0; i < len(d.pawns); i++ {

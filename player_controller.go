@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func plr_playerControl(d *dungeon) {
 	valid_key_pressed := false
@@ -26,8 +28,8 @@ func plr_playerControl(d *dungeon) {
 			GAME_IS_RUNNING = false
 		default:
 			valid_key_pressed = false
-			log.appendMessage(fmt.Sprintf("Unknown key %s (Wrong keyboard layout?)", key_pressed))
-			renderLevel(d)
+			log.appendMessagef("Unknown key %s (Wrong keyboard layout?)", key_pressed)
+			renderLevel(d, true)
 		}
 	}
 	// log.appendMessage(key_pressed)
@@ -42,8 +44,48 @@ func plr_fire(d *dungeon) {
 	p := d.player
 	if p.weaponInHands == nil {
 		log.appendMessage("You have nothing to fire with!")
+		return
 	}
-	log.appendMessage("Haha, firing is not implemented yet")
+	targets := d.getListOfPawnsVisibleFrom(p.x, p.y)
+	curr_target_index := 0
+	// choose target
+	if len(targets) > 0 {
+		log.appendMessagef("You target with your %s.", p.weaponInHands.name)
+		aimx, aimy := targets[curr_target_index].x, targets[curr_target_index].y
+	aimLoop:
+		for {
+			renderLevel(d, false)
+			renderLine('*', p.x, p.y, aimx, aimy, true, true)
+			keypressed := readKey()
+			switch keypressed {
+			case "n":
+				curr_target_index++
+				if curr_target_index >= len(targets) {
+					curr_target_index = 0
+				}
+				if len(targets) > 0 {
+					aimx, aimy = targets[curr_target_index].x, targets[curr_target_index].y
+				}
+			case "w":
+				aimy -= 1
+			case "s":
+				aimy += 1
+			case "a":
+				aimx -= 1
+			case "d":
+				aimx += 1
+			case "f":
+				log.appendMessage("Haha, firing is not implemented yet")
+				break aimLoop
+			case "ESCAPE":
+				log.appendMessage("Okay, then.")
+				break aimLoop
+			}
+		}
+	} else {
+		log.appendMessage("No targets in sight.")
+	}
+
 }
 
 func plr_pickUpItem(d *dungeon) {

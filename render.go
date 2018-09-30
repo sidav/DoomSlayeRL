@@ -14,7 +14,7 @@ var (
 	}
 )
 
-func renderLevel(d *dungeon) {
+func renderLevel(d *dungeon, flush bool) {
 	cw.Clear_console()
 	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
 	// render level
@@ -49,7 +49,9 @@ func renderLevel(d *dungeon) {
 	renderPlayerStats(d)
 	renderLog(false)
 
-	cw.Flush_console()
+	if flush {
+		cw.Flush_console()
+	}
 }
 
 func renderPawn(p *p_pawn) {
@@ -86,11 +88,20 @@ func renderPlayerStats(d *dungeon) {
 	cw.Put_string(ammoLine, 0, levelsizey+1)
 }
 
-func renderLine(char rune, fromx, fromy, tox, toy int) {
+func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
 	line := routines.GetLine(fromx, fromy, tox, toy)
 	cw.Set_color(cw.RED, nil)
-	for i := 0; i < len(line); i++ {
-		cw.Put_char(char, line[i].X, line[i].Y)
+	if exceptFirstAndLast {
+		for i := 1; i < len(line)-1; i++ {
+			cw.Put_char(char, line[i].X, line[i].Y)
+		}
+	} else {
+		for i := 0; i < len(line); i++ {
+			cw.Put_char(char, line[i].X, line[i].Y)
+		}
+	}
+	if flush {
+		cw.Flush_console()
 	}
 }
 

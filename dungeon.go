@@ -27,11 +27,11 @@ func (dung *dungeon) initialize_level() { //crap of course
 		}
 	}
 	//dung.pawns = append(dung.pawns, p_createPawn("imp", 1, 9))
-	dung.pawns = append(dung.pawns, p_createPawn("imp", 5, 6))
-	//dung.spawnPawnAtRandomPosition("zombie")
-	//dung.spawnPawnAtRandomPosition("imp")
+	dung.pawns = append(dung.pawns, p_createPawn("imp", 8, 8))
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("imp")
 	// dung.spawnPawnAtRandomPosition("archvile")
-	dung.items = append(dung.items, i_createWeapon("pistol", 5, 6))
+	dung.items = append(dung.items, i_createWeapon("pistol", 1, 2))
 }
 
 func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
