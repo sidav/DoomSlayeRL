@@ -28,6 +28,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 	}
 	dung.spawnPawnAtRandomPosition("zombie")
 	dung.spawnPawnAtRandomPosition("imp")
+	dung.spawnPawnAtRandomPosition("archvile")
 }
 
 func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
