@@ -10,15 +10,15 @@ type cell struct {
 }
 
 type dungeon struct {
-	player p_pawn
+	player *p_pawn
 	tiles  [levelsizex][levelsizey]cell
-	pawns  []p_pawn
-	items  []i_item
+	pawns  []*p_pawn
+	items  []*i_item
 }
 
 func (dung *dungeon) initialize_level() { //crap of course
 	dung.player = p_createPawn("player", 1, 1)
-	dung.pawns = make([]p_pawn, 0)
+	dung.pawns = make([]*p_pawn, 0)
 	dung.items = append(dung.items, i_createItem("clip", 7, 8))
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
@@ -63,12 +63,12 @@ func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 	px, py := dung.player.x, dung.player.y
 	if px == x && py == y {
-		return &dung.player
+		return dung.player
 	}
 	for i := 0; i < len(dung.pawns); i++ {
 		px, py = dung.pawns[i].x, dung.pawns[i].y
 		if px == x && py == y {
-			return &dung.pawns[i]
+			return dung.pawns[i]
 		}
 	}
 	return nil
@@ -76,7 +76,7 @@ func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 
 func (d *dungeon) removePawn(p *p_pawn) {
 	for i := 0; i < len(d.pawns); i++ {
-		if p == &d.pawns[i] {
+		if p == d.pawns[i] {
 			d.pawns = append(d.pawns[:i], d.pawns[i+1:]...) // ow it's fucking... magic!
 		}
 	}
@@ -93,7 +93,7 @@ func (d *dungeon) isItemPresent(ix, iy int) bool {
 }
 
 func (d *dungeon) addItemToFloor(item *i_item) {
-	d.items = append(d.items, *item)
+	d.items = append(d.items, item)
 }
 
 func (d *dungeon) getListOfItemsAt(ix, iy int) []*i_item {
@@ -101,7 +101,7 @@ func (d *dungeon) getListOfItemsAt(ix, iy int) []*i_item {
 	for i := 0; i < len(d.items); i++ {
 		x, y := d.items[i].x, d.items[i].y
 		if ix == x && iy == y {
-			items = append(items, &d.items[i])
+			items = append(items, d.items[i])
 		}
 	}
 	return items
@@ -109,7 +109,7 @@ func (d *dungeon) getListOfItemsAt(ix, iy int) []*i_item {
 
 func (d *dungeon) removeItemFromFloor(item *i_item) {
 	for i := 0; i < len(d.items); i++ {
-		if item == &d.items[i] {
+		if item == d.items[i] {
 			d.items = append(d.items[:i], d.items[i+1:]...) // ow it's fucking... magic!
 		}
 	}

@@ -33,7 +33,7 @@ func plr_playerControl(d *dungeon) {
 	// log.appendMessage(key_pressed)
 
 	if movex != 0 || movey != 0 {
-		m_moveOrMeleeAttackPawn(&d.player, d, movex, movey)
+		m_moveOrMeleeAttackPawn(d.player, d, movex, movey)
 	}
 	plr_checkItemsOnFloor(d)
 }
@@ -46,13 +46,13 @@ func plr_fire(d *dungeon) {
 }
 
 func plr_pickUpItem(d *dungeon) {
-	p := &d.player
+	p := d.player
 	items := d.getListOfItemsAt(p.x, p.y)
 	for i := 0; i < len(items); i++ {
-		item := *items[i]
+		item := items[i]
 		switch items[i].getType() {
 		case "weapon":
-			p.weaponInHands = &item
+			p.weaponInHands = item
 			d.removeItemFromFloor(items[i])
 			log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
 			return

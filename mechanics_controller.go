@@ -26,7 +26,7 @@ func m_moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 func checkDeadPawns(d *dungeon) {
 	var indicesOfPawnsToRemove []int
 	for i := 0; i < len(d.pawns); i++ {
-		p := &d.pawns[i]
+		p := d.pawns[i]
 		if p.hp < 0 {
 			indicesOfPawnsToRemove = append(indicesOfPawnsToRemove, i)
 		}
@@ -36,7 +36,7 @@ func checkDeadPawns(d *dungeon) {
 		log.appendMessage(fmt.Sprintf("%s drops dead!", d.pawns[index].name))
 		//let's create a corpse
 
-		d.addItemToFloor(i_createCorpseFor(&d.pawns[index]))
-		d.removePawn(&d.pawns[index])
+		d.addItemToFloor(i_createCorpseFor(d.pawns[index]))
+		d.removePawn(d.pawns[index])
 	}
 }

@@ -25,16 +25,16 @@ func renderLevel(d *dungeon) {
 	}
 	//render items
 	for _, item := range d.items {
-		renderItem(&item)
+		renderItem(item)
 	}
 
 	//render pawns
 	for i := 0; i < len(d.pawns); i++ {
-		renderPawn(&d.pawns[i])
+		renderPawn(d.pawns[i])
 	}
 
 	//render player
-	renderPawn(&d.player)
+	renderPawn(d.player)
 
 	renderPlayerStats(d)
 	renderLog(false)
@@ -59,7 +59,7 @@ func renderItem(i *i_item) {
 }
 
 func renderPlayerStats(d *dungeon) {
-	player := &d.player
+	player := d.player
 
 	var weaponline string
 	if player.weaponInHands != nil {

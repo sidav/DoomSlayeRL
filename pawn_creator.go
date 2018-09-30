@@ -1,6 +1,6 @@
 package main
 
-func p_createPawn(name string, x, y int) p_pawn {
+func p_createPawn(name string, x, y int) *p_pawn {
 	var p p_pawn
 	switch name {
 	case "player":
@@ -17,7 +17,7 @@ func p_createPawn(name string, x, y int) p_pawn {
 	p.x = x
 	p.y = y
 	p.hp = p.maxhp
-	return p
+	return &p
 }
 
 //func p_createPlayer(x, y int) p_pawn {

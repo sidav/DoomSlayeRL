@@ -29,7 +29,7 @@ func (g *game) runGame() {
 		plr_playerControl(&d)
 		checkDeadPawns(&d)
 		for i := 0; i < len(d.pawns); i++ {
-			ai_decideMove(&d.pawns[i], &d)
+			ai_decideMove(d.pawns[i], &d)
 		}
 		curr_time++
 	}

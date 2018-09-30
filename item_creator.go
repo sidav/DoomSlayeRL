@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func i_createItem(name string, x, y int) i_item {
+func i_createItem(name string, x, y int) *i_item {
 	var i i_item
 	switch name {
 	case "clip":
@@ -12,7 +12,7 @@ func i_createItem(name string, x, y int) i_item {
 	}
 	i.x = x
 	i.y = y
-	return i
+	return &i
 }
 
 func i_createCorpseFor(p *p_pawn) *i_item {
@@ -21,7 +21,7 @@ func i_createCorpseFor(p *p_pawn) *i_item {
 	return &i_item{name: name, x: x, y: y, appearance: '%'}
 }
 
-func i_createWeapon(name string, x, y int) i_item {
+func i_createWeapon(name string, x, y int) *i_item {
 	var i i_item
 	switch name {
 	case "pistol":
@@ -32,5 +32,5 @@ func i_createWeapon(name string, x, y int) i_item {
 	i.weaponData.ammo = i.weaponData.maxammo
 	i.x = x
 	i.y = y
-	return i
+	return &i
 }
