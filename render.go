@@ -22,12 +22,18 @@ func renderLevel(d *dungeon) {
 			cw.Put_char(d.tiles[x][y].Appearance, x, y)
 		}
 	}
-	//render player
-	renderPawn(&d.player)
+	//render items
+	for _, item := range d.items {
+		renderItem(&item)
+	}
+
 	//render pawns
 	for i := 0; i < len(d.pawns); i++ {
 		renderPawn(&d.pawns[i])
 	}
+
+	//render player
+	renderPawn(&d.player)
 
 	renderPlayerStats(d)
 	renderLog()
@@ -40,6 +46,14 @@ func renderPawn(p *pawn) {
 	cw.Set_color(cons_pawnColors[p.appearance], nil)
 	x := p.x
 	y := p.y
+	cw.Put_char(app, x, y)
+}
+
+func renderItem(i *i_item) {
+	app := i.appearance
+	cw.Set_color(cw.RED, nil)
+	x := i.x
+	y := i.y
 	cw.Put_char(app, x, y)
 }
 

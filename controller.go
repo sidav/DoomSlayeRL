@@ -33,6 +33,8 @@ func checkDeadPawns(d *dungeon) {
 	for i := 0; i < len(indicesOfPawnsToRemove); i++ {
 		index := indicesOfPawnsToRemove[i]
 		log.appendMessage(fmt.Sprintf("%s drops dead!", d.pawns[index].name))
+		//let's create a corpse
+		d.items = append(d.items, i_createCorpseFor(&d.pawns[index]))
 		d.pawns = append(d.pawns[:index], d.pawns[index+1:]...) // this fucking magic removes indexth element from a slice
 	}
 }

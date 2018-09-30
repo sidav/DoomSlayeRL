@@ -9,6 +9,7 @@ type dungeon struct {
 	player pawn
 	tiles  [levelsizex][levelsizey]cell
 	pawns  []pawn
+	items  []i_item
 }
 
 func (dung *dungeon) initialize_level() { //crap of course
@@ -16,6 +17,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 	dung.pawns = make([]pawn, 0)
 	dung.pawns = append(dung.pawns, p_createPawn("zombie", 5, 5))
 	dung.pawns = append(dung.pawns, p_createPawn("imp", 3, 1))
+	dung.items = append(dung.items, i_createItem("clip", 7, 8))
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			dung.tiles[x][y].Appearance = ' '
