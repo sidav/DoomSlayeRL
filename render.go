@@ -60,6 +60,7 @@ func renderItem(i *i_item) {
 
 func renderPlayerStats(d *dungeon) {
 	player := &d.player
+
 	var weaponline string
 	if player.weaponInHands != nil {
 		weaponline = fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,
@@ -67,6 +68,7 @@ func renderPlayerStats(d *dungeon) {
 	} else {
 		weaponline = "fists"
 	}
+
 	cw.Set_color(cw.RED, nil)
 	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp, curr_time/10, curr_time%10, weaponline), 0, levelsizey)
 }

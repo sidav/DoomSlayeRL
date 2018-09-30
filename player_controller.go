@@ -46,7 +46,7 @@ func plr_fire(d *dungeon) {
 }
 
 func plr_pickUpItem(d *dungeon) {
-	p := d.player
+	p := &d.player
 	items := d.getListOfItemsAt(p.x, p.y)
 	for i := 0; i < len(items); i++ {
 		item := *items[i]
