@@ -58,26 +58,6 @@ func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 	return false
 }
 
-func (d *dungeon) isItemPresent(ix, iy int) bool {
-	for i := 0; i < len(d.items); i++ {
-		x, y := d.items[i].x, d.items[i].y
-		if ix == x && iy == y {
-			return true
-		}
-	}
-	return false
-}
-
-func (d *dungeon) getItemAt(ix, iy int) *i_item {
-	for i := 0; i < len(d.items); i++ {
-		x, y := d.items[i].x, d.items[i].y
-		if ix == x && iy == y {
-			return &d.items[i]
-		}
-	}
-	return nil
-}
-
 func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 	px, py := dung.player.x, dung.player.y
 	if px == x && py == y {
@@ -90,6 +70,35 @@ func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 		}
 	}
 	return nil
+}
+
+func (d *dungeon) isItemPresent(ix, iy int) bool {
+	for i := 0; i < len(d.items); i++ {
+		x, y := d.items[i].x, d.items[i].y
+		if ix == x && iy == y {
+			return true
+		}
+	}
+	return false
+}
+
+func (d *dungeon) getListOfItemsAt(ix, iy int) []*i_item {
+	items := make([]*i_item, 0)
+	for i := 0; i < len(d.items); i++ {
+		x, y := d.items[i].x, d.items[i].y
+		if ix == x && iy == y {
+			items = append(items, &d.items[i])
+		}
+	}
+	return items
+}
+
+func (d *dungeon) removeItemFromFloor(item *i_item) {
+	for i := 0; i < len(d.items); i++ {
+		if item == &d.items[i] {
+			d.items = append(d.items[:i], d.items[i+1:]...) // ow it's fucking... magic!
+		}
+	}
 }
 
 func (dung *dungeon) isTilePassable(x, y int) bool {

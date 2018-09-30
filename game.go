@@ -26,7 +26,7 @@ func (g *game) runGame() {
 
 	for GAME_IS_RUNNING {
 		renderLevel(&d)
-		playerControl(&d)
+		plr_playerControl(&d)
 		checkDeadPawns(&d)
 		for i := 0; i < len(d.pawns); i++ {
 			ai_decideMove(&d.pawns[i], &d)

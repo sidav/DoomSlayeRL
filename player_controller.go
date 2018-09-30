@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func playerControl(d *dungeon) {
+func plr_playerControl(d *dungeon) {
 	valid_key_pressed := false
 	movex := 0
 	movey := 0
@@ -18,6 +18,10 @@ func playerControl(d *dungeon) {
 			movex = -1
 		case "d":
 			movex = 1
+		case "g":
+			plr_pickUpItem(d)
+		case "f":
+			plr_fire(d)
 		case "ESCAPE":
 			GAME_IS_RUNNING = false
 		default:
@@ -31,13 +35,40 @@ func playerControl(d *dungeon) {
 	if movex != 0 || movey != 0 {
 		m_moveOrMeleeAttackPawn(&d.player, d, movex, movey)
 	}
-	checkItemsOnFloor(d)
+	plr_checkItemsOnFloor(d)
 }
 
-func checkItemsOnFloor(d *dungeon) {
+func plr_fire(d *dungeon) {
+	p := d.player
+	if p.weaponInHands == nil {
+		log.appendMessage("You have nothing to fire with!")
+	}
+}
+
+func plr_pickUpItem(d *dungeon) {
+	p := d.player
+	items := d.getListOfItemsAt(p.x, p.y)
+	for i := 0; i < len(items); i++ {
+		switch items[i].getType() {
+		case "weapon":
+			p.weaponInHands = items[i]
+			d.removeItemFromFloor(items[i])
+			return
+		}
+	}
+	if len(items) == 0 {
+		log.appendMessage("There is nothing here.")
+		return
+	}
+	log.appendMessage("Hmm... Can't pick that up.")
+}
+
+func plr_checkItemsOnFloor(d *dungeon) {
 	px, py := d.player.getCoords()
-	item := d.getItemAt(px, py)
-	if item != nil {
-		log.appendMessage(fmt.Sprintf("You see here a %s", item.name))
+	items := d.getListOfItemsAt(px, py)
+	if len(items) == 1 {
+		log.appendMessage(fmt.Sprintf("You see here a %s", items[0].name))
+	} else if len(items) > 1 {
+		log.appendMessage(fmt.Sprintf("You see here a %s and %d more items", items[0].name, len(items)-1))
 	}
 }
