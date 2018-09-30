@@ -25,7 +25,7 @@ func i_createWeapon(name string, x, y int) *i_item {
 	var i i_item
 	switch name {
 	case "pistol":
-		i = i_item{appearance: ')', name: name, weaponData: &i_weaponData{slot: 2, maxammo: 6, dnum: 1, dval: 6, dmod: 0}}
+		i = i_item{appearance: ')', name: name, weaponData: &i_weaponData{slot: 2, maxammo: 6, damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}
 	default:
 		i = i_item{appearance: '?', name: "UNKNOWN ITEM " + name}
 	}

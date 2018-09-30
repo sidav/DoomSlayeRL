@@ -6,7 +6,7 @@ type inventory struct {
 	bullets, shells, rockets, cells int
 }
 
-func (inv *inventory) addAmmo(i *i_item) {
+func (inv *inventory) _addAmmo(i *i_item) {
 	inv.bullets += i.ammoData.bullets
 	inv.shells += i.ammoData.shells
 	inv.rockets += i.ammoData.rockets
@@ -15,7 +15,7 @@ func (inv *inventory) addAmmo(i *i_item) {
 
 func (inv *inventory) addItem(i *i_item) {
 	if i.getType() == "ammo" {
-		inv.addAmmo(i)
+		inv._addAmmo(i)
 		return
 	}
 	inv.items = append(inv.items, i)

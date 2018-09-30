@@ -1,12 +1,10 @@
 package main
 
-import "GoRoguelike/routines"
-
 type (
 	p_meleeAttackData struct {
 		meleeAttackString string
 		// 3d6 + 1 == dnum d dval + dmod
-		dnum, dval, dmod int
+		damageDice *dice
 	}
 	p_playerData struct {
 	}
@@ -20,10 +18,6 @@ type (
 		inventory       *inventory
 	}
 )
-
-func (m *p_meleeAttackData) rollForDamage() int {
-	return routines.RollDice(m.dnum, m.dval, m.dmod)
-}
 
 func (p *p_pawn) canMelee() bool {
 	return p.meleeData != nil
