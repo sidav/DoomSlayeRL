@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func movePawn(p *pawn, d *dungeon, x, y int) {
+func movePawn(p *p_pawn, d *dungeon, x, y int) {
 	// px, py := p.x, p.y
 	nx, ny := p.x+x, p.y+y
 	if d.isTilePassableAndNotOccupied(nx, ny) {
@@ -11,7 +11,7 @@ func movePawn(p *pawn, d *dungeon, x, y int) {
 	}
 }
 
-func moveOrMeleeAttackPawn(p *pawn, d *dungeon, x, y int) {
+func moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 	nx, ny := p.x+x, p.y+y
 	if d.isTilePassableAndNotOccupied(nx, ny) {
 		movePawn(p, d, x, y)

@@ -41,7 +41,7 @@ func renderLevel(d *dungeon) {
 	cw.Flush_console()
 }
 
-func renderPawn(p *pawn) {
+func renderPawn(p *p_pawn) {
 	app := p.appearance
 	cw.Set_color(cons_pawnColors[p.appearance], nil)
 	x := p.x

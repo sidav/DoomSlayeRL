@@ -1,7 +1,7 @@
 package main
 
 type (
-	pawn struct {
+	p_pawn struct {
 		appearance      rune
 		hp, maxhp, x, y int
 		name            string

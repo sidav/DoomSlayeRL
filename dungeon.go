@@ -6,15 +6,15 @@ type cell struct {
 }
 
 type dungeon struct {
-	player pawn
+	player p_pawn
 	tiles  [levelsizex][levelsizey]cell
-	pawns  []pawn
+	pawns  []p_pawn
 	items  []i_item
 }
 
 func (dung *dungeon) initialize_level() { //crap of course
 	dung.player = p_createPawn("player", 1, 1)
-	dung.pawns = make([]pawn, 0)
+	dung.pawns = make([]p_pawn, 0)
 	dung.pawns = append(dung.pawns, p_createPawn("zombie", 5, 5))
 	dung.pawns = append(dung.pawns, p_createPawn("imp", 3, 1))
 	dung.items = append(dung.items, i_createItem("clip", 7, 8))
@@ -44,7 +44,7 @@ func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 	return false
 }
 
-func (dung *dungeon) getPawnAt(x, y int) *pawn {
+func (dung *dungeon) getPawnAt(x, y int) *p_pawn {
 	for i := 0; i < len(dung.pawns); i++ {
 		px, py := dung.pawns[i].x, dung.pawns[i].y
 		if px == x && py == y {
