@@ -15,17 +15,16 @@ func (d *dungeon) GetFieldOfVisionFrom(fx, fy int) [levelsizex][levelsizey]bool 
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			if first[x][y] == false {
-				if x > 0 && first[x-1][y] {
-					second[x][y] = true
-				}
-				if x < levelsizex-1 && first[x+1][y] {
-					second[x][y] = true
-				}
-				if y > 0 && first[x][y-1] {
-					second[x][y] = true
-				}
-				if y < levelsizey-1 && first[x][y+1] {
-					second[x][y] = true
+			neighbourCheck:
+				for i := -1; i < 2; i++ {
+					for j := -1; j < 2; j++ {
+						if x+i >= 0 && x+i < levelsizex && y+j >= 0 && y+j < levelsizey {
+							if first[x+i][y+j] {
+								second[x][y] = true
+								break neighbourCheck
+							}
+						}
+					}
 				}
 			}
 		}

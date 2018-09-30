@@ -27,7 +27,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 		}
 	}
 	//dung.pawns = append(dung.pawns, p_createPawn("imp", 1, 9))
-	dung.pawns = append(dung.pawns, p_createPawn("imp", 5, 5))
+	dung.pawns = append(dung.pawns, p_createPawn("imp", 5, 6))
 	//dung.spawnPawnAtRandomPosition("zombie")
 	//dung.spawnPawnAtRandomPosition("imp")
 	// dung.spawnPawnAtRandomPosition("archvile")
