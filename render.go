@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	RENDER_DISABLE_LOS bool
 	cons_pawnColors = map[rune]int{
 		'@': cw.GREEN,
 		'z': cw.BEIGE,
@@ -20,7 +21,7 @@ func renderLevel(d *dungeon, flush bool) {
 	// render level
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
-			if vismap[x][y] {
+			if RENDER_DISABLE_LOS || vismap[x][y] {
 				cw.Set_color(cw.BEIGE, nil)
 				cw.Put_char(d.tiles[x][y].Appearance, x, y)
 			} else {
@@ -31,14 +32,14 @@ func renderLevel(d *dungeon, flush bool) {
 	}
 	//render items
 	for _, item := range d.items {
-		if vismap[item.x][item.y] {
+		if RENDER_DISABLE_LOS || vismap[item.x][item.y] {
 			renderItem(item)
 		}
 	}
 
 	//render pawns
 	for _, pawn := range d.pawns {
-		if vismap[pawn.x][pawn.y] {
+		if RENDER_DISABLE_LOS || vismap[pawn.x][pawn.y] {
 			renderPawn(pawn)
 		}
 	}
