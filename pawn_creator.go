@@ -18,6 +18,9 @@ func p_createPawn(name string, x, y int) *p_pawn {
 	p.x = x
 	p.y = y
 	p.hp = p.maxhp
+	if name != "player" {
+		p.aiData = &p_aiData{}
+	}
 	return &p
 }
 

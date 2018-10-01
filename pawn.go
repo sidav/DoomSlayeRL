@@ -8,6 +8,11 @@ type (
 	}
 	p_playerData struct {
 	}
+	p_aiData struct {
+		state ai_aiState
+		currentTarget *p_pawn
+		targetx, targety int
+	}
 	p_pawn struct {
 		appearance      rune
 		hp, maxhp, x, y int
@@ -16,6 +21,7 @@ type (
 		playerData      *p_playerData
 		weaponInHands   *i_item
 		inventory       *inventory
+		aiData *p_aiData
 	}
 )
 
