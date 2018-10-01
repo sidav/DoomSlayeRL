@@ -26,3 +26,8 @@ func (l *LOG) warning(msg string) {
 	l.appendMessage(msg)
 	renderLog(true)
 }
+
+func (l *LOG) warningf(msg string, zomg interface{}) {
+	l.appendMessagef(msg, zomg)
+	renderLog(true)
+}
