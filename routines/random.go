@@ -30,3 +30,11 @@ func RollDice(dnum, dval, dmod int) int {
 	}
 	return result + dmod
 }
+
+func RandomUnitVectorInt() (int, int) {
+	var vx, vy int
+	for vx == 0 && vy == 0 {
+		vx, vy = Random(3) - 1, Random(3) - 1
+	}
+	return vx, vy
+}
