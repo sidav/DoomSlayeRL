@@ -15,6 +15,10 @@ var (
 	}
 )
 
+const (
+	FogOfWarColor = cw.DARK_BLUE
+)
+
 func renderLevel(d *dungeon, flush bool) {
 	cw.Clear_console()
 	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
@@ -31,7 +35,7 @@ func renderLevel(d *dungeon, flush bool) {
 				cw.PutChar(cellRune, x, y)
 			} else {
 				if d.tiles[x][y].wasSeenByPlayer {
-					cw.SetFgColor(cw.BLUE)
+					cw.SetFgColor(FogOfWarColor)
 					cw.PutChar(cellRune, x, y)
 				}
 			}
@@ -66,7 +70,7 @@ func renderPawn(p *p_pawn) {
 	app := p.appearance
 	cw.SetFgColor(cons_pawnColors[p.appearance])
 	if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
-		cw.SetBgColor(cw.YELLOW)
+		cw.SetBgColor(cw.DARK_YELLOW)
 	}
 	x := p.x
 	y := p.y
@@ -76,7 +80,7 @@ func renderPawn(p *p_pawn) {
 
 func renderItem(i *i_item) {
 	app := i.appearance
-	cw.SetFgColor(cw.RED)
+	cw.SetFgColor(cw.DARK_RED)
 	x := i.x
 	y := i.y
 	cw.PutChar(app, x, y)
@@ -94,10 +98,10 @@ func renderPlayerStats(d *dungeon) {
 	}
 	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
 		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
-	cw.SetFgColor(cw.RED)
+	cw.SetFgColor(cw.DARK_RED)
 	cw.PutString(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp,
 		CURRENT_TURN/10, CURRENT_TURN%10, weaponline), 0, levelsizey)
-	cw.SetFgColor(cw.RED)
+	cw.SetFgColor(cw.DARK_RED)
 	cw.PutString(ammoLine, 0, levelsizey+1)
 }
 

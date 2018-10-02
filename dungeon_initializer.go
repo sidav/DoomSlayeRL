@@ -12,14 +12,10 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 	dung.MakeMapFromGenerated()
 
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("imp")
+	for i := 0; i < 10; i++ {
+		dung.spawnPawnAtRandomPosition("zombie")
+		dung.spawnPawnAtRandomPosition("imp")
+	}
 	dung.spawnPawnAtRandomPosition("archvile")
 	// dung.spawnItemAtRandomPosition("pistol")
 	dung.spawnItemAtRandomPosition("clip")
@@ -35,11 +31,11 @@ func (dung *dungeon) MakeMapFromGenerated() {
 			currGenCell := generated_map.GetCell(x, y)
 			switch currGenCell {
 			case '+':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.CYAN}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.DARK_CYAN}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = true
 			case '~':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.GREEN}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.DARK_GREEN}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
 			case '#':
