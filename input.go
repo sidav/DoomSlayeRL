@@ -1,7 +1,9 @@
 package main
 
-import "GoConsoleWrapper/console_wrapper"
+import (
+	"TCellConsoleWrapper/tcell_wrapper"
+)
 
 func readKey() string {
-	return console_wrapper.ReadKey()
+	return tcell_wrapper.ReadKey()
 }

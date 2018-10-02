@@ -1,9 +1,9 @@
 package main
 
 import (
-	"GoConsoleWrapper/console_wrapper"
 	"GoRoguelike/BSP_dungeon_generator"
 	"GoRoguelike/routines"
+	cw "TCellConsoleWrapper/tcell_wrapper"
 )
 
 func (dung *dungeon) initialize_level() { //crap of course
@@ -26,7 +26,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 	dung.spawnItemAtRandomPosition("clip")
 }
 
-func (dung *dungeon) MakeMapFromGenerated(){
+func (dung *dungeon) MakeMapFromGenerated() {
 	BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
 	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 0, 0, 0, 0, 3)
 	for x := 0; x < levelsizex; x++ {
@@ -35,19 +35,19 @@ func (dung *dungeon) MakeMapFromGenerated(){
 			currGenCell := generated_map.GetCell(x, y)
 			switch currGenCell {
 			case '+':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.CYAN}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.CYAN}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = true
 			case '~':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.GREEN}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.GREEN}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
 			case '#':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.BEIGE}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.BEIGE}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = true
 			default:
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.BEIGE}
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.BEIGE}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = false
 			}

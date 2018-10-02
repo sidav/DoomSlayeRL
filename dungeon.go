@@ -1,8 +1,8 @@
 package main
 
 import (
-	"GoConsoleWrapper/console_wrapper"
 	"GoRoguelike/routines"
+	cw "TCellConsoleWrapper/tcell_wrapper"
 )
 
 type dungeon struct {
@@ -42,7 +42,6 @@ func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
 		}
 	}
 }
-
 
 func (dung *dungeon) spawnItemAtRandomPosition(name string) {
 	for tries := 0; tries < 1000; tries++ {
@@ -128,7 +127,7 @@ func (dung *dungeon) isTilePassable(x, y int) bool {
 }
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
-	if x < 0 || x >= levelsizex || y < 0 || y>= levelsizey {
+	if x < 0 || x >= levelsizex || y < 0 || y >= levelsizey {
 		log.warningf("Passability for unexistent index %d requested!", x)
 		return false
 	}
@@ -137,10 +136,10 @@ func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 
 func (d *dungeon) addBloodSplats(x, y, radius int) {
 	const SPLAT_CHANCE = 30
-	for i := x-radius; i <= x+radius; i++ {
-		for j := y-radius; j <= y+radius; j++ {
+	for i := x - radius; i <= x+radius; i++ {
+		for j := y - radius; j <= y+radius; j++ {
 			if routines.Random(100) < SPLAT_CHANCE || (x == i && y == j) {
-				d.tiles[i][j].cCell.color = console_wrapper.RED
+				d.tiles[i][j].cCell.color = cw.RED
 			}
 		}
 	}
