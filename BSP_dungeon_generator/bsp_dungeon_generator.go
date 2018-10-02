@@ -13,7 +13,7 @@ type treeNode struct {
 	room                *container
 }
 
-type ReturningMap struct {//this struct is returned from generation routine.
+type ReturningMap struct { //this struct is returned from generation routine.
 	dmap []rune
 }
 
@@ -30,6 +30,40 @@ func (m *ReturningMap) GetCell(x, y int) rune {
 
 func (m *ReturningMap) SetCell(cell rune, x, y int) {
 	m.dmap[x+MAP_W*y] = cell
+}
+
+func (m *ReturningMap) CountWallsAround(x, y int) int {
+	sum := 0
+	if m.dmap[(x-1)+MAP_W*y] != FLOOR {
+		sum++
+	}
+	if m.dmap[(x+1)+MAP_W*y] != FLOOR {
+		sum++
+	}
+	if m.dmap[x+MAP_W*(y-1)] != FLOOR {
+		sum++
+	}
+	if m.dmap[x+MAP_W*(y+1)] != FLOOR {
+		sum++
+	}
+	return sum
+}
+
+func (m *ReturningMap) CountDoorsAround(x, y int) int {
+	sum := 0
+	if m.dmap[(x-1)+MAP_W*y] == DOOR {
+		sum++
+	}
+	if m.dmap[(x+1)+MAP_W*y] == DOOR {
+		sum++
+	}
+	if m.dmap[x+MAP_W*(y-1)] == DOOR {
+		sum++
+	}
+	if m.dmap[x+MAP_W*(y+1)] == DOOR {
+		sum++
+	}
+	return sum
 }
 
 func getSplitRangeForPercent(wh int, percent int) (int, int) {
@@ -120,10 +154,10 @@ func countOutsizedRooms(node *treeNode) int {
 /////////////////////////////////////////
 
 const (
-	WALL = '#'
-	RIVER = '~'
-	DOOR = '+'
-	FLOOR = '.'
+	WALL                 = '#'
+	RIVER                = '~'
+	DOOR                 = '+'
+	FLOOR                = '.'
 	TRIES_FOR_SPLITTING  = 10
 	TRIES_FOR_GENERATION = 1000
 	MAX_OUTSIZED_ROOMS   = 5
@@ -200,16 +234,16 @@ func renderTreeToDungeonMap(node *treeNode, dmap *ReturningMap) {
 }
 
 func addRiverForDungeonMap(dmap *ReturningMap, riverWidth int) {
-	x := randInRange(MAP_W / 3, MAP_W * 2 / 3)
+	x := randInRange(MAP_W/3, MAP_W*2/3)
 	bridgeHeight := 2
 	bridgeYCoord := randInRange(1, MAP_H-1-bridgeHeight)
-	for y:=0; y < MAP_H; y++ {
+	for y := 0; y < MAP_H; y++ {
 		dmap.SetCell(FLOOR, x-1, y)
 		dmap.SetCell(FLOOR, x-2, y)
 		dmap.SetCell(FLOOR, x+riverWidth, y)
 		dmap.SetCell(FLOOR, x+riverWidth+1, y)
-		for cx:=0; cx<riverWidth; cx++ {
-			if y >= bridgeYCoord && y < bridgeYCoord + bridgeHeight {
+		for cx := 0; cx < riverWidth; cx++ {
+			if y >= bridgeYCoord && y < bridgeYCoord+bridgeHeight {
 				dmap.SetCell(FLOOR, x+cx, y)
 			} else {
 				dmap.SetCell(RIVER, x+cx, y)
@@ -233,19 +267,23 @@ func addDoorsForDungeonMap(node *treeNode, dmap *ReturningMap) {
 
 		if ly == ry {
 			// ly += randInRange(-MIN_ROOM_H/2, MIN_ROOM_H/2)
-			for x := lx; x < rx; x ++ {
+			for x := lx; x < rx; x++ {
 				if dmap.GetCell(x, ly) == WALL {
+					if dmap.CountWallsAround(x, ly) > 2 {
+						continue
+					}
 					dmap.SetCell(DOOR, x, ly)
-					x += 3
 				}
 			}
 		}
 		if lx == rx {
 			// lx += randInRange(-MIN_ROOM_W/2, MIN_ROOM_W/2)
-			for y := ly; y < ry; y ++ {
+			for y := ly; y < ry; y++ {
 				if dmap.GetCell(lx, y) == WALL {
+					if dmap.CountWallsAround(lx, y) > 2 {
+						continue
+					}
 					dmap.SetCell(DOOR, lx, y)
-					y += 3
 				}
 			}
 		}
