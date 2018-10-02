@@ -11,29 +11,6 @@ type dungeon struct {
 	items  []*i_item
 }
 
-func (dung *dungeon) initialize_level() { //crap of course
-	dung.player = p_createPawn("player", 1, 1)
-	dung.pawns = make([]*p_pawn, 0)
-	dung.items = append(dung.items, i_createItem("clip", 7, 8))
-	for x := 0; x < levelsizex; x++ {
-		for y := 0; y < levelsizey; y++ {
-			dung.tiles[x][y].Appearance = ' '
-			dung.tiles[x][y].IsPassable = true
-			if x*y == 0 || x == levelsizex-1 || y == levelsizey-1 || (y == 5 && x != levelsizey-2) {
-				dung.tiles[x][y].Appearance = '#'
-				dung.tiles[x][y].IsPassable = false
-				dung.tiles[x][y].opaque = true
-			}
-		}
-	}
-	//dung.pawns = append(dung.pawns, p_createPawn("imp", 1, 9))
-	dung.pawns = append(dung.pawns, p_createPawn("imp", 8, 8))
-	dung.spawnPawnAtRandomPosition("zombie")
-	dung.spawnPawnAtRandomPosition("imp")
-	// dung.spawnPawnAtRandomPosition("archvile")
-	dung.items = append(dung.items, i_createWeapon("pistol", 1, 2))
-}
-
 func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
 	line := routines.GetLine(fx, fy, tx, ty)
 	for i := 0; i < len(line); i++ {

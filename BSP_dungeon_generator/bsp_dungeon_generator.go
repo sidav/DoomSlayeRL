@@ -4,31 +4,31 @@ type container struct {
 	x, y, w, h int
 }
 
+func (r *container) returnCenter() (int, int) {
+	return (r.x + r.w/2), (r.y + r.h/2)
+}
+
 type treeNode struct {
 	parent, left, right *treeNode
 	room                *container
 }
 
-type returningMap struct { //this struct is returned from generation routine.
+type ReturningMap struct {//this struct is returned from generation routine.
 	dmap []rune
 }
 
-func (r *container) returnCenter() (int, int) {
-	return (r.x + r.w/2), (r.y + r.h/2)
-}
-
-func (m *returningMap) init() {
+func (m *ReturningMap) init() {
 	m.dmap = make([]rune, MAP_W*MAP_H)
 	for i := 0; i < len(m.dmap); i++ {
 		m.dmap[i] = FLOOR
 	}
 }
 
-func (m *returningMap) getCell(x, y int) rune {
+func (m *ReturningMap) GetCell(x, y int) rune {
 	return m.dmap[x+MAP_W*y]
 }
 
-func (m *returningMap) setCell(cell rune, x, y int) {
+func (m *ReturningMap) SetCell(cell rune, x, y int) {
 	m.dmap[x+MAP_W*y] = cell
 }
 
@@ -141,7 +141,7 @@ var (
 	HORIZ_PROBABILITY = 30 // in percent. Horiz splits should occur less frequently than vertical ones because of w > h
 )
 
-func GenerateDungeon(width, height, splits, sp_prob, sp_ratio, h_prob, riverWidth int) *returningMap {
+func GenerateDungeon(width, height, splits, sp_prob, sp_ratio, h_prob, riverWidth int) *ReturningMap {
 	MAP_W = width
 	MAP_H = height
 	if splits == 0 {
@@ -170,7 +170,7 @@ func GenerateDungeon(width, height, splits, sp_prob, sp_ratio, h_prob, riverWidt
 	}
 
 	// init returning struct
-	result := &returningMap{}
+	result := &ReturningMap{}
 	result.init()
 
 	renderTreeToDungeonMap(treeRoot, result)
@@ -182,7 +182,7 @@ func GenerateDungeon(width, height, splits, sp_prob, sp_ratio, h_prob, riverWidt
 	return result
 }
 
-func renderTreeToDungeonMap(node *treeNode, dmap *returningMap) {
+func renderTreeToDungeonMap(node *treeNode, dmap *ReturningMap) {
 	// recursively traverse through nodes and draw their containers
 	if node.left != nil {
 		renderTreeToDungeonMap(node.left, dmap)
@@ -190,27 +190,27 @@ func renderTreeToDungeonMap(node *treeNode, dmap *returningMap) {
 		return
 	}
 	for x := node.room.x; x < node.room.x+node.room.w; x++ {
-		dmap.setCell(WALL, x, node.room.y)
-		dmap.setCell(WALL, x, node.room.y+node.room.h-1)
+		dmap.SetCell(WALL, x, node.room.y)
+		dmap.SetCell(WALL, x, node.room.y+node.room.h-1)
 	}
 	for y := node.room.y; y < node.room.y+node.room.h; y++ {
-		dmap.setCell(WALL, node.room.x, y)
-		dmap.setCell(WALL, node.room.x+node.room.w-1, y)
+		dmap.SetCell(WALL, node.room.x, y)
+		dmap.SetCell(WALL, node.room.x+node.room.w-1, y)
 	}
 }
 
-func addRiverForDungeonMap(dmap *returningMap, riverWidth int) {
+func addRiverForDungeonMap(dmap *ReturningMap, riverWidth int) {
 	x := randInRange(MAP_W / 3, MAP_W * 2 / 3)
 	bridgeHeight := 2
 	bridgeYCoord := randInRange(1, MAP_H-1-bridgeHeight)
 	for y:=0; y < MAP_H; y++ {
-		dmap.setCell(FLOOR, x-1, y)
-		dmap.setCell(FLOOR, x+riverWidth, y)
+		dmap.SetCell(FLOOR, x-1, y)
+		dmap.SetCell(FLOOR, x+riverWidth, y)
 		for cx:=0; cx<riverWidth; cx++ {
 			if y >= bridgeYCoord && y < bridgeYCoord + bridgeHeight {
-				dmap.setCell(FLOOR, x+cx, y)
+				dmap.SetCell(FLOOR, x+cx, y)
 			} else {
-				dmap.setCell(RIVER, x+cx, y)
+				dmap.SetCell(RIVER, x+cx, y)
 			}
 		}
 		leftOrRight := randInRange(0, 2)
@@ -224,7 +224,7 @@ func addRiverForDungeonMap(dmap *returningMap, riverWidth int) {
 }
 
 // BUGGED! Rooms connectivity still not guaranteed!
-func addDoorsForDungeonMap(node *treeNode, dmap *returningMap) {
+func addDoorsForDungeonMap(node *treeNode, dmap *ReturningMap) {
 	if node.left != nil {
 		lx, ly := node.left.room.returnCenter()
 		rx, ry := node.right.room.returnCenter()
@@ -232,8 +232,8 @@ func addDoorsForDungeonMap(node *treeNode, dmap *returningMap) {
 		if ly == ry {
 			// ly += randInRange(-MIN_ROOM_H/2, MIN_ROOM_H/2)
 			for x := lx; x < rx; x ++ {
-				if dmap.getCell(x, ly) == WALL {
-					dmap.setCell(DOOR, x, ly)
+				if dmap.GetCell(x, ly) == WALL {
+					dmap.SetCell(DOOR, x, ly)
 					x += 3
 				}
 			}
@@ -241,8 +241,8 @@ func addDoorsForDungeonMap(node *treeNode, dmap *returningMap) {
 		if lx == rx {
 			// lx += randInRange(-MIN_ROOM_W/2, MIN_ROOM_W/2)
 			for y := ly; y < ry; y ++ {
-				if dmap.getCell(lx, y) == WALL {
-					dmap.setCell(DOOR, lx, y)
+				if dmap.GetCell(lx, y) == WALL {
+					dmap.SetCell(DOOR, lx, y)
 					y += 3
 				}
 			}
