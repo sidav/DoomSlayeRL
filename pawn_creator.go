@@ -18,9 +18,17 @@ func p_createPawn(name string, x, y int) *p_pawn {
 	p.x = x
 	p.y = y
 	p.hp = p.maxhp
-	if name != "player" {
-		p.aiData = &p_aiData{}
-	}
+	p.aiData = &p_aiData{}
+	return &p
+}
+
+func p_createPlayer(x, y int) *p_pawn {
+	var p p_pawn
+	p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{},
+	meleeData: &p_meleeAttackData{meleeAttackString: "punch", damageDice: &dice{dnum: 2, dval: 6, dmod: 0}}, inventory: &inventory{}}
+	p.x = x
+	p.y = y
+	p.hp = p.maxhp
 	return &p
 }
 

@@ -7,16 +7,23 @@ import (
 )
 
 func (dung *dungeon) initialize_level() { //crap of course
-	dung.player = p_createPawn("player", 1, 1)
+	dung.player = p_createPlayer(1, 1)
 	dung.pawns = make([]*p_pawn, 0)
-	dung.items = append(dung.items, i_createItem("clip", 7, 8))
+
 	dung.MakeMapFromGenerated()
-	//dung.pawns = append(dung.pawns, p_createPawn("imp", 1, 9))
-	dung.pawns = append(dung.pawns, p_createPawn("imp", 8, 8))
+
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("zombie")
+	dung.spawnPawnAtRandomPosition("zombie")
 	dung.spawnPawnAtRandomPosition("zombie")
 	dung.spawnPawnAtRandomPosition("imp")
-	// dung.spawnPawnAtRandomPosition("archvile")
-	dung.items = append(dung.items, i_createWeapon("pistol", 1, 2))
+	dung.spawnPawnAtRandomPosition("archvile")
+	// dung.spawnItemAtRandomPosition("pistol")
+	dung.spawnItemAtRandomPosition("clip")
+	dung.spawnItemAtRandomPosition("clip")
 }
 
 func (dung *dungeon) MakeMapFromGenerated(){
