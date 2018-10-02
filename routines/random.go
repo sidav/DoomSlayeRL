@@ -52,5 +52,5 @@ func RandInRange(from, to int) int { //should be inclusive
 	if from == to {
 		return from
 	}
-	return random(to-from+1) + from // TODO: replace routines.random usage with package own implementation
+	return Random(to-from+1) + from // TODO: replace routines.random usage with package own implementation
 }
