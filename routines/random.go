@@ -20,7 +20,11 @@ func Randomize() {
 
 func Random(modulo int) int {
 	x = (x*a + c) % m
-	return x % modulo
+	if modulo != 0 {
+		return x % modulo
+	} else {
+		return x
+	}
 }
 
 func RollDice(dnum, dval, dmod int) int {
@@ -37,4 +41,16 @@ func RandomUnitVectorInt() (int, int) {
 		vx, vy = Random(3) - 1, Random(3) - 1
 	}
 	return vx, vy
+}
+
+func RandInRange(from, to int) int { //should be inclusive
+	if to < from {
+		t := from
+		from = to
+		to = t
+	}
+	if from == to {
+		return from
+	}
+	return random(to-from+1) + from // TODO: replace routines.random usage with package own implementation
 }

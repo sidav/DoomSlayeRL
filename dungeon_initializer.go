@@ -1,6 +1,9 @@
 package main
 
-import "GoRoguelike/BSP_dungeon_generator"
+import (
+	"GoRoguelike/BSP_dungeon_generator"
+	"GoRoguelike/routines"
+)
 
 func (dung *dungeon) initialize_level() { //crap of course
 	dung.player = p_createPawn("player", 1, 1)
@@ -16,6 +19,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 }
 
 func (dung *dungeon) MakeMapFromGenerated(){
+	BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
 	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 0, 0, 0, 0, 3)
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {

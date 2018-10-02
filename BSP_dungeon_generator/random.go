@@ -10,7 +10,7 @@ var (
 	r_x int
 )
 
-func srand(seed int) {
+func SetGeneratorRandomSeed(seed int) {
 	r_x = seed
 }
 
