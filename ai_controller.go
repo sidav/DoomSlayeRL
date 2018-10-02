@@ -4,12 +4,21 @@ import "GoRoguelike/routines"
 
 // AI if I can say so
 
-type ai_aiState byte
+type (
+	ai_aiState byte
+
+	p_aiData struct {
+		state            ai_aiState
+		stateTimeoutTurn int
+		currentTarget    *p_pawn
+		targetx, targety int
+	}
+)
 
 const (
-	AI_SILENT   ai_aiState = 0
-	AI_ROAMING  ai_aiState = 1
-	AI_ENGAGING ai_aiState = 2
+	AI_SILENT    ai_aiState = 0
+	AI_ROAMING   ai_aiState = 1
+	AI_ENGAGING  ai_aiState = 2
 	AI_STAGGERED ai_aiState = 3
 )
 
@@ -32,8 +41,12 @@ func ai_reactToSurroundings(monster *p_pawn, dung *dungeon) { //change state if 
 	mx, my := monster.getCoords()
 	ex, ey := dung.player.getCoords()
 	aiData := monster.aiData
-	if monster.aiData.state == AI_STAGGERED{
-		return 
+	if monster.aiData.state == AI_STAGGERED {
+		if monster.aiData.stateTimeoutTurn <= CURRENT_TURN {
+			monster.aiData.state = AI_ROAMING
+		} else {
+			return
+		}
 	}
 	if dung.visibleLineExists(mx, my, ex, ey) {
 		aiData.state = AI_ENGAGING

@@ -20,11 +20,15 @@ func m_gloryKill(attacker *p_pawn, victim *p_pawn){ // unused yet
 }
 
 func (victim *p_pawn) receiveDamage(damage int) { //deals with armor, staggered state etc
-	const STAGGER_PERCENT_THRESHOLD = 50
+	const (
+		STAGGER_PERCENT_THRESHOLD = 50
+		STAGGERED_TIME_AMOUNT = 60
+	)
 	victim.hp -= damage
 	if victim.isPlayer() == false {
 		if victim.getHpPercent() < STAGGER_PERCENT_THRESHOLD {
 			victim.aiData.state = AI_STAGGERED
+			victim.aiData.stateTimeoutTurn = CURRENT_TURN + STAGGERED_TIME_AMOUNT
 		}
 	}
 }

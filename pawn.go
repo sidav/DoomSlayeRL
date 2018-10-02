@@ -1,19 +1,16 @@
 package main
 
 type (
+
 	p_meleeAttackData struct {
 		meleeAttackString string
 		// 3d6 + 1 == dnum d dval + dmod
 		damageDice *dice
 	}
+
 	p_playerData struct {
 	}
-	p_aiData struct {
-		state            ai_aiState
-		stateTimeoutTurn int
-		currentTarget    *p_pawn
-		targetx, targety int
-	}
+
 	p_pawn struct {
 		appearance                     rune
 		hp, maxhp, x, y, nextTurnToAct int
@@ -24,6 +21,7 @@ type (
 		inventory                      *inventory
 		aiData                         *p_aiData
 	}
+
 )
 
 func (p *p_pawn) canMelee() bool {
