@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoConsoleWrapper/console_wrapper"
 	"GoRoguelike/BSP_dungeon_generator"
 	"GoRoguelike/routines"
 )
@@ -24,21 +25,22 @@ func (dung *dungeon) MakeMapFromGenerated(){
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			currDungCell := &dung.tiles[x][y]
-			switch generated_map.GetCell(x, y) {
+			currGenCell := generated_map.GetCell(x, y)
+			switch currGenCell {
 			case '+':
-				currDungCell.Appearance = '+'
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.CYAN}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = true
 			case '~':
-				currDungCell.Appearance = '~'
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.GREEN}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
 			case '#':
-				currDungCell.Appearance = '#'
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.BEIGE}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = true
 			default:
-				currDungCell.Appearance = ' '
+				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: console_wrapper.BEIGE}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = false
 			}

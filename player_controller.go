@@ -26,6 +26,9 @@ func plr_playerControl(d *dungeon) {
 			plr_fire(d)
 		case "ESCAPE":
 			GAME_IS_RUNNING = false
+		case "[":	// debug
+			RENDER_DISABLE_LOS = !RENDER_DISABLE_LOS
+			log.appendMessage("Changed LOS setting.")
 		default:
 			valid_key_pressed = false
 			log.appendMessagef("Unknown key %s (Wrong keyboard layout?)", key_pressed)

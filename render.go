@@ -21,12 +21,14 @@ func renderLevel(d *dungeon, flush bool) {
 	// render level
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
+			cellRune := d.tiles[x][y].cCell.appearance
+			cellColor := d.tiles[x][y].cCell.color
 			if RENDER_DISABLE_LOS || vismap[x][y] {
-				cw.Set_color(cw.BEIGE, nil)
-				cw.Put_char(d.tiles[x][y].Appearance, x, y)
+				cw.Set_color(cellColor, nil)
+				cw.Put_char(cellRune, x, y)
 			} else {
 				cw.Set_color(cw.BLUE, nil)
-				cw.Put_char(d.tiles[x][y].Appearance, x, y)
+				cw.Put_char(cellRune, x, y)
 			}
 		}
 	}
