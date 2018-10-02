@@ -24,11 +24,16 @@ func renderLevel(d *dungeon, flush bool) {
 			cellRune := d.tiles[x][y].cCell.appearance
 			cellColor := d.tiles[x][y].cCell.color
 			if RENDER_DISABLE_LOS || vismap[x][y] {
+				if !RENDER_DISABLE_LOS {
+					d.tiles[x][y].wasSeenByPlayer = true 
+				}
 				cw.Set_color(cellColor, nil)
 				cw.Put_char(cellRune, x, y)
 			} else {
-				cw.Set_color(cw.BLUE, nil)
-				cw.Put_char(cellRune, x, y)
+				if d.tiles[x][y].wasSeenByPlayer {
+					cw.Set_color(cw.BLUE, nil)
+					cw.Put_char(cellRune, x, y)
+				}
 			}
 		}
 	}
