@@ -33,10 +33,21 @@ func checkDeadPawns(d *dungeon) {
 	}
 	for i := 0; i < len(indicesOfPawnsToRemove); i++ {
 		index := indicesOfPawnsToRemove[i]
-		log.appendMessage(fmt.Sprintf("%s drops dead!", d.pawns[index].name))
-		//let's create a corpse
-
-		d.addItemToFloor(i_createCorpseFor(d.pawns[index]))
+		pawn := d.pawns[index]
+		// add blood splats if neccessary
+		if pawn.hp == -666 { // exactly 666 hp means that this enemy was glory killed
+			d.addBloodSplats(pawn.x, pawn.y, 1)
+		} else {
+			negHpPercent := - pawn.getHpPercent()
+			if negHpPercent < 50 {
+				log.appendMessage(fmt.Sprintf("%s drops dead!", d.pawns[index].name))
+				//let's create a corpse
+				d.addItemToFloor(i_createCorpseFor(d.pawns[index]))
+			} else {
+				log.appendMessage(fmt.Sprintf("%s is obliterated!", d.pawns[index].name))
+				d.addBloodSplats(pawn.x, pawn.y, 2)
+			}
+		}
 		d.removePawn(d.pawns[index])
 	}
 }

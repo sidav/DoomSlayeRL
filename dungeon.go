@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoConsoleWrapper/console_wrapper"
 	"GoRoguelike/routines"
 )
 
@@ -128,4 +129,15 @@ func (dung *dungeon) isTilePassable(x, y int) bool {
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 	return dung.isTilePassable(x, y) && !dung.isPawnPresent(x, y)
+}
+
+func (d *dungeon) addBloodSplats(x, y, radius int) {
+	const SPLAT_CHANCE = 30
+	for i := x-radius; i <= x+radius; i++ {
+		for j := y-radius; j <= y+radius; j++ {
+			if routines.Random(100) < SPLAT_CHANCE || (x == i && y == j) {
+				d.tiles[i][j].cCell.color = console_wrapper.RED
+			}
+		}
+	}
 }

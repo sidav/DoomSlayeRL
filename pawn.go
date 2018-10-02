@@ -37,3 +37,7 @@ func (p *p_pawn) isPlayer() bool {
 func (p *p_pawn) getCoords() (int, int) {
 	return p.x, p.y
 }
+
+func (p *p_pawn) getHpPercent() int {
+	return p.hp * 100 / p.maxhp
+}
