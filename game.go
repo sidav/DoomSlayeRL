@@ -26,10 +26,14 @@ func (g *game) runGame() {
 
 	for GAME_IS_RUNNING {
 		renderLevel(&d, true)
-		plr_playerControl(&d)
+		if d.player.isTimeToAct() {
+			plr_playerControl(&d)
+		}
 		checkDeadPawns(&d)
 		for i := 0; i < len(d.pawns); i++ {
-			ai_decideMove(d.pawns[i], &d)
+			if d.pawns[i].isTimeToAct() {
+				ai_decideMove(d.pawns[i], &d)
+			}
 		}
 		CURRENT_TURN++
 	}

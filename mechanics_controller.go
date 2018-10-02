@@ -8,6 +8,11 @@ func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 	if d.isTilePassableAndNotOccupied(nx, ny) {
 		p.x += x
 		p.y += y
+		if x * y != 0 { // diagonal movement
+			p.spendTurnsForAction(turnCostFor("step_diag"))
+		} else { // non-diagonal movement
+			p.spendTurnsForAction(turnCostFor("step"))
+		}
 	}
 }
 

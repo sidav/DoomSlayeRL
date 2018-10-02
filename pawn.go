@@ -30,8 +30,12 @@ func (p *p_pawn) canMelee() bool {
 	return p.meleeData != nil
 }
 
+func (p* p_pawn) spendTurnsForAction(turns int) {
+	p.nextTurnToAct = CURRENT_TURN + turns
+}
+
 func (p *p_pawn) isTimeToAct() bool {
-	return p.nextTurnToAct >= CURRENT_TURN
+	return p.nextTurnToAct <= CURRENT_TURN
 }
 
 func (p *p_pawn) isPlayer() bool {

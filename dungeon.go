@@ -128,6 +128,10 @@ func (dung *dungeon) isTilePassable(x, y int) bool {
 }
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
+	if x < 0 || x >= levelsizex || y < 0 || y>= levelsizey {
+		log.warningf("Passability for unexistent index %d requested!", x)
+		return false
+	}
 	return dung.isTilePassable(x, y) && !dung.isPawnPresent(x, y)
 }
 
