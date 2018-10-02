@@ -31,11 +31,11 @@ func renderLevel(d *dungeon, flush bool) {
 				if !RENDER_DISABLE_LOS {
 					d.tiles[x][y].wasSeenByPlayer = true
 				}
-				cw.SetFgColor(cellColor)
+				setFgColor(cellColor)
 				cw.PutChar(cellRune, x, y)
 			} else {
 				if d.tiles[x][y].wasSeenByPlayer {
-					cw.SetFgColor(FogOfWarColor)
+					setFgColor(FogOfWarColor)
 					cw.PutChar(cellRune, x, y)
 				}
 			}
@@ -68,19 +68,19 @@ func renderLevel(d *dungeon, flush bool) {
 
 func renderPawn(p *p_pawn) {
 	app := p.appearance
-	cw.SetFgColor(cons_pawnColors[p.appearance])
+	setFgColor(cons_pawnColors[p.appearance])
 	if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
-		cw.SetColor(cw.BLACK, cw.DARK_YELLOW)
+		setColor(cw.BLACK, cw.DARK_YELLOW)
 	}
 	x := p.x
 	y := p.y
 	cw.PutChar(app, x, y)
-	cw.SetBgColor(cw.BLACK)
+	setBgColor(cw.BLACK)
 }
 
 func renderItem(i *i_item) {
 	app := i.appearance
-	cw.SetFgColor(cw.DARK_RED)
+	setFgColor(cw.DARK_RED)
 	x := i.x
 	y := i.y
 	cw.PutChar(app, x, y)
@@ -98,16 +98,16 @@ func renderPlayerStats(d *dungeon) {
 	}
 	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
 		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
-	cw.SetFgColor(cw.DARK_RED)
+	setFgColor(cw.DARK_RED)
 	cw.PutString(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp,
 		CURRENT_TURN/10, CURRENT_TURN%10, weaponline), 0, levelsizey)
-	cw.SetFgColor(cw.DARK_RED)
+	setFgColor(cw.DARK_RED)
 	cw.PutString(ammoLine, 0, levelsizey+1)
 }
 
 func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
 	line := routines.GetLine(fromx, fromy, tox, toy)
-	cw.SetFgColor(cw.RED)
+	setFgColor(cw.RED)
 	if exceptFirstAndLast {
 		for i := 1; i < len(line)-1; i++ {
 			cw.PutChar(char, line[i].X, line[i].Y)
@@ -123,7 +123,7 @@ func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast
 }
 
 func renderLog(flush bool) {
-	cw.SetFgColor(cw.WHITE)
+	setFgColor(cw.WHITE)
 	for i := 0; i < LOG_HEIGHT; i++ {
 		cw.PutString(log.last_msgs[i], 0, levelsizey+i+2)
 	}
