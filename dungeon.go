@@ -135,11 +135,23 @@ func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 }
 
 func (d *dungeon) addBloodSplats(x, y, radius int) {
-	const SPLAT_CHANCE = 30
+	const (
+		SPLAT_CHANCE   = 40
+		GIB_CHANCE     = 40
+		BIG_GIB_CHANCE = 30
+	)
 	for i := x - radius; i <= x+radius; i++ {
 		for j := y - radius; j <= y+radius; j++ {
-			if routines.Random(100) < SPLAT_CHANCE || (x == i && y == j) {
+			if routines.RandomPercent() < SPLAT_CHANCE || (x == i && y == j) {
 				d.tiles[i][j].cCell.color = cw.RED
+				currApp := d.tiles[i][j].cCell.appearance
+				if (currApp == '.' || currApp == ',') && routines.RandomPercent() < GIB_CHANCE {
+					if routines.RandomPercent() < BIG_GIB_CHANCE {
+						d.tiles[i][j].cCell.appearance = ';'
+					} else {
+						d.tiles[i][j].cCell.appearance = ','
+					}
+				}
 			}
 		}
 	}

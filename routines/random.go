@@ -38,7 +38,7 @@ func RollDice(dnum, dval, dmod int) int {
 func RandomUnitVectorInt() (int, int) {
 	var vx, vy int
 	for vx == 0 && vy == 0 {
-		vx, vy = Random(3) - 1, Random(3) - 1
+		vx, vy = Random(3)-1, Random(3)-1
 	}
 	return vx, vy
 }
@@ -53,4 +53,8 @@ func RandInRange(from, to int) int { //should be inclusive
 		return from
 	}
 	return Random(to-from+1) + from // TODO: replace routines.random usage with package own implementation
+}
+
+func RandomPercent() int {
+	return Random(100)
 }

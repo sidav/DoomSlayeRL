@@ -16,7 +16,7 @@ var (
 )
 
 const (
-	FogOfWarColor = cw.DARK_BLUE
+	FogOfWarColor = cw.DARK_GRAY
 )
 
 func renderLevel(d *dungeon, flush bool) {
@@ -70,7 +70,7 @@ func renderPawn(p *p_pawn) {
 	app := p.appearance
 	cw.SetFgColor(cons_pawnColors[p.appearance])
 	if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
-		cw.SetBgColor(cw.DARK_YELLOW)
+		cw.SetColor(cw.BLACK, cw.DARK_YELLOW)
 	}
 	x := p.x
 	y := p.y
