@@ -95,7 +95,8 @@ func renderPlayerStats(d *dungeon) {
 	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
 		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
 	cw.SetFgColor(cw.RED)
-	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp, curr_time/10, curr_time%10, weaponline), 0, levelsizey)
+	cw.Put_string(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp,
+		CURRENT_TURN/10, CURRENT_TURN%10, weaponline), 0, levelsizey)
 	cw.SetFgColor(cw.RED)
 	cw.Put_string(ammoLine, 0, levelsizey+1)
 }

@@ -10,7 +10,7 @@ const (
 var (
 	GAME_IS_RUNNING bool
 	log             LOG
-	curr_time       int
+	CURRENT_TURN    int
 )
 
 type game struct {
@@ -31,6 +31,6 @@ func (g *game) runGame() {
 		for i := 0; i < len(d.pawns); i++ {
 			ai_decideMove(d.pawns[i], &d)
 		}
-		curr_time++
+		CURRENT_TURN++
 	}
 }
