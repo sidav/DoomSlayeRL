@@ -205,7 +205,9 @@ func addRiverForDungeonMap(dmap *ReturningMap, riverWidth int) {
 	bridgeYCoord := randInRange(1, MAP_H-1-bridgeHeight)
 	for y:=0; y < MAP_H; y++ {
 		dmap.SetCell(FLOOR, x-1, y)
+		dmap.SetCell(FLOOR, x-2, y)
 		dmap.SetCell(FLOOR, x+riverWidth, y)
+		dmap.SetCell(FLOOR, x+riverWidth+1, y)
 		for cx:=0; cx<riverWidth; cx++ {
 			if y >= bridgeYCoord && y < bridgeYCoord + bridgeHeight {
 				dmap.SetCell(FLOOR, x+cx, y)
