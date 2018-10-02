@@ -10,6 +10,7 @@ type (
 	}
 	p_aiData struct {
 		state ai_aiState
+		stateTimeoutTurn int
 		currentTarget *p_pawn
 		targetx, targety int
 	}
