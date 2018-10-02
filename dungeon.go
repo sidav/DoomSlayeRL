@@ -13,7 +13,7 @@ type dungeon struct {
 
 func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
 	line := routines.GetLine(fx, fy, tx, ty)
-	for i := 0; i < len(line); i++ {
+	for i := 1; i < len(line); i++ { // we skip first cell
 		if dung.tiles[line[i].X][line[i].Y].opaque {
 			return false
 		}
