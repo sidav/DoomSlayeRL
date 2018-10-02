@@ -11,28 +11,25 @@ func plr_playerControl(d *dungeon) {
 	for !valid_key_pressed {
 		key_pressed := readKey()
 		valid_key_pressed = true
-		switch key_pressed {
-		case "s":
-			movey = 1
-		case "w":
-			movey = -1
-		case "a":
-			movex = -1
-		case "d":
-			movex = 1
-		case "g":
-			plr_pickUpItem(d)
-		case "f":
-			plr_fire(d)
-		case "ESCAPE":
-			GAME_IS_RUNNING = false
-		case "[":	// debug
-			RENDER_DISABLE_LOS = !RENDER_DISABLE_LOS
-			log.appendMessage("Changed LOS setting.")
-		default:
-			valid_key_pressed = false
-			log.appendMessagef("Unknown key %s (Wrong keyboard layout?)", key_pressed)
-			renderLevel(d, true)
+		movex, movey = plr_keyToDirection(key_pressed)
+		if movex == 0 && movey == 0 {
+			switch key_pressed {
+			case "5", ".":
+				d.player.spendTurnsForAction(10) // just wait for a sec
+			case "g":
+				plr_pickUpItem(d)
+			case "f":
+				plr_fire(d)
+			case "ESCAPE":
+				GAME_IS_RUNNING = false
+			case "[": // debug
+				RENDER_DISABLE_LOS = !RENDER_DISABLE_LOS
+				log.appendMessage("Changed LOS setting.")
+			default:
+				valid_key_pressed = false
+				log.appendMessagef("Unknown key %s (Wrong keyboard layout?)", key_pressed)
+				renderLevel(d, true)
+			}
 		}
 	}
 	// log.appendMessage(key_pressed)
@@ -41,6 +38,29 @@ func plr_playerControl(d *dungeon) {
 		m_moveOrMeleeAttackPawn(d.player, d, movex, movey)
 	}
 	plr_checkItemsOnFloor(d)
+}
+
+func plr_keyToDirection(keyPressed string) (int, int) {
+	switch keyPressed {
+	case "s", "2":
+		return 0, 1
+	case "w", "8":
+		return 0, -1
+	case "a", "4":
+		return -1, 0
+	case "d", "6":
+		return 1, 0
+	case "7":
+		return -1, -1
+	case "9":
+		return 1, -1
+	case "1":
+		return -1, 1
+	case "3":
+		return 1, 1
+	default:
+		return 0, 0
+	}
 }
 
 func plr_fire(d *dungeon) {
