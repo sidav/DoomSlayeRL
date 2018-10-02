@@ -25,8 +25,8 @@ func (g *game) runGame() {
 	log = LOG{}
 
 	for GAME_IS_RUNNING {
-		renderLevel(&d, true)
 		if d.player.isTimeToAct() {
+			renderLevel(&d, true)
 			plr_playerControl(&d)
 		}
 		checkDeadPawns(&d)
