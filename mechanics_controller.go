@@ -34,7 +34,10 @@ func m_moveProjectiles(d *dungeon) {
 	for _, p := range d.projectiles {
 		px, py := p.x, p.y
 		if d.isPawnPresent(px, py) {
-			d.getPawnAt(px, py).receiveDamage(p.damageDice.roll())
+			victim := d.getPawnAt(px, py)
+			dmg := p.damageDice.roll()
+			victim.receiveDamage(dmg)
+			log.appendMessage(fmt.Sprintf("%s is hit! (%d damage)", victim.name, dmg))
 			d.removeProjectileFromList(p)
 			continue
 		}

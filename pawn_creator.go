@@ -12,7 +12,7 @@ func p_createPawn(name string, x, y int) *p_pawn {
 		p = p_pawn{appearance: 'i', name: name, maxhp: 25,
 			meleeData: &p_meleeAttackData{meleeAttackString: "claws", damageDice: &dice{dnum: 3, dval: 5, dmod: 1}},
 			weaponInHands: &i_item{weaponData: &i_weaponData{
-				projectileExample: &projectile{turnsForOneTile: 10, damageDice: &dice{3, 3, 3}}}}}
+				projectileExample: &projectile{turnsForOneTile: 6, damageDice: &dice{3, 3, 3}}}}}
 	case "archvile":
 		p = p_pawn{appearance: 'A', name: name, maxhp: 100, meleeData: &p_meleeAttackData{meleeAttackString: "burns", damageDice: &dice{dnum: 10, dval: 2, dmod: 1}}}
 	default:
