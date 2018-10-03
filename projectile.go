@@ -1,17 +1,28 @@
 package main
 
 import (
-	"GoRoguelike/routines"
+	"math"
 )
 
 type projectile struct {
-	x, y, targetX, targetY, nextTurnToMove, turnsForOneTile int
-	damageDice                                              *dice
-	cCell                                                   *consoleCell
+	x, y, nextTurnToMove, turnsForOneTile int
+	realx, realy, targX, targY            float32
+	damageDice                            *dice
+	cCell                                 *consoleCell
+}
+
+func (p *projectile) initTarget(tx, ty int) { // inits the target vector by absolute coordinates of the target.
+	p.targX = float32(tx - p.x)
+	p.targY = float32(ty - p.y)
+	length := float32(math.Sqrt(float64(p.targX*p.targX + p.targY*p.targY)))
+	p.targX /= length
+	p.targY /= length
+	p.realx, p.realy = float32(p.x), float32(p.y)
 }
 
 func (p *projectile) moveNextTile() {
-	line := routines.GetLineOver(p.x, p.y, p.targetX, p.targetY)
-	p.x, p.y = line[1].X, line[1].Y
-	p.targetX, p.targetY = line[len(line)-1].GetCoords()
+	p.realx += p.targX
+	p.realy += p.targY
+	p.x = int(math.Round(float64(p.realx)))
+	p.y = int(math.Round(float64(p.realy)))
 }

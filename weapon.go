@@ -15,8 +15,9 @@ func (w *i_weaponData) getType() string {
 
 // Pointers may fuck the thing up. Checks needed
 func (w *i_weaponData) createProjectile(x, y, tx, ty int) *projectile {
-	newp := &projectile{x: x, y: y, targetX: tx, targetY: ty, turnsForOneTile: w.projectileExample.turnsForOneTile, nextTurnToMove: CURRENT_TURN,
-		damageDice: &dice{3, 3, 3}} // TODO: remove this temp values
+	newp := &projectile{x: x, y: y, turnsForOneTile: w.projectileExample.turnsForOneTile, nextTurnToMove: CURRENT_TURN,
+		damageDice: w.projectileExample.damageDice}
+	newp.initTarget(tx, ty)
 	// calculate current x, y
 	newp.moveNextTile()
 	return newp
