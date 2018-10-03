@@ -131,6 +131,14 @@ func (dung *dungeon) isTilePassable(x, y int) bool {
 	return dung.tiles[x][y].IsPassable
 }
 
+func (dung *dungeon) isTileOpaque(x, y int) bool {
+	if x < 0 || x >= levelsizex || y < 0 || y >= levelsizey {
+		log.warningf("Opacity for unexistent index %d requested!", x)
+		return true
+	}
+	return dung.tiles[x][y].opaque
+}
+
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 	return dung.isTilePassable(x, y) && !dung.isPawnPresent(x, y)
 }

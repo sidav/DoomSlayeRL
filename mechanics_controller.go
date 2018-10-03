@@ -38,7 +38,7 @@ func m_moveProjectiles(d *dungeon) {
 			d.removeProjectileFromList(p)
 			continue
 		}
-		if !d.isTilePassable(px, py) {
+		if d.isTileOpaque(px, py) {
 			d.removeProjectileFromList(p)
 			continue
 		}
