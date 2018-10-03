@@ -31,6 +31,7 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 		vx, vy := ai_getVectorToTarget(monster, ex, ey)
 		if monster.canShoot() {
 			m_rangedAttack(monster, monster.aiData.currentTarget, dung)
+			return
 		}
 		m_moveOrMeleeAttackPawn(monster, dung, vx, vy)
 		return

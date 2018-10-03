@@ -12,8 +12,8 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 	dung.MakeMapFromGenerated()
 
-	for i := 0; i < 10; i++ {
-		dung.spawnPawnAtRandomPosition("zombie")
+	for i := 0; i < 5; i++ {
+		// dung.spawnPawnAtRandomPosition("zombie")
 		dung.spawnPawnAtRandomPosition("imp")
 	}
 	dung.spawnPawnAtRandomPosition("archvile")
@@ -24,7 +24,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 func (dung *dungeon) MakeMapFromGenerated() {
 	BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
-	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 0, 0, 0, 0, 3)
+	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 2, 0, 0, 0, 3)
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			currDungCell := &dung.tiles[x][y]

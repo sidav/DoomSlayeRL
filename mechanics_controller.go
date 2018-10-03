@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 	// px, py := p.x, p.y
@@ -8,7 +10,7 @@ func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 	if d.isTilePassableAndNotOccupied(nx, ny) {
 		p.x += x
 		p.y += y
-		if x * y != 0 { // diagonal movement
+		if x*y != 0 { // diagonal movement
 			p.spendTurnsForAction(turnCostFor("step_diag"))
 		} else { // non-diagonal movement
 			p.spendTurnsForAction(turnCostFor("step"))
@@ -28,6 +30,25 @@ func m_moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 	}
 }
 
+func m_moveProjectiles(d *dungeon) {
+	for _, p := range d.projectiles {
+		px, py := p.x, p.y
+		if d.isPawnPresent(px, py) {
+			d.getPawnAt(px, py).receiveDamage(p.damageDice.roll())
+			d.removeProjectileFromList(p)
+			continue
+		}
+		if !d.isTilePassable(px, py) {
+			d.removeProjectileFromList(p)
+			continue
+		}
+		if p.nextTurnToMove <= CURRENT_TURN {
+			p.moveNextTile()
+			p.nextTurnToMove = CURRENT_TURN + p.turnsForOneTile
+		}
+	}
+}
+
 func checkDeadPawns(d *dungeon) {
 	var indicesOfPawnsToRemove []int
 	for i := 0; i < len(d.pawns); i++ {
@@ -43,7 +64,7 @@ func checkDeadPawns(d *dungeon) {
 		if pawn.hp == -666 { // exactly 666 hp means that this enemy was glory killed
 			d.addBloodSplats(pawn.x, pawn.y, 1)
 		} else {
-			negHpPercent := - pawn.getHpPercent()
+			negHpPercent := -pawn.getHpPercent()
 			if negHpPercent < 50 {
 				log.appendMessage(fmt.Sprintf("%s drops dead!", d.pawns[index].name))
 				//let's create a corpse

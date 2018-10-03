@@ -4,6 +4,10 @@ type point struct {
 	X, Y int
 }
 
+func (p *point) GetCoords() (int, int) {
+	return p.X, p.Y
+}
+
 func abs(x int) int {
 	if x < 0 {
 		return -x

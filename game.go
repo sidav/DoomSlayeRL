@@ -25,6 +25,7 @@ func (g *game) runGame() {
 	log = LOG{}
 
 	for GAME_IS_RUNNING {
+		m_moveProjectiles(&d)
 		if d.player.isTimeToAct() {
 			renderLevel(&d, true)
 			plr_playerControl(&d)

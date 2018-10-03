@@ -55,6 +55,13 @@ func renderLevel(d *dungeon, flush bool) {
 		}
 	}
 
+	//render projectiles
+	for _, proj := range d.projectiles {
+		if RENDER_DISABLE_LOS || vismap[proj.x][proj.y] {
+			renderProjectile(proj)
+		}
+	}
+
 	//render player
 	renderPawn(d.player)
 
@@ -64,6 +71,11 @@ func renderLevel(d *dungeon, flush bool) {
 	if flush {
 		cw.Flush_console()
 	}
+}
+
+func renderProjectile(p *projectile) {
+	setColor(cw.RED, cw.BLACK)
+	cw.PutChar('*', p.x, p.y)
 }
 
 func renderPawn(p *p_pawn) {

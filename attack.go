@@ -37,7 +37,8 @@ func m_rangedAttack(attacker *p_pawn, victim *p_pawn, dung *dungeon) {
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
 	vx, vy := victim.getCoords()
-	if aw.getType() == "projectile" {
+	if aw.weaponData.getType() == "projectile" {
+		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
 		proj := aw.weaponData.createProjectile(ax, ay, vx, vy)
 		dung.addProjectileToList(proj)
 		log.appendMessagef("%s shoots!", attacker.name)
