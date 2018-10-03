@@ -124,14 +124,14 @@ func (d *dungeon) removeItemFromFloor(item *i_item) {
 }
 
 func (dung *dungeon) isTilePassable(x, y int) bool {
-	return dung.tiles[x][y].IsPassable
-}
-
-func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 	if x < 0 || x >= levelsizex || y < 0 || y >= levelsizey {
 		log.warningf("Passability for unexistent index %d requested!", x)
 		return false
 	}
+	return dung.tiles[x][y].IsPassable
+}
+
+func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 	return dung.isTilePassable(x, y) && !dung.isPawnPresent(x, y)
 }
 
