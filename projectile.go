@@ -1,6 +1,8 @@
 package main
 
-import "GoRoguelike/routines"
+import (
+	"GoRoguelike/routines"
+)
 
 type projectile struct {
 	x, y, targetX, targetY, nextTurnToMove, turnsForOneTile int

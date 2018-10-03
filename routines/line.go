@@ -54,6 +54,7 @@ func GetLine(fromx, fromy, tox, toy int) []point {
 	return line
 }
 
+// BUGGED! TODO: FIX
 func GetLineOver(fromx, fromy, tox, toy int) []point { // returns line of fixed length which does not stop at (tox, toy)
 	const LINE_LENGTH = 50
 	line := make([]point, 0)
