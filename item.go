@@ -1,10 +1,6 @@
 package main
 
 type (
-	i_weaponData struct {
-		slot, ammo, maxammo int
-		damageDice          *dice
-	}
 	i_ammoData struct {
 		bullets, shells, rockets, cells int
 	}

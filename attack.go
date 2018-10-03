@@ -13,7 +13,7 @@ func m_meleeAttack(attacker *p_pawn, victim *p_pawn) {
 	log.appendMessage(fmt.Sprintf("%s %s %s! (%d damage)", attacker.name, attacker.meleeData.meleeAttackString, victim.name, damage))
 }
 
-func m_gloryKill(attacker *p_pawn, victim *p_pawn){ // unused yet
+func m_gloryKill(attacker *p_pawn, victim *p_pawn) { // unused yet
 	attacker.spendTurnsForAction(turnCostFor("glory_kill"))
 	victim.hp = -666
 	log.appendMessage(fmt.Sprintf("You glory kill the %s!", victim.name))
@@ -22,7 +22,7 @@ func m_gloryKill(attacker *p_pawn, victim *p_pawn){ // unused yet
 func (victim *p_pawn) receiveDamage(damage int) { //deals with armor, staggered state etc
 	const (
 		STAGGER_PERCENT_THRESHOLD = 50
-		STAGGERED_TIME_AMOUNT = 60
+		STAGGERED_TIME_AMOUNT     = 60
 	)
 	victim.hp -= damage
 	if victim.isPlayer() == false {
@@ -33,6 +33,13 @@ func (victim *p_pawn) receiveDamage(damage int) { //deals with armor, staggered 
 	}
 }
 
-func m_rangedAttack(attacker *p_pawn, victim *p_pawn) {
-
+func m_rangedAttack(attacker *p_pawn, victim *p_pawn, dung *dungeon) {
+	aw := attacker.weaponInHands
+	ax, ay := attacker.getCoords()
+	vx, vy := victim.getCoords()
+	if aw.getType() == "projectile" {
+		proj := aw.weaponData.createProjectile(ax, ay, vx, vy)
+		dung.addProjectileToList(proj)
+		log.appendMessagef("%s shoots!", attacker.name)
+	}
 }

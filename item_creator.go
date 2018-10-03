@@ -7,6 +7,8 @@ func i_createItem(name string, x, y int) *i_item {
 	switch name {
 	case "clip":
 		i = i_item{appearance: '"', name: name, ammoData: &i_ammoData{bullets: 6}}
+	case "pistol":
+		i = i_item{appearance: ')', name: name, weaponData: &i_weaponData{slot: 2, maxammo: 6, damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}
 	default:
 		i = i_item{appearance: '?', name: "UNKNOWN ITEM " + name}
 	}

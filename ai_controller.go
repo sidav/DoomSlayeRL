@@ -29,6 +29,9 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 	case AI_ENGAGING:
 		ex, ey := dung.player.getCoords()
 		vx, vy := ai_getVectorToTarget(monster, ex, ey)
+		if monster.canShoot() {
+			m_rangedAttack(monster, monster.aiData.currentTarget, dung)
+		}
 		m_moveOrMeleeAttackPawn(monster, dung, vx, vy)
 		return
 	case AI_ROAMING:

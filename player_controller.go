@@ -19,7 +19,7 @@ func plr_playerControl(d *dungeon) {
 			case "g":
 				plr_pickUpItem(d)
 			case "f":
-				plr_fire(d)
+				plr_aimAndFire(d)
 			case "ESCAPE":
 				GAME_IS_RUNNING = false
 			case "[": // debug
@@ -63,7 +63,7 @@ func plr_keyToDirection(keyPressed string) (int, int) {
 	}
 }
 
-func plr_fire(d *dungeon) {
+func plr_aimAndFire(d *dungeon) {
 	p := d.player
 	if p.weaponInHands == nil {
 		log.appendMessage("You have nothing to fire with!")

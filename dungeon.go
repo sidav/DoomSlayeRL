@@ -6,10 +6,11 @@ import (
 )
 
 type dungeon struct {
-	player *p_pawn
-	tiles  [levelsizex][levelsizey]d_tile
-	pawns  []*p_pawn
-	items  []*i_item
+	player      *p_pawn
+	tiles       [levelsizex][levelsizey]d_tile
+	pawns       []*p_pawn
+	items       []*i_item
+	projectiles []*projectile
 }
 
 func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
@@ -132,6 +133,18 @@ func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
 		return false
 	}
 	return dung.isTilePassable(x, y) && !dung.isPawnPresent(x, y)
+}
+
+func (d *dungeon) addProjectileToList(p *projectile) {
+	d.projectiles = append(d.projectiles, p)
+}
+
+func (d *dungeon) removeProjectileFromList(p *projectile) {
+	for i := 0; i < len(d.projectiles); i++ {
+		if p == d.projectiles[i] {
+			d.projectiles = append(d.projectiles[:i], d.projectiles[i+1:]...) // ow it's fucking... magic!
+		}
+	}
 }
 
 func (d *dungeon) addBloodSplats(x, y, radius int) {

@@ -1,7 +1,6 @@
 package main
 
 type (
-
 	p_meleeAttackData struct {
 		meleeAttackString string
 		// 3d6 + 1 == dnum d dval + dmod
@@ -21,14 +20,17 @@ type (
 		inventory                      *inventory
 		aiData                         *p_aiData
 	}
-
 )
 
 func (p *p_pawn) canMelee() bool {
 	return p.meleeData != nil
 }
 
-func (p* p_pawn) spendTurnsForAction(turns int) {
+func (p *p_pawn) canShoot() bool {
+	return p.weaponInHands != nil
+}
+
+func (p *p_pawn) spendTurnsForAction(turns int) {
 	p.nextTurnToAct = CURRENT_TURN + turns
 }
 
