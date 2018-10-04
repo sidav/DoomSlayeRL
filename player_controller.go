@@ -186,5 +186,5 @@ func plr_reload(p *p_pawn) {
 		p.inventory.bullets = 0
 	}
 	p.spendTurnsForAction(turnCostFor("reload"))
-	log.appendMessagef("You reload your %s", p.weaponInHands.name)
+	log.appendMessagef("You reload your %s.", p.weaponInHands.name)
 }

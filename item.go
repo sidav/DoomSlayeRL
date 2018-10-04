@@ -7,7 +7,7 @@ type (
 
 	i_item struct {
 		x, y       int
-		appearance rune
+		ccell      *consoleCell
 		name       string
 		weaponData *i_weaponData
 		ammoData   *i_ammoData

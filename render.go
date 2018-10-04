@@ -95,11 +95,10 @@ func renderPawn(p *p_pawn, inverse bool) {
 }
 
 func renderItem(i *i_item) {
-	app := i.appearance
-	setFgColor(cw.DARK_RED)
+	setFgColor(i.ccell.color)
 	x := i.x
 	y := i.y
-	cw.PutChar(app, x, y)
+	cw.PutChar(i.ccell.appearance, x, y)
 }
 
 func renderPlayerStats(d *dungeon) {
