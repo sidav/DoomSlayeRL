@@ -98,7 +98,9 @@ func plr_aimAndFire(d *dungeon) {
 			case "d":
 				aimx += 1
 			case "f":
-				log.appendMessage("Haha, firing is not implemented yet")
+				if p.weaponInHands.weaponData.ammo > 0 {
+					m_rangedAttack(p, aimx, aimy, d)
+				}
 				break aimLoop
 			case "ESCAPE":
 				log.appendMessage("Okay, then.")

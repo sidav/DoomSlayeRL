@@ -16,7 +16,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 		// dung.spawnPawnAtRandomPosition("zombie")
 		dung.spawnPawnAtRandomPosition("imp")
 	}
-	// dung.spawnItemAtRandomPosition("pistol")
+	dung.spawnItemAtRandomPosition("pistol")
 	dung.spawnItemAtRandomPosition("clip")
 	dung.spawnItemAtRandomPosition("clip")
 }

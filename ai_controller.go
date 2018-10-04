@@ -30,7 +30,7 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 	aiData := monster.aiData
 	switch aiData.state {
 	case AI_ENGAGING:
-		ex, ey := dung.player.getCoords()
+		ex, ey := aiData.currentTarget.getCoords()
 		vx, vy := ai_getVectorToTarget(monster, ex, ey)
 		if monster.canShoot() {
 			// if the distance is less than threshold, then step back. Maybe.
@@ -38,7 +38,7 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 				m_movePawn(monster, dung, -vx, -vy)
 			}
 			if routines.RandomPercent() < AI_SHOOT_CHANCE && dung.unobstructedLineExists(monster.x, monster.y, ex, ey) {
-				m_rangedAttack(monster, monster.aiData.currentTarget, dung)
+				m_rangedAttack(monster, ex, ey, dung)
 				return
 			}
 		}

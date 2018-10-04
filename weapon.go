@@ -1,16 +1,19 @@
 package main
 
 type i_weaponData struct {
-	slot, ammo, maxammo int
-	damageDice          *dice
-	projectileExample   *projectile
+	ammo, maxammo     int
+	projectileExample *projectile
+	hitscanData       *w_hitscan
 }
 
 func (w *i_weaponData) getType() string {
 	if w.projectileExample != nil {
 		return "projectile"
 	}
-	return "hitscan"
+	if w.hitscanData != nil {
+		return "hitscan"
+	}
+	return "WEAPON_UNDEFINED"
 }
 
 // Pointers may fuck the thing up. Checks needed

@@ -33,14 +33,23 @@ func (victim *p_pawn) receiveDamage(damage int) { //deals with armor, staggered 
 	}
 }
 
-func m_rangedAttack(attacker *p_pawn, victim *p_pawn, dung *dungeon) {
+func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
-	vx, vy := victim.getCoords()
+	// vx, vy := victim.getCoords()
 	if aw.weaponData.getType() == "projectile" {
 		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
 		proj := aw.weaponData.createProjectile(ax, ay, vx, vy)
 		dung.addProjectileToList(proj)
 		log.appendMessagef("%s shoots!", attacker.name)
+	}
+	if aw.weaponData.getType() == "hitscan" {
+		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
+		damage := attacker.weaponInHands.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
+		victim := dung.getPawnAt(vx, vy)
+		if victim != nil {
+			victim.receiveDamage(damage)
+			log.appendMessagef("Placeholder: %s is hit!", victim.name)
+		}
 	}
 }
