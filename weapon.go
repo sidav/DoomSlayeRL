@@ -1,7 +1,14 @@
 package main
 
+type AMMO_TYPE byte
+
+const (
+	AMMO_BULL AMMO_TYPE = 0
+)
+
 type i_weaponData struct {
 	ammo, maxammo     int
+	ammoType AMMO_TYPE
 	projectileExample *projectile
 	hitscanData       *w_hitscan
 }

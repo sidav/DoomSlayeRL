@@ -24,7 +24,7 @@ func plr_playerControl(d *dungeon) {
 			case "i":
 				p.inventory.selectItem(p)
 			case "r":
-				log.appendMessage("Reloading is not implemented yet.")
+				plr_reload(p)
 			case "ESCAPE":
 				GAME_IS_RUNNING = false
 			case "[": // debug
@@ -158,4 +158,33 @@ func plr_checkItemsOnFloor(d *dungeon) {
 	} else if len(items) > 1 {
 		log.appendMessage(fmt.Sprintf("You see here a %s and %d more items", items[0].name, len(items)-1))
 	}
+}
+
+func plr_reload(p *p_pawn) {
+	// TODO: VARIOUS AMMO TYPES!!!
+	if !p.canShoot() {
+		log.appendMessage("You have nothing to reload.")
+		return
+	}
+	currInvAmmo := p.inventory.bullets
+	currAmmo := p.weaponInHands.weaponData.ammo
+	maxAmmo := p.weaponInHands.weaponData.maxammo
+	ammoToRefill := maxAmmo - currAmmo
+	if ammoToRefill == 0 {
+		log.appendMessagef("Your %s is already loaded!", p.weaponInHands.name)
+		return
+	}
+	if currInvAmmo == 0 {
+		log.appendMessagef("You have no ammo to reload your %s.", p.weaponInHands.name)
+		return
+	}
+	if currInvAmmo >= ammoToRefill {
+		p.weaponInHands.weaponData.ammo = maxAmmo
+		p.inventory.bullets -= ammoToRefill
+	} else {
+		p.weaponInHands.weaponData.ammo += currInvAmmo
+		p.inventory.bullets = 0
+	}
+	p.spendTurnsForAction(turnCostFor("reload"))
+	log.appendMessagef("You reload your %s", p.weaponInHands.name)
 }
