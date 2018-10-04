@@ -15,10 +15,9 @@ func (dung *dungeon) initialize_level() { //crap of course
 	for i := 0; i < 10; i++ {
 		// dung.spawnPawnAtRandomPosition("zombie")
 		dung.spawnPawnAtRandomPosition("imp")
+		dung.spawnItemAtRandomPosition("pistol")
+		dung.spawnItemAtRandomPosition("clip")
 	}
-	dung.spawnItemAtRandomPosition("pistol")
-	dung.spawnItemAtRandomPosition("clip")
-	dung.spawnItemAtRandomPosition("clip")
 }
 
 func (dung *dungeon) MakeMapFromGenerated() {

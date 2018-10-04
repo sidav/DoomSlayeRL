@@ -51,7 +51,7 @@ func renderLevel(d *dungeon, flush bool) {
 	//render pawns
 	for _, pawn := range d.pawns {
 		if RENDER_DISABLE_LOS || vismap[pawn.x][pawn.y] {
-			renderPawn(pawn)
+			renderPawn(pawn, false)
 		}
 	}
 
@@ -63,7 +63,7 @@ func renderLevel(d *dungeon, flush bool) {
 	}
 
 	//render player
-	renderPawn(d.player)
+	renderPawn(d.player, false)
 
 	renderPlayerStats(d)
 	renderLog(false)
@@ -78,11 +78,15 @@ func renderProjectile(p *projectile) {
 	cw.PutChar('*', p.x, p.y)
 }
 
-func renderPawn(p *p_pawn) {
+func renderPawn(p *p_pawn, inverse bool) {
 	app := p.appearance
-	setFgColor(cons_pawnColors[p.appearance])
-	if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
-		setColor(cw.BLACK, cw.DARK_YELLOW)
+	if inverse {
+		setColor(cw.BLACK, cons_pawnColors[p.appearance])
+	}	else {
+		setFgColor(cons_pawnColors[p.appearance])
+		if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
+			setColor(cw.BLACK, cw.DARK_YELLOW)
+		}
 	}
 	x := p.x
 	y := p.y
@@ -136,6 +140,45 @@ func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast
 	if flush {
 		cw.Flush_console()
 	}
+}
+
+func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
+	line := routines.GetLine(fromx, fromy, tox, toy)
+	char := '?'
+	if len(line) > 1  {
+		char = getTargetingChar(line[1].X - line[0].X, line[1].Y - line[0].Y)
+	}
+	for i := 1; i < len(line); i++ {
+		x, y := line[i].X, line[i].Y
+		if d.isPawnPresent(x, y) {
+			renderPawn(d.getPawnAt(x, y), true)
+		} else {
+			setFgColor(cw.YELLOW)
+			if i == len(line)-1 {
+				char = 'X'
+			}
+			cw.PutChar(char, x, y)
+		}
+	}
+	if flush {
+		cw.Flush_console()
+	}
+}
+
+func getTargetingChar(x, y int) rune{
+	if x == 0 {
+		return '|'
+	}
+	if y == 0 {
+		return '-'
+	}
+	if x*y == 1 {
+		return '\\'
+	}
+	if x*y == -1 {
+		return '/'
+	}
+	return '?'
 }
 
 func renderLog(flush bool) {

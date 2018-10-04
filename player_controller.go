@@ -84,7 +84,7 @@ func plr_aimAndFire(d *dungeon) {
 	aimLoop:
 		for {
 			renderLevel(d, false)
-			renderLine('*', p.x, p.y, aimx, aimy, true, true)
+			renderTargetingLine(p.x, p.y, aimx, aimy, true, d)
 			keypressed := readKey()
 			switch keypressed {
 			case "n":
