@@ -18,6 +18,8 @@ func (dung *dungeon) initialize_level() { //crap of course
 		dung.spawnItemAtRandomPosition("pistol")
 		dung.spawnItemAtRandomPosition("clip")
 	}
+	dung.spawnItemAtRandomPosition("bolt-action rifle")
+	dung.spawnItemAtRandomPosition("gauss rifle")
 }
 
 func (dung *dungeon) MakeMapFromGenerated() {
