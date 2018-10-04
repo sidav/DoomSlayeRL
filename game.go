@@ -17,6 +17,10 @@ type game struct {
 	dung dungeon
 }
 
+func areCoordinatesValid(x, y int) bool {
+	return x >= 0 && y >= 0 && x < levelsizex && y < levelsizey
+}
+
 func (g *game) runGame() {
 	routines.Randomize()
 	GAME_IS_RUNNING = true

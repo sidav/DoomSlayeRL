@@ -57,7 +57,7 @@ func renderLevel(d *dungeon, flush bool) {
 
 	//render projectiles
 	for _, proj := range d.projectiles {
-		if RENDER_DISABLE_LOS || vismap[proj.x][proj.y] {
+		if areCoordinatesValid(proj.x, proj.y) && (RENDER_DISABLE_LOS || vismap[proj.x][proj.y]) {
 			renderProjectile(proj)
 		}
 	}

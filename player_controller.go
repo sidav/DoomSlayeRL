@@ -5,6 +5,7 @@ import (
 )
 
 func plr_playerControl(d *dungeon) {
+	p := d.player
 	valid_key_pressed := false
 	movex := 0
 	movey := 0
@@ -20,6 +21,8 @@ func plr_playerControl(d *dungeon) {
 				plr_pickUpItem(d)
 			case "f":
 				plr_aimAndFire(d)
+			case "i":
+				p.inventory.selectItem(p)
 			case "r":
 				log.appendMessage("Reloading is not implemented yet.")
 			case "ESCAPE":
@@ -126,6 +129,9 @@ func plr_pickUpItem(d *dungeon) {
 		item := items[i]
 		switch items[i].getType() {
 		case "weapon":
+			if p.weaponInHands != nil {
+				p.inventory.addItem(p.weaponInHands)
+			}
 			p.weaponInHands = item
 			d.removeItemFromFloor(items[i])
 			log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))

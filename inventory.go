@@ -1,5 +1,7 @@
 package main
 
+import "GoRoguelike/routines"
+
 type inventory struct {
 	items                           []*i_item
 	maxItems                        int
@@ -27,4 +29,17 @@ func (inv *inventory) removeItem(i *i_item) {
 			inv.items = append(inv.items[:j], inv.items[j+1:]...)
 		}
 	}
+}
+
+func (inv *inventory) getNamesSliceForAllItems() []string{
+	var slice []string
+	slice = make([]string, 0)
+	for i := 0; i < len(inv.items); i++ {
+		slice = append(slice, inv.items[i].name)
+	}
+	return slice
+}
+
+func (inv *inventory) selectItem(owner *p_pawn) {
+	routines.ShowSingleChoiceMenu("INVENTORY", inv.getNamesSliceForAllItems())
 }
