@@ -173,14 +173,16 @@ func (d *dungeon) addBloodSplats(x, y, radius int) {
 	)
 	for i := x - radius; i <= x+radius; i++ {
 		for j := y - radius; j <= y+radius; j++ {
-			if routines.RandomPercent() < SPLAT_CHANCE || (x == i && y == j) {
-				d.tiles[i][j].cCell.color = cw.RED
-				currApp := d.tiles[i][j].cCell.appearance
-				if (currApp == '.' || currApp == ',') && routines.RandomPercent() < GIB_CHANCE {
-					if routines.RandomPercent() < BIG_GIB_CHANCE {
-						d.tiles[i][j].cCell.appearance = ';'
-					} else {
-						d.tiles[i][j].cCell.appearance = ','
+			if areCoordinatesValid(i, j) {
+				if routines.RandomPercent() < SPLAT_CHANCE || (x == i && y == j) {
+					d.tiles[i][j].cCell.color = cw.RED
+					currApp := d.tiles[i][j].cCell.appearance
+					if (currApp == '.' || currApp == ',') && routines.RandomPercent() < GIB_CHANCE {
+						if routines.RandomPercent() < BIG_GIB_CHANCE {
+							d.tiles[i][j].cCell.appearance = ';'
+						} else {
+							d.tiles[i][j].cCell.appearance = ','
+						}
 					}
 				}
 			}
