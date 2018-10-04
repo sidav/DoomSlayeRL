@@ -45,11 +45,14 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 	}
 	if aw.weaponData.getType() == "hitscan" {
 		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
-		damage := attacker.weaponInHands.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
+		damage := aw.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
 		victim := dung.getPawnAt(vx, vy)
 		if victim != nil {
 			victim.receiveDamage(damage)
 			log.appendMessagef("Placeholder: %s is hit!", victim.name)
 		}
+	}
+	if aw.weaponData.maxammo > 0 {
+		aw.weaponData.ammo -= 1 // TODO: investigate
 	}
 }

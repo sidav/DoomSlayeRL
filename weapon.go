@@ -16,6 +16,10 @@ func (w *i_weaponData) getType() string {
 	return "WEAPON_UNDEFINED"
 }
 
+func (w *i_weaponData) hasEnoughAmmoToShoot() bool {
+	return w.ammo > 0 // TODO: variable ammo cost
+}
+
 // Pointers may fuck the thing up. Checks needed
 func (w *i_weaponData) createProjectile(x, y, tx, ty int) *projectile {
 	newp := &projectile{x: x, y: y, turnsForOneTile: w.projectileExample.turnsForOneTile, nextTurnToMove: CURRENT_TURN,
