@@ -1,9 +1,9 @@
 package main
 
 type i_weaponData struct {
-	ammo, maxammo     int
-	projectileExample *projectile
-	hitscanData       *w_hitscan
+	ammo, maxammo, nextTurnToShoot int
+	projectileExample              *projectile
+	hitscanData                    *w_hitscan
 }
 
 func (w *i_weaponData) getType() string {
@@ -14,6 +14,18 @@ func (w *i_weaponData) getType() string {
 		return "hitscan"
 	}
 	return "WEAPON_UNDEFINED"
+}
+
+func (w *i_weaponData) canShootNow() bool {
+	return w.nextTurnToShoot <= CURRENT_TURN
+}
+
+func (w *i_weaponData) hasEnoughAmmoToShoot() bool {
+	return w.ammo > 0 // TODO: variable ammo cost
+}
+
+func (w *i_weaponData) spendTurnsForShooting(turns int) {
+	w.nextTurnToShoot = CURRENT_TURN + turns
 }
 
 // Pointers may fuck the thing up. Checks needed

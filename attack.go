@@ -38,18 +38,20 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 	ax, ay := attacker.getCoords()
 	// vx, vy := victim.getCoords()
 	if aw.weaponData.getType() == "projectile" {
-		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
 		proj := aw.weaponData.createProjectile(ax, ay, vx, vy)
 		dung.addProjectileToList(proj)
 		log.appendMessagef("%s shoots!", attacker.name)
 	}
 	if aw.weaponData.getType() == "hitscan" {
-		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
-		damage := attacker.weaponInHands.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
+		damage := aw.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
 		victim := dung.getPawnAt(vx, vy)
 		if victim != nil {
 			victim.receiveDamage(damage)
 			log.appendMessagef("Placeholder: %s is hit!", victim.name)
 		}
+	}
+	aw.weaponData.spendTurnsForShooting(turnCostFor("ranged_attack")) // TODO: investigate
+	if aw.weaponData.maxammo > 0 {
+		aw.weaponData.ammo -= 1 // TODO: investigate
 	}
 }

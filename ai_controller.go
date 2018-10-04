@@ -37,7 +37,7 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 			if getSqDistance(monster.x, monster.y, ex, ey) < AI_STEP_BACK_THRESHOLD && routines.RandomPercent() < AI_STEP_BACK_CHANCE {
 				m_movePawn(monster, dung, -vx, -vy)
 			}
-			if routines.RandomPercent() < AI_SHOOT_CHANCE && dung.unobstructedLineExists(monster.x, monster.y, ex, ey) {
+			if routines.RandomPercent() < AI_SHOOT_CHANCE && dung.unobstructedLineExists(monster.x, monster.y, ex, ey) && monster.isTimeToShoot() {
 				m_rangedAttack(monster, ex, ey, dung)
 				return
 			}

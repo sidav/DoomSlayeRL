@@ -101,6 +101,14 @@ func renderItem(i *i_item) {
 func renderPlayerStats(d *dungeon) {
 	player := d.player
 
+	statsline := fmt.Sprintf("HP: (%d/%d) TIME: %d.%d", player.hp, player.maxhp,
+		CURRENT_TURN/10, CURRENT_TURN%10)
+	setFgColor(cw.DARK_RED)
+	cw.PutString(statsline, 0, levelsizey)
+	if player.canShoot() && !player.isTimeToShoot() {
+		setColor(cw.BLACK, cw.DARK_RED)
+	}
+
 	var weaponline string
 	if player.weaponInHands != nil {
 		weaponline = fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,
@@ -108,12 +116,11 @@ func renderPlayerStats(d *dungeon) {
 	} else {
 		weaponline = "fists"
 	}
+	cw.PutString(fmt.Sprintf("WEAP: %s", weaponline), len(statsline)+1, levelsizey)
+
 	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
 		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
-	setFgColor(cw.DARK_RED)
-	cw.PutString(fmt.Sprintf("HP: (%d/%d) TIME: %d.%d WEAP: %s", player.hp, player.maxhp,
-		CURRENT_TURN/10, CURRENT_TURN%10, weaponline), 0, levelsizey)
-	setFgColor(cw.DARK_RED)
+	setColor(cw.DARK_RED, cw.BLACK)
 	cw.PutString(ammoLine, 0, levelsizey+1)
 }
 

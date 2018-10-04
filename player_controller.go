@@ -20,6 +20,8 @@ func plr_playerControl(d *dungeon) {
 				plr_pickUpItem(d)
 			case "f":
 				plr_aimAndFire(d)
+			case "r":
+				log.appendMessage("Reloading is not implemented yet.")
 			case "ESCAPE":
 				GAME_IS_RUNNING = false
 			case "[": // debug
@@ -67,6 +69,14 @@ func plr_aimAndFire(d *dungeon) {
 	p := d.player
 	if p.weaponInHands == nil {
 		log.appendMessage("You have nothing to fire with!")
+		return
+	}
+	if !p.weaponInHands.weaponData.hasEnoughAmmoToShoot() {
+		log.appendMessage("You are out of your ammo! Reload!")
+		return
+	}
+	if !p.isTimeToShoot() {
+		log.appendMessage("You can't fire that often!")
 		return
 	}
 	targets := d.getListOfPawnsVisibleFrom(p.x, p.y)

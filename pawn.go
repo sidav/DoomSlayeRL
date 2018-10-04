@@ -38,6 +38,10 @@ func (p *p_pawn) isTimeToAct() bool {
 	return p.nextTurnToAct <= CURRENT_TURN
 }
 
+func (p *p_pawn) isTimeToShoot() bool {
+	return p.weaponInHands.weaponData.canShootNow()
+}
+
 func (p *p_pawn) isPlayer() bool {
 	return p.playerData != nil
 }
