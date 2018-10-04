@@ -16,7 +16,17 @@ type dungeon struct {
 func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
 	line := routines.GetLine(fx, fy, tx, ty)
 	for i := 1; i < len(line); i++ { // we skip first cell
-		if dung.tiles[line[i].X][line[i].Y].opaque {
+		if dung.isTileOpaque(line[i].X, line[i].Y) {
+			return false
+		}
+	}
+	return true
+}
+
+func (dung *dungeon) unobstructedLineExists(fx, fy, tx, ty int) bool { // visible AND free of pawns line
+	line := routines.GetLine(fx, fy, tx, ty)
+	for i := 1; i < len(line)-1; i++ { // we skip first and last cells
+		if dung.isTileOpaque(line[i].X, line[i].Y) || dung.isPawnPresent(line[i].X, line[i].Y){
 			return false
 		}
 	}
