@@ -8,12 +8,12 @@ import (
 )
 
 var (
-	R_VIEWPORT_SIZE_X = 30
-	R_VIEWPORT_SIZE_Y = 20
-	R_VIEWPORT_CURR_X = 0
-	R_VIEWPORT_CURR_Y = 0
+	R_VIEWPORT_WIDTH   = 30
+	R_VIEWPORT_HEIGHT  = 20
+	R_VIEWPORT_CURR_X  = 0
+	R_VIEWPORT_CURR_Y  = 0
 	RENDER_DISABLE_LOS bool
-	cons_pawnColors    = map[rune]int{
+	cons_pawnColors            = map[rune]int{
 		'@': cw.GREEN,
 		'z': cw.BEIGE,
 		'i': cw.RED,
@@ -25,20 +25,20 @@ const (
 )
 
 //func r_areRealCoordsInViewport(x, y int) bool {
-//	return x - R_VIEWPORT_CURR_X < R_VIEWPORT_SIZE_X && y - R_VIEWPORT_CURR_Y < R_VIEWPORT_SIZE_Y
+//	return x - R_VIEWPORT_CURR_X < R_VIEWPORT_WIDTH && y - R_VIEWPORT_CURR_Y < R_VIEWPORT_HEIGHT
 //}
 
 func r_CoordsToViewport(x, y int) (int, int) {
 	vpx, vpy := x - R_VIEWPORT_CURR_X, y - R_VIEWPORT_CURR_Y
-	if vpx > R_VIEWPORT_SIZE_X || vpy > R_VIEWPORT_SIZE_Y {
+	if vpx > R_VIEWPORT_WIDTH || vpy > R_VIEWPORT_HEIGHT {
 		return -1, -1
 	}
 	return vpx, vpy
 }
 
 func updateViewportCoords(p *p_pawn) {
-	R_VIEWPORT_CURR_X = p.x - R_VIEWPORT_SIZE_X / 2
-	R_VIEWPORT_CURR_Y = p.y - R_VIEWPORT_SIZE_Y / 2
+	R_VIEWPORT_CURR_X = p.x - R_VIEWPORT_WIDTH/ 2
+	R_VIEWPORT_CURR_Y = p.y - R_VIEWPORT_HEIGHT/ 2
 }
 
 func renderLevel(d *dungeon, flush bool) {
@@ -46,8 +46,8 @@ func renderLevel(d *dungeon, flush bool) {
 	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
 	updateViewportCoords(d.player)
 	// render level. vpx, vpy are viewport coords, whereas x, y are real coords.
-	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X + R_VIEWPORT_SIZE_X; x++ {
-		for y := 0; y < R_VIEWPORT_CURR_Y+ R_VIEWPORT_SIZE_Y; y++ {
+	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X +R_VIEWPORT_WIDTH; x++ {
+		for y := 0; y < R_VIEWPORT_CURR_Y+R_VIEWPORT_HEIGHT; y++ {
 			vpx, vpy := r_CoordsToViewport(x, y)
 			if !areCoordinatesValid(x, y) {
 				continue
@@ -128,45 +128,62 @@ func renderItem(i *i_item) {
 	cw.PutChar(i.ccell.appearance, x, y)
 }
 
-func renderPlayerStats(d *dungeon) {
-	player := d.player
-
-	statsline := fmt.Sprintf("HP: (%d/%d) TIME: %d.%d", player.hp, player.maxhp,
-		CURRENT_TURN/10, CURRENT_TURN%10)
-	setFgColor(cw.DARK_RED)
-	cw.PutString(statsline, 0, levelsizey)
-
-	var weaponline string
-	if player.weaponInHands != nil {
-		weaponline = fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,
-			player.weaponInHands.weaponData.maxammo)
-	} else {
-		weaponline = "fists"
+func renderBullet(currx, curry, tox, toy int, d *dungeon) {
+	renderLevel(d, false)
+	setFgColor(cw.YELLOW)
+	bulletRune := '*'
+	if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
+		bulletRune = getTargetingChar(tox-currx, toy-curry)
 	}
-	cw.PutString(fmt.Sprintf("WEAP: %s", weaponline), len(statsline)+1, levelsizey)
-
-	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
-		player.inventory.ammo[AMMO_BULL], player.inventory.ammo[AMMO_SHEL], player.inventory.ammo[AMMO_RCKT], player.inventory.ammo[AMMO_CELL])
-	setColor(cw.DARK_RED, cw.BLACK)
-	cw.PutString(ammoLine, 0, levelsizey+1)
+	x, y := r_CoordsToViewport(currx, curry)
+	cw.PutChar(bulletRune, x, y)
+	cw.Flush_console()
+	time.Sleep(25 * time.Millisecond)
 }
 
-//func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
-//	line := routines.GetLine(fromx, fromy, tox, toy)
-//	setFgColor(cw.RED)
-//	if exceptFirstAndLast {
-//		for i := 1; i < len(line)-1; i++ {
-//			cw.PutChar(char, line[i].X, line[i].Y)
-//		}
-//	} else {
-//		for i := 0; i < len(line); i++ {
-//			cw.PutChar(char, line[i].X, line[i].Y)
-//		}
-//	}
-//	if flush {
-//		cw.Flush_console()
-//	}
-//}
+//
+// UI-related stuff below
+//
+
+func renderPlayerStats(d *dungeon) {
+	player := d.player
+	statusbarsWidth := 80 - R_VIEWPORT_WIDTH - 2
+
+	hpPercent := player.hp * 100 / player.maxhp
+	var hpColor int
+	switch {
+	case hpPercent < 33:
+		hpColor = cw.RED
+		break
+	case hpPercent < 66:
+		hpColor = cw.YELLOW
+		break
+	default:
+		hpColor = cw.DARK_GREEN
+		break
+	}
+	setFgColor(hpColor)
+
+	renderStatusbar(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), player.hp, player.maxhp,
+		R_VIEWPORT_WIDTH+1, 0, statusbarsWidth, hpColor)
+
+
+	setFgColor(cw.BEIGE)
+	if player.weaponInHands != nil {
+		renderStatusbar(fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,
+			player.weaponInHands.weaponData.maxammo), player.weaponInHands.weaponData.ammo,
+			player.weaponInHands.weaponData.maxammo, R_VIEWPORT_WIDTH+1, 2, statusbarsWidth, cw.DARK_YELLOW)
+	} else {
+		cw.PutString("Barehanded", R_VIEWPORT_WIDTH+1, 2)
+	}
+
+	setColor(cw.BEIGE, cw.BLACK)
+	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
+		player.inventory.ammo[AMMO_BULL], player.inventory.ammo[AMMO_SHEL], player.inventory.ammo[AMMO_RCKT], player.inventory.ammo[AMMO_CELL])
+	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 4)
+	timeline := fmt.Sprintf("TIME: %d.%d", CURRENT_TURN/10, CURRENT_TURN%10)
+	cw.PutString(timeline, R_VIEWPORT_WIDTH+1, 5)
+}
 
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 	line := routines.GetLine(fromx, fromy, tox, toy)
@@ -192,17 +209,21 @@ func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 	}
 }
 
-func renderBullet(currx, curry, tox, toy int, d *dungeon) {
-	renderLevel(d, false)
-	setFgColor(cw.YELLOW)
-	bulletRune := '*'
-	if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
-		bulletRune = getTargetingChar(tox-currx, toy-curry)
+func renderStatusbar(name string, curvalue, maxvalue, x, y, width, barColor int) {
+	barTitle := name
+	cw.PutString(barTitle, x, y)
+	barWidth := width - len(name)
+	filledCells := barWidth * curvalue / maxvalue
+	barStartX := x + len(barTitle) + 1
+	for i := 0; i < barWidth; i++ {
+		if i < filledCells {
+			setFgColor(barColor)
+			cw.PutChar('=', i+barStartX, y)
+		} else {
+			setFgColor(cw.DARK_BLUE)
+			cw.PutChar('-', i+barStartX, y)
+		}
 	}
-	x, y := r_CoordsToViewport(currx, curry)
-	cw.PutChar(bulletRune, x, y)
-	cw.Flush_console()
-	time.Sleep(25 * time.Millisecond)
 }
 
 func getTargetingChar(x, y int) rune{
@@ -237,9 +258,26 @@ func abs(i int) int {
 func renderLog(flush bool) {
 	setFgColor(cw.WHITE)
 	for i := 0; i < LOG_HEIGHT; i++ {
-		cw.PutString(log.last_msgs[i], 0, levelsizey+i+2)
+		cw.PutString(log.last_msgs[i], 0, R_VIEWPORT_HEIGHT+i)
 	}
 	if flush {
 		cw.Flush_console()
 	}
 }
+
+//func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
+//	line := routines.GetLine(fromx, fromy, tox, toy)
+//	setFgColor(cw.RED)
+//	if exceptFirstAndLast {
+//		for i := 1; i < len(line)-1; i++ {
+//			cw.PutChar(char, line[i].X, line[i].Y)
+//		}
+//	} else {
+//		for i := 0; i < len(line); i++ {
+//			cw.PutChar(char, line[i].X, line[i].Y)
+//		}
+//	}
+//	if flush {
+//		cw.Flush_console()
+//	}
+//}
