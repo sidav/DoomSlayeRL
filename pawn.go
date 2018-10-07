@@ -11,14 +11,14 @@ type (
 	}
 
 	p_pawn struct {
-		appearance                     rune
-		hp, maxhp, x, y, nextTurnToAct int
-		name                           string
-		meleeData                      *p_meleeAttackData
-		playerData                     *p_playerData
-		weaponInHands                  *i_item
-		inventory                      *inventory
-		aiData                         *p_aiData
+		appearance                                 rune
+		hp, maxhp, x, y, nextTurnToAct, sightRange int
+		name                                       string
+		meleeData                                  *p_meleeAttackData
+		playerData                                 *p_playerData
+		weaponInHands                              *i_item
+		inventory                                  *inventory
+		aiData                                     *p_aiData
 	}
 )
 

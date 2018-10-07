@@ -78,7 +78,7 @@ func plr_aimAndFire(d *dungeon) {
 		log.appendMessage("You are out of your ammo! Reload!")
 		return
 	}
-	targets := d.getListOfPawnsVisibleFrom(p.x, p.y)
+	targets := d.getListOfPawnsVisibleFor(p)
 	curr_target_index := 0
 	// choose target
 	if len(targets) > 0 {

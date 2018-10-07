@@ -50,7 +50,7 @@ func ai_decideMove(monster *p_pawn, dung *dungeon) {
 }
 
 func ai_reactToSurroundings(monster *p_pawn, dung *dungeon) { //change state if sees something or whatever
-	mx, my := monster.getCoords()
+	// mx, my := monster.getCoords()
 	ex, ey := dung.player.getCoords()
 	aiData := monster.aiData
 	if monster.aiData.state == AI_STAGGERED {
@@ -60,7 +60,7 @@ func ai_reactToSurroundings(monster *p_pawn, dung *dungeon) { //change state if 
 			return
 		}
 	}
-	if dung.visibleLineExists(mx, my, ex, ey) {
+	if dung.canPawnSeeCoords(monster, ex, ey) {
 		aiData.state = AI_ENGAGING
 		aiData.currentTarget = dung.player
 		aiData.targetx, aiData.targety = ex, ey

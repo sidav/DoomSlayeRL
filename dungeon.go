@@ -13,37 +13,6 @@ type dungeon struct {
 	projectiles []*projectile
 }
 
-func (dung *dungeon) visibleLineExists(fx, fy, tx, ty int) bool {
-	line := routines.GetLine(fx, fy, tx, ty)
-	for i := 1; i < len(line); i++ { // we skip first cell
-		if dung.isTileOpaque(line[i].X, line[i].Y) {
-			return false
-		}
-	}
-	return true
-}
-
-func (dung *dungeon) unobstructedLineExists(fx, fy, tx, ty int) bool { // visible AND free of pawns line
-	line := routines.GetLine(fx, fy, tx, ty)
-	for i := 1; i < len(line)-1; i++ { // we skip first and last cells
-		if dung.isTileOpaque(line[i].X, line[i].Y) || dung.isPawnPresent(line[i].X, line[i].Y){
-			return false
-		}
-	}
-	return true
-}
-
-func (d *dungeon) getListOfPawnsVisibleFrom(fx, fy int) []*p_pawn {
-	list := make([]*p_pawn, 0)
-	for _, pawn := range d.pawns {
-		x, y := pawn.x, pawn.y
-		if d.visibleLineExists(fx, fy, x, y) {
-			list = append(list, pawn)
-		}
-	}
-	return list
-}
-
 func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
 	for tries := 0; tries < 1000; tries++ {
 		x, y := routines.Random(levelsizex), routines.Random(levelsizey)

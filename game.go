@@ -21,6 +21,13 @@ func areCoordinatesValid(x, y int) bool {
 	return x >= 0 && y >= 0 && x < levelsizex && y < levelsizey
 }
 
+func areCoordinatesInRangeFrom(fx, fy, tx, ty, srange int) bool {
+	if (tx-fx)*(tx-fx) + (ty-fy)*(ty-fy) > srange * srange {
+		return false
+	}
+	return true
+}
+
 func (g *game) runGame() {
 	routines.Randomize()
 	GAME_IS_RUNNING = true

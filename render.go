@@ -43,7 +43,7 @@ func updateViewportCoords(p *p_pawn) {
 
 func renderLevel(d *dungeon, flush bool) {
 	cw.Clear_console()
-	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
+	vismap := d.GetFieldOfVisionFor(d.player)
 	updateViewportCoords(d.player)
 	// render level. vpx, vpy are viewport coords, whereas x, y are real coords.
 	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X+R_VIEWPORT_WIDTH; x++ {
@@ -149,7 +149,7 @@ func renderPlayerStats(d *dungeon) {
 	player := d.player
 	statusbarsWidth := 80 - R_VIEWPORT_WIDTH - 3
 
-	hpPercent := player.hp * 100 / player.maxhp
+	hpPercent := player.getHpPercent()
 	var hpColor int
 	switch {
 	case hpPercent < 33:
