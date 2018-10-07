@@ -9,10 +9,10 @@ type inventory struct {
 }
 
 func (inv *inventory) _addAmmo(i *i_item) {
-	inv.bullets += i.ammoData.bullets
-	inv.shells += i.ammoData.shells
-	inv.rockets += i.ammoData.rockets
-	inv.cells += i.ammoData.cells
+	inv.bullets += i.ammoData.ammo[AMMO_BULL]
+	inv.shells += i.ammoData.ammo[AMMO_SHEL]
+	inv.rockets += i.ammoData.ammo[AMMO_RCKT]
+	inv.cells += i.ammoData.ammo[AMMO_CELL]
 }
 
 func (inv *inventory) addItem(i *i_item) {

@@ -9,7 +9,7 @@ func i_createItem(name string, x, y int) *i_item {
 	var i i_item
 	switch name {
 	case "clip":
-		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, ammoData: &i_ammoData{bullets: 6}}
+		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, ammoData: &i_ammoData{ammo: [4]int{6, 0, 0, 0}}}
 	case "pistol":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
 		weaponData: &i_weaponData{maxammo: 6, hitscanData: &w_hitscan{damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}

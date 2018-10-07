@@ -1,9 +1,6 @@
 package main
 
 type (
-	i_ammoData struct {
-		bullets, shells, rockets, cells int
-	}
 
 	i_item struct {
 		x, y       int
