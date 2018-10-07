@@ -8,6 +8,10 @@ import (
 )
 
 var (
+	R_VIEWPORT_SIZE_X = 30
+	R_VIEWPORT_SIZE_Y = 20
+	R_VIEWPORT_CURR_X = 0
+	R_VIEWPORT_CURR_Y = 0
 	RENDER_DISABLE_LOS bool
 	cons_pawnColors    = map[rune]int{
 		'@': cw.GREEN,
@@ -20,12 +24,34 @@ const (
 	FogOfWarColor = cw.DARK_GRAY
 )
 
+//func r_areRealCoordsInViewport(x, y int) bool {
+//	return x - R_VIEWPORT_CURR_X < R_VIEWPORT_SIZE_X && y - R_VIEWPORT_CURR_Y < R_VIEWPORT_SIZE_Y
+//}
+
+func r_CoordsToViewport(x, y int) (int, int) {
+	vpx, vpy := x - R_VIEWPORT_CURR_X, y - R_VIEWPORT_CURR_Y
+	if vpx > R_VIEWPORT_SIZE_X || vpy > R_VIEWPORT_SIZE_Y {
+		return -1, -1
+	}
+	return vpx, vpy
+}
+
+func updateViewportCoords(p *p_pawn) {
+	R_VIEWPORT_CURR_X = p.x - R_VIEWPORT_SIZE_X / 2
+	R_VIEWPORT_CURR_Y = p.y - R_VIEWPORT_SIZE_Y / 2
+}
+
 func renderLevel(d *dungeon, flush bool) {
 	cw.Clear_console()
 	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
-	// render level
-	for x := 0; x < levelsizex; x++ {
-		for y := 0; y < levelsizey; y++ {
+	updateViewportCoords(d.player)
+	// render level. vpx, vpy are viewport coords, whereas x, y are real coords.
+	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X + R_VIEWPORT_SIZE_X; x++ {
+		for y := 0; y < R_VIEWPORT_CURR_Y+ R_VIEWPORT_SIZE_Y; y++ {
+			vpx, vpy := r_CoordsToViewport(x, y)
+			if !areCoordinatesValid(x, y) {
+				continue
+			}
 			cellRune := d.tiles[x][y].cCell.appearance
 			cellColor := d.tiles[x][y].cCell.color
 			if RENDER_DISABLE_LOS || vismap[x][y] {
@@ -33,12 +59,13 @@ func renderLevel(d *dungeon, flush bool) {
 					d.tiles[x][y].wasSeenByPlayer = true
 				}
 				setFgColor(cellColor)
-				cw.PutChar(cellRune, x, y)
 			} else {
 				if d.tiles[x][y].wasSeenByPlayer {
 					setFgColor(FogOfWarColor)
-					cw.PutChar(cellRune, x, y)
 				}
+			}
+			if d.tiles[x][y].wasSeenByPlayer {
+				cw.PutChar(cellRune, vpx, vpy)
 			}
 		}
 	}
@@ -76,7 +103,8 @@ func renderLevel(d *dungeon, flush bool) {
 
 func renderProjectile(p *projectile) {
 	setColor(cw.RED, cw.BLACK)
-	cw.PutChar('*', p.x, p.y)
+	x, y := r_CoordsToViewport(p.x, p.y)
+	cw.PutChar('*', x, y)
 }
 
 func renderPawn(p *p_pawn, inverse bool) {
@@ -89,16 +117,14 @@ func renderPawn(p *p_pawn, inverse bool) {
 			setColor(cw.BLACK, cw.DARK_YELLOW)
 		}
 	}
-	x := p.x
-	y := p.y
+	x, y := r_CoordsToViewport(p.x, p.y)
 	cw.PutChar(app, x, y)
 	setBgColor(cw.BLACK)
 }
 
 func renderItem(i *i_item) {
 	setFgColor(i.ccell.color)
-	x := i.x
-	y := i.y
+	x, y := r_CoordsToViewport(i.x, i.y)
 	cw.PutChar(i.ccell.appearance, x, y)
 }
 
@@ -125,22 +151,22 @@ func renderPlayerStats(d *dungeon) {
 	cw.PutString(ammoLine, 0, levelsizey+1)
 }
 
-func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
-	line := routines.GetLine(fromx, fromy, tox, toy)
-	setFgColor(cw.RED)
-	if exceptFirstAndLast {
-		for i := 1; i < len(line)-1; i++ {
-			cw.PutChar(char, line[i].X, line[i].Y)
-		}
-	} else {
-		for i := 0; i < len(line); i++ {
-			cw.PutChar(char, line[i].X, line[i].Y)
-		}
-	}
-	if flush {
-		cw.Flush_console()
-	}
-}
+//func renderLine(char rune, fromx, fromy, tox, toy int, flush, exceptFirstAndLast bool) {
+//	line := routines.GetLine(fromx, fromy, tox, toy)
+//	setFgColor(cw.RED)
+//	if exceptFirstAndLast {
+//		for i := 1; i < len(line)-1; i++ {
+//			cw.PutChar(char, line[i].X, line[i].Y)
+//		}
+//	} else {
+//		for i := 0; i < len(line); i++ {
+//			cw.PutChar(char, line[i].X, line[i].Y)
+//		}
+//	}
+//	if flush {
+//		cw.Flush_console()
+//	}
+//}
 
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 	line := routines.GetLine(fromx, fromy, tox, toy)
@@ -157,7 +183,8 @@ func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 			if i == len(line)-1 {
 				char = 'X'
 			}
-			cw.PutChar(char, x, y)
+			viewx, viewy := r_CoordsToViewport(line[i].X, line[i].Y)
+			cw.PutChar(char,viewx, viewy)
 		}
 	}
 	if flush {
@@ -172,7 +199,8 @@ func renderBullet(currx, curry, tox, toy int, d *dungeon) {
 	if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
 		bulletRune = getTargetingChar(tox-currx, toy-curry)
 	}
-	cw.PutChar(bulletRune, currx, curry)
+	x, y := r_CoordsToViewport(currx, curry)
+	cw.PutChar(bulletRune, x, y)
 	cw.Flush_console()
 	time.Sleep(25 * time.Millisecond)
 }
