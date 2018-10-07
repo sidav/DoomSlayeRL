@@ -10,6 +10,8 @@ func turnCostFor(actionName string) int { // TODO: make this accept pawn as an a
 		return 17
 	case "shoot":
 		return 15
+	case "reload":
+		return 25
 	case "step":
 		return 10
 	case "step_diag":

@@ -8,6 +8,7 @@ type (
 	}
 
 	p_playerData struct {
+		lastSpentTimeAmount int
 	}
 
 	p_pawn struct {
@@ -32,6 +33,9 @@ func (p *p_pawn) canShoot() bool {
 
 func (p *p_pawn) spendTurnsForAction(turns int) {
 	p.nextTurnToAct = CURRENT_TURN + turns
+	if p.playerData != nil {
+		p.playerData.lastSpentTimeAmount = turns
+	}
 }
 
 func (p *p_pawn) isTimeToAct() bool {
