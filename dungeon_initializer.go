@@ -39,7 +39,7 @@ func (dung *dungeon) MakeMapFromGenerated() {
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
 			case '#':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.BEIGE}
+				currDungCell.cCell = &consoleCell{appearance: '▒', color: cw.BEIGE}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = true
 			default:

@@ -5,14 +5,13 @@ import "GoRoguelike/routines"
 type inventory struct {
 	items                           []*i_item
 	maxItems                        int
-	bullets, shells, rockets, cells int
+	ammo [4]int
 }
 
-func (inv *inventory) _addAmmo(i *i_item) {
-	inv.bullets += i.ammoData.ammo[AMMO_BULL]
-	inv.shells += i.ammoData.ammo[AMMO_SHEL]
-	inv.rockets += i.ammoData.ammo[AMMO_RCKT]
-	inv.cells += i.ammoData.ammo[AMMO_CELL]
+func (inv *inventory) _addAmmo(itm *i_item) {
+	for i := 0; i < 4; i++ {
+		inv.ammo[i] += itm.ammoData.ammo[i]
+	}
 }
 
 func (inv *inventory) addItem(i *i_item) {

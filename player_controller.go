@@ -161,12 +161,13 @@ func plr_checkItemsOnFloor(d *dungeon) {
 }
 
 func plr_reload(p *p_pawn) {
-	// TODO: VARIOUS AMMO TYPES!!!
 	if !p.canShoot() {
 		log.appendMessage("You have nothing to reload.")
 		return
 	}
-	currInvAmmo := p.inventory.bullets
+	wpn := p.weaponInHands.weaponData
+	ammoType := wpn.ammoType
+	currInvAmmo := p.inventory.ammo[ammoType]
 	currAmmo := p.weaponInHands.weaponData.ammo
 	maxAmmo := p.weaponInHands.weaponData.maxammo
 	ammoToRefill := maxAmmo - currAmmo
@@ -180,10 +181,10 @@ func plr_reload(p *p_pawn) {
 	}
 	if currInvAmmo >= ammoToRefill {
 		p.weaponInHands.weaponData.ammo = maxAmmo
-		p.inventory.bullets -= ammoToRefill
+		p.inventory.ammo[ammoType] -= ammoToRefill
 	} else {
 		p.weaponInHands.weaponData.ammo += currInvAmmo
-		p.inventory.bullets = 0
+		p.inventory.ammo[ammoType] = 0
 	}
 	p.spendTurnsForAction(turnCostFor("reload"))
 	log.appendMessagef("You reload your %s.", p.weaponInHands.name)

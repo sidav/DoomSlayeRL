@@ -119,7 +119,7 @@ func renderPlayerStats(d *dungeon) {
 	cw.PutString(fmt.Sprintf("WEAP: %s", weaponline), len(statsline)+1, levelsizey)
 
 	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
-		player.inventory.bullets, player.inventory.shells, player.inventory.rockets, player.inventory.cells)
+		player.inventory.ammo[AMMO_BULL], player.inventory.ammo[AMMO_SHEL], player.inventory.ammo[AMMO_RCKT], player.inventory.ammo[AMMO_CELL])
 	setColor(cw.DARK_RED, cw.BLACK)
 	cw.PutString(ammoLine, 0, levelsizey+1)
 }

@@ -18,7 +18,7 @@ func i_createItem(name string, x, y int) *i_item {
 		weaponData: &i_weaponData{maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 5, dval: 3, dmod: 0}}}}
 	case "gauss rifle":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_CYAN}, name: name,
-		weaponData: &i_weaponData{maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 10, dval: 6, dmod: 10}}}}
+		weaponData: &i_weaponData{ammoType: AMMO_CELL, maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 10, dval: 6, dmod: 10}}}}
 
 
 	default:
