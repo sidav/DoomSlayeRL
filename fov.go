@@ -2,6 +2,8 @@ package main
 
 import "GoRoguelike/routines"
 
+const DEFAULT_SIGHT_RANGE = 9
+
 func (dung *dungeon) unobstructedLineExists(fx, fy, tx, ty int) bool { // visible AND free of pawns line
 	line := routines.GetLine(fx, fy, tx, ty)
 	for i := 1; i < len(line)-1; i++ { // we skip first and last cells
@@ -16,7 +18,7 @@ func (d *dungeon) canPawnSeeCoords(p *p_pawn, tx, ty int) bool {
 	fx, fy := p.getCoords()
 	sRange := p.sightRange
 	if sRange == 0 {
-		sRange = 8 // Need a better solution for this...
+		sRange = DEFAULT_SIGHT_RANGE // Need a better solution for this...
 	}
 	if !areCoordinatesInRangeFrom(fx, fy, tx, ty, sRange) {
 		return false
@@ -46,7 +48,7 @@ func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) [levelsizex][levelsizey]bool
 
 	sRange := seer.sightRange
 	if sRange == 0 {
-		sRange = 8 // Need a better solution for this...
+		sRange = DEFAULT_SIGHT_RANGE // Need a better solution for this...
 	}
 	seerx, seery := seer.getCoords()
 

@@ -55,9 +55,7 @@ func renderLevel(d *dungeon, flush bool) {
 			cellRune := d.tiles[x][y].cCell.appearance
 			cellColor := d.tiles[x][y].cCell.color
 			if RENDER_DISABLE_LOS || vismap[x][y] {
-				if !RENDER_DISABLE_LOS {
-					d.tiles[x][y].wasSeenByPlayer = true
-				}
+				d.tiles[x][y].wasSeenByPlayer = true
 				setFgColor(cellColor)
 			} else {
 				if d.tiles[x][y].wasSeenByPlayer {

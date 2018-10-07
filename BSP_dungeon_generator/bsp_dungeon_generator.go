@@ -168,8 +168,8 @@ var (
 	treeRoot          *treeNode
 	SPLIT_PROBABILITY = 70 // in percent.
 	SPLIT_MIN_RATIO   = 30 // in percent.
-	MIN_ROOM_W        = 4
-	MIN_ROOM_H        = 4
+	MIN_ROOM_W        = 5
+	MIN_ROOM_H        = 5
 	MAX_ROOM_W        = 20 // this and next lines are not guaranteed. Think of them as a recommendations.
 	MAX_ROOM_H        = 10 //
 	HORIZ_PROBABILITY = 30 // in percent. Horiz splits should occur less frequently than vertical ones because of w > h

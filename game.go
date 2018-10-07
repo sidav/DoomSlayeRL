@@ -4,7 +4,7 @@ import "GoRoguelike/routines"
 
 const (
 	levelsizex = 80
-	levelsizey = 20
+	levelsizey = 50
 )
 
 var (

@@ -12,15 +12,16 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 	dung.MakeMapFromGenerated()
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 15; i++ {
 		// dung.spawnPawnAtRandomPosition("zombie")
 		dung.spawnPawnAtRandomPosition("imp")
 	}
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 10; i++ {
 		dung.spawnItemAtRandomPosition("pistol")
 		dung.spawnItemAtRandomPosition("clip")
 		dung.spawnItemAtRandomPosition("cell")
 	}
+	dung.spawnItemAtRandomPosition("ammunition crate")
 	dung.spawnItemAtRandomPosition("ammunition crate")
 	dung.spawnItemAtRandomPosition("bolt-action rifle")
 	dung.spawnItemAtRandomPosition("gauss rifle")
@@ -28,7 +29,7 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 func (dung *dungeon) MakeMapFromGenerated() {
 	BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
-	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 2, 0, 0, 0, 3)
+	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 5, 0, 0, 40, 5)
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			currDungCell := &dung.tiles[x][y]
