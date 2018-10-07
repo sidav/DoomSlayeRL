@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"GoRoguelike/routines"
+	"fmt"
+)
 
 func m_meleeAttack(attacker *p_pawn, victim *p_pawn) {
 	if attacker.isPlayer() && victim.aiData != nil && victim.aiData.state == AI_STAGGERED {
@@ -45,14 +48,34 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 	}
 	if aw.weaponData.getType() == "hitscan" {
 		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
-		damage := aw.weaponData.hitscanData.damageDice.roll() // what a mess of receiver methods...
-		victim := dung.getPawnAt(vx, vy)
-		if victim != nil {
-			victim.receiveDamage(damage)
-			log.appendMessagef("Placeholder: %s is hit!", victim.name)
-		}
+		// TODO: multi-shot weapons
+		m_traceBullet(attacker, vx, vy, dung)
 	}
 	if aw.weaponData.maxammo > 0 {
 		aw.weaponData.ammo -= 1 // TODO: investigate
 	}
+}
+
+func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
+	aw := attacker.weaponInHands
+	ax, ay := attacker.getCoords()
+	damage := aw.weaponData.hitscanData.damageDice.roll()
+	traceLine := routines.GetLineOver(ax, ay, tox, toy, 20)
+	for i, cell := range traceLine {
+		if i == 0 {
+			continue
+		}
+		victim := d.getPawnAt(cell.X, cell.Y)
+		renderBullet(cell.X, cell.Y, tox, toy, d)
+		if victim != nil {
+			// TODO: miss shots
+			victim.receiveDamage(damage)
+			log.appendMessagef("The %s is hit!", victim.name)
+			return
+		}
+		if d.isTileOpaque(cell.X, cell.Y) {
+			return
+		}
+	}
+
 }

@@ -4,6 +4,7 @@ import (
 	"GoRoguelike/routines"
 	cw "TCellConsoleWrapper/tcell_wrapper"
 	"fmt"
+	"time"
 )
 
 var (
@@ -164,7 +165,25 @@ func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 	}
 }
 
+func renderBullet(currx, curry, tox, toy int, d *dungeon) {
+	renderLevel(d, false)
+	setFgColor(cw.YELLOW)
+	bulletRune := '*'
+	if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
+		bulletRune = getTargetingChar(tox-currx, toy-curry)
+	}
+	cw.PutChar(bulletRune, currx, curry)
+	cw.Flush_console()
+	time.Sleep(25 * time.Millisecond)
+}
+
 func getTargetingChar(x, y int) rune{
+	if abs(x) > 1 {
+		x /= abs(x)
+	}
+	if abs(y) > 1 {
+		y /= abs(y)
+	}
 	if x == 0 {
 		return '|'
 	}
@@ -178,6 +197,13 @@ func getTargetingChar(x, y int) rune{
 		return '/'
 	}
 	return '?'
+}
+
+func abs(i int) int {
+	if i < 0 {
+		return -i
+	}
+	return i
 }
 
 func renderLog(flush bool) {
