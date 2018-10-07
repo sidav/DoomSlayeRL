@@ -22,10 +22,7 @@ func areCoordinatesValid(x, y int) bool {
 }
 
 func areCoordinatesInRangeFrom(fx, fy, tx, ty, srange int) bool {
-	if (tx-fx)*(tx-fx) + (ty-fy)*(ty-fy) > srange * srange {
-		return false
-	}
-	return true
+	return (tx-fx)*(tx-fx) + (ty-fy)*(ty-fy) < srange * srange 
 }
 
 func (g *game) runGame() {
