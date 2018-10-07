@@ -8,12 +8,12 @@ import (
 )
 
 var (
-	R_VIEWPORT_WIDTH   = 30
+	R_VIEWPORT_WIDTH   = 40
 	R_VIEWPORT_HEIGHT  = 20
 	R_VIEWPORT_CURR_X  = 0
 	R_VIEWPORT_CURR_Y  = 0
 	RENDER_DISABLE_LOS bool
-	cons_pawnColors            = map[rune]int{
+	cons_pawnColors    = map[rune]int{
 		'@': cw.GREEN,
 		'z': cw.BEIGE,
 		'i': cw.RED,
@@ -29,7 +29,7 @@ const (
 //}
 
 func r_CoordsToViewport(x, y int) (int, int) {
-	vpx, vpy := x - R_VIEWPORT_CURR_X, y - R_VIEWPORT_CURR_Y
+	vpx, vpy := x-R_VIEWPORT_CURR_X, y-R_VIEWPORT_CURR_Y
 	if vpx > R_VIEWPORT_WIDTH || vpy > R_VIEWPORT_HEIGHT {
 		return -1, -1
 	}
@@ -37,8 +37,8 @@ func r_CoordsToViewport(x, y int) (int, int) {
 }
 
 func updateViewportCoords(p *p_pawn) {
-	R_VIEWPORT_CURR_X = p.x - R_VIEWPORT_WIDTH/ 2
-	R_VIEWPORT_CURR_Y = p.y - R_VIEWPORT_HEIGHT/ 2
+	R_VIEWPORT_CURR_X = p.x - R_VIEWPORT_WIDTH/2
+	R_VIEWPORT_CURR_Y = p.y - R_VIEWPORT_HEIGHT/2
 }
 
 func renderLevel(d *dungeon, flush bool) {
@@ -46,7 +46,7 @@ func renderLevel(d *dungeon, flush bool) {
 	vismap := d.GetFieldOfVisionFrom(d.player.x, d.player.y)
 	updateViewportCoords(d.player)
 	// render level. vpx, vpy are viewport coords, whereas x, y are real coords.
-	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X +R_VIEWPORT_WIDTH; x++ {
+	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X+R_VIEWPORT_WIDTH; x++ {
 		for y := 0; y < R_VIEWPORT_CURR_Y+R_VIEWPORT_HEIGHT; y++ {
 			vpx, vpy := r_CoordsToViewport(x, y)
 			if !areCoordinatesValid(x, y) {
@@ -111,7 +111,7 @@ func renderPawn(p *p_pawn, inverse bool) {
 	app := p.appearance
 	if inverse {
 		setColor(cw.BLACK, cons_pawnColors[p.appearance])
-	}	else {
+	} else {
 		setFgColor(cons_pawnColors[p.appearance])
 		if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
 			setColor(cw.BLACK, cw.DARK_YELLOW)
@@ -147,7 +147,7 @@ func renderBullet(currx, curry, tox, toy int, d *dungeon) {
 
 func renderPlayerStats(d *dungeon) {
 	player := d.player
-	statusbarsWidth := 80 - R_VIEWPORT_WIDTH - 2
+	statusbarsWidth := 80 - R_VIEWPORT_WIDTH - 3
 
 	hpPercent := player.hp * 100 / player.maxhp
 	var hpColor int
@@ -166,7 +166,6 @@ func renderPlayerStats(d *dungeon) {
 
 	renderStatusbar(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), player.hp, player.maxhp,
 		R_VIEWPORT_WIDTH+1, 0, statusbarsWidth, hpColor)
-
 
 	setFgColor(cw.BEIGE)
 	if player.weaponInHands != nil {
@@ -188,8 +187,8 @@ func renderPlayerStats(d *dungeon) {
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 	line := routines.GetLine(fromx, fromy, tox, toy)
 	char := '?'
-	if len(line) > 1  {
-		char = getTargetingChar(line[1].X - line[0].X, line[1].Y - line[0].Y)
+	if len(line) > 1 {
+		char = getTargetingChar(line[1].X-line[0].X, line[1].Y-line[0].Y)
 	}
 	for i := 1; i < len(line); i++ {
 		x, y := line[i].X, line[i].Y
@@ -201,7 +200,7 @@ func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
 				char = 'X'
 			}
 			viewx, viewy := r_CoordsToViewport(line[i].X, line[i].Y)
-			cw.PutChar(char,viewx, viewy)
+			cw.PutChar(char, viewx, viewy)
 		}
 	}
 	if flush {
@@ -226,7 +225,7 @@ func renderStatusbar(name string, curvalue, maxvalue, x, y, width, barColor int)
 	}
 }
 
-func getTargetingChar(x, y int) rune{
+func getTargetingChar(x, y int) rune {
 	if abs(x) > 1 {
 		x /= abs(x)
 	}
