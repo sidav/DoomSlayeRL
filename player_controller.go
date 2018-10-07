@@ -107,9 +107,7 @@ func plr_aimAndFire(d *dungeon) {
 			case "d":
 				aimx += 1
 			case "f":
-				if p.weaponInHands.weaponData.ammo > 0 {
-					m_rangedAttack(p, aimx, aimy, d)
-				}
+				m_rangedAttack(p, aimx, aimy, d)
 				break aimLoop
 			case "ESCAPE":
 				log.appendMessage("Okay, then.")

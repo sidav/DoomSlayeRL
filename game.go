@@ -34,7 +34,7 @@ func (g *game) runGame() {
 
 	for GAME_IS_RUNNING {
 		m_moveProjectiles(&d)
-		if d.player.isTimeToAct() {
+		for d.player.isTimeToAct() && GAME_IS_RUNNING {
 			renderLevel(&d, true)
 			plr_playerControl(&d)
 		}

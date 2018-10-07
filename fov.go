@@ -7,7 +7,7 @@ const DEFAULT_SIGHT_RANGE = 9
 func (dung *dungeon) unobstructedLineExists(fx, fy, tx, ty int) bool { // visible AND free of pawns line
 	line := routines.GetLine(fx, fy, tx, ty)
 	for i := 1; i < len(line)-1; i++ { // we skip first and last cells
-		if dung.isTileOpaque(line[i].X, line[i].Y) || dung.isPawnPresent(line[i].X, line[i].Y){
+		if dung.isTileOpaque(line[i].X, line[i].Y) || dung.isPawnPresent(line[i].X, line[i].Y) {
 			return false
 		}
 	}
@@ -53,8 +53,8 @@ func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) [levelsizex][levelsizey]bool
 	seerx, seery := seer.getCoords()
 
 	// first stage of the algorithm
-	for x := seerx- sRange; x <= seerx+sRange; x++ {
-		for y := seery- sRange; y <= seery+sRange; y++ {
+	for x := seerx - sRange; x <= seerx+sRange; x++ {
+		for y := seery - sRange; y <= seery+sRange; y++ {
 			if !areCoordinatesValid(x, y) || !areCoordinatesInRangeFrom(seerx, seery, x, y, sRange) {
 				continue
 			}
@@ -64,8 +64,8 @@ func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) [levelsizex][levelsizey]bool
 		}
 	}
 	// second stage of the algorithm
-	for x := seerx- sRange; x <= seerx+sRange; x++ {
-		for y := seery- sRange; y <= seery+sRange; y++ {
+	for x := seerx - sRange; x <= seerx+sRange; x++ {
+		for y := seery - sRange; y <= seery+sRange; y++ {
 			if !areCoordinatesValid(x, y) || !areCoordinatesInRangeFrom(seerx, seery, x, y, sRange) {
 				continue
 			}

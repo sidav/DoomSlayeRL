@@ -5,11 +5,9 @@ func turnCostFor(actionName string) int { // TODO: make this accept pawn as an a
 	case "melee_attack":
 		return 12
 	case "ranged_attack":
-		return 10
+		return 15
 	case "glory_kill":
 		return 17
-	case "shoot":
-		return 15
 	case "reload":
 		return 25
 	case "step":
