@@ -2,7 +2,7 @@ package main
 
 type i_weaponData struct {
 	ammo, maxammo     int
-	ammoType AMMO_TYPE
+	ammoType          AMMO_TYPE
 	projectileExample *projectile
 	hitscanData       *w_hitscan
 }

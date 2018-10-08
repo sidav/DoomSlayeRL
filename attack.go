@@ -39,14 +39,25 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 		proj := aw.weaponData.createProjectile(ax, ay, vx, vy)
 		dung.addProjectileToList(proj)
 		log.appendMessagef("%s shoots!", attacker.name)
+		if aw.weaponData.maxammo > 0 {
+			aw.weaponData.ammo -= 1 // TODO: investigate
+		}
 	}
 	if aw.weaponData.getType() == "hitscan" {
 		attacker.spendTurnsForAction(turnCostFor("ranged_attack"))
-		// TODO: multi-shot weapons
-		m_traceBullet(attacker, vx, vy, dung)
-	}
-	if aw.weaponData.maxammo > 0 {
-		aw.weaponData.ammo -= 1 // TODO: investigate
+		shots := aw.weaponData.hitscanData.shotsPerAttack
+		if shots < 1 {
+			shots = 1
+		}
+		for i:=0; i<shots; i++ {
+			m_traceBullet(attacker, vx, vy, dung)
+			if aw.weaponData.maxammo > 0 {
+				aw.weaponData.ammo -= 1 // TODO: investigate
+				if aw.weaponData.ammo == 0 {
+					break 
+				}
+			}
+		}
 	}
 }
 
