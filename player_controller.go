@@ -18,7 +18,7 @@ func plr_playerControl(d *dungeon) {
 			case "5", ".":
 				d.player.spendTurnsForAction(10) // just wait for a sec
 			case "g":
-				plr_pickUpItem(d)
+				plr_doPickUpButton(d)
 			case "f":
 				plr_aimAndFire(d)
 			case "i":
@@ -42,6 +42,7 @@ func plr_playerControl(d *dungeon) {
 	if movex != 0 || movey != 0 {
 		m_moveOrMeleeAttackPawn(d.player, d, movex, movey)
 	}
+	plr_pickupInstantlyPickupables(d)
 	plr_checkItemsOnFloor(d)
 }
 
@@ -120,32 +121,48 @@ func plr_aimAndFire(d *dungeon) {
 
 }
 
-func plr_pickUpItem(d *dungeon) {
+func plr_pickUpAnItem(item *i_item, d *dungeon){
+	p := d.player
+	switch item.getType() {
+	case "weapon":
+		if p.weaponInHands != nil {
+			p.inventory.addItem(p.weaponInHands)
+		}
+		p.weaponInHands = item
+		d.removeItemFromFloor(item)
+		log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
+		return
+	case "ammo":
+		p.inventory.addItem(item)
+		log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
+		d.removeItemFromFloor(item)
+		return
+	}
+}
+
+func plr_doPickUpButton(d *dungeon) {
 	p := d.player
 	items := d.getListOfItemsAt(p.x, p.y)
 	for i := 0; i < len(items); i++ {
 		item := items[i]
-		switch items[i].getType() {
-		case "weapon":
-			if p.weaponInHands != nil {
-				p.inventory.addItem(p.weaponInHands)
-			}
-			p.weaponInHands = item
-			d.removeItemFromFloor(items[i])
-			log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
-			return
-		case "ammo":
-			p.inventory.addItem(item)
-			log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
-			d.removeItemFromFloor(item)
-			return
-		}
+		plr_pickUpAnItem(item, d)
+		return
 	}
 	if len(items) == 0 {
 		log.appendMessage("There is nothing here.")
 		return
 	}
 	log.appendMessage("Hmm... Can't pick that up.")
+}
+
+func plr_pickupInstantlyPickupables(d *dungeon) {
+	px, py := d.player.getCoords()
+	items := d.getListOfItemsAt(px, py)
+	for i:=0; i<len(items);i++{
+		if items[i].instantlyPickupable {
+			plr_pickUpAnItem(items[i], d)
+		}
+	}
 }
 
 func plr_checkItemsOnFloor(d *dungeon) {

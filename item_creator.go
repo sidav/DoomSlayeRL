@@ -10,9 +10,9 @@ func i_createItem(name string, x, y int) *i_item {
 	switch name {
 	// ammo
 	case "clip":
-		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, ammoData: &i_ammoData{ammo: [4]int{6, 0, 0, 0}}}
+		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{6, 0, 0, 0}}}
 	case "cell":
-		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_CYAN}, name: name, ammoData: &i_ammoData{ammo: [4]int{0, 0, 0, 5}}}
+		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_CYAN}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{0, 0, 0, 5}}}
 	case "ammunition crate":
 		i = i_item{ccell: &consoleCell{'=', tcell_wrapper.DARK_MAGENTA}, name: name, ammoData: &i_ammoData{ammo: [4]int{10, 10, 1, 5}}}
 

@@ -1,13 +1,13 @@
 package main
 
 type (
-
 	i_item struct {
-		x, y       int
-		ccell      *consoleCell
-		name       string
-		weaponData *i_weaponData
-		ammoData   *i_ammoData
+		x, y                int
+		ccell               *consoleCell
+		name                string
+		weaponData          *i_weaponData
+		ammoData            *i_ammoData
+		instantlyPickupable bool
 	}
 )
 
