@@ -257,7 +257,7 @@ func abs(i int) int {
 func renderLog(flush bool) {
 	setFgColor(cw.WHITE)
 	for i := 0; i < LOG_HEIGHT; i++ {
-		cw.PutString(log.last_msgs[i], 0, R_VIEWPORT_HEIGHT+i)
+		cw.PutString(log.last_msgs[i].getText(), 0, R_VIEWPORT_HEIGHT+i)
 	}
 	if flush {
 		cw.Flush_console()
