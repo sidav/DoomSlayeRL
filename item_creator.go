@@ -12,7 +12,7 @@ func i_createItem(name string, x, y int) *i_item {
 	// medicals
 	case "health bonus":
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.CYAN}, name: name, instantlyPickupable: true,
-		medicalData: &i_medicalData{healAmount:2, ignoresMaximum:false}}
+		medicalData: &i_medicalData{healAmount:4, ignoresMaximum:false}}
 
 
 	// ammo
