@@ -37,7 +37,7 @@ func (dung *dungeon) MakeMapFromGenerated() {
 			currGenCell := generated_map.GetCell(x, y)
 			switch currGenCell {
 			case '+':
-				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.DARK_CYAN}
+				currDungCell.cCell = &consoleCell{appearance: '╬', color: cw.DARK_CYAN}
 				currDungCell.IsPassable = true
 				currDungCell.opaque = true
 			case '~':
