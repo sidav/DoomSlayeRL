@@ -1,8 +1,8 @@
 package main
 
 import (
-	"GoRoguelike/BSP_dungeon_generator"
-	"GoRoguelike/routines"
+	"DoomSlayeRL/BSP_dungeon_generator"
+	"DoomSlayeRL/routines"
 	cw "TCellConsoleWrapper/tcell_wrapper"
 )
 

@@ -1,6 +1,6 @@
 package main
 
-import "GoRoguelike/routines"
+import "DoomSlayeRL/routines"
 
 const DEFAULT_SIGHT_RANGE = 9
 

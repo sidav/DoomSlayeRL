@@ -1,6 +1,6 @@
 package main
 
-import "GoRoguelike/routines"
+import "DoomSlayeRL/routines"
 
 const (
 	levelsizex = 80

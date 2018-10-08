@@ -1,6 +1,6 @@
 package main
 
-import "GoRoguelike/routines"
+import "DoomSlayeRL/routines"
 
 func rmg_getRandomValue(a []string) string {
 	return a[routines.Random(len(a))]

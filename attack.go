@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoRoguelike/routines"
+	"DoomSlayeRL/routines"
 	"fmt"
 )
 
