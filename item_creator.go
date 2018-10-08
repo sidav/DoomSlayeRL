@@ -8,6 +8,13 @@ import (
 func i_createItem(name string, x, y int) *i_item {
 	var i i_item
 	switch name {
+
+	// medicals
+	case "health bonus":
+		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.CYAN}, name: name, instantlyPickupable: true,
+		medicalData: &i_medicalData{healAmount:2, ignoresMaximum:false}}
+
+
 	// ammo
 	case "clip":
 		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{6, 0, 0, 0}}}
@@ -16,7 +23,8 @@ func i_createItem(name string, x, y int) *i_item {
 	case "ammunition crate":
 		i = i_item{ccell: &consoleCell{'=', tcell_wrapper.DARK_MAGENTA}, name: name, ammoData: &i_ammoData{ammo: [4]int{10, 10, 1, 5}}}
 
-		// weapons
+
+	// weapons
 	case "pistol":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
 			weaponData: &i_weaponData{maxammo: 6, hitscanData: &w_hitscan{damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}

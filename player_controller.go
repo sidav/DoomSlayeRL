@@ -137,6 +137,16 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 		log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
 		d.removeItemFromFloor(item)
 		return
+	case "medical":
+		p.hp += item.medicalData.healAmount
+		if !item.medicalData.ignoresMaximum && p.hp >p.maxhp {
+			p.hp = p.maxhp
+		}
+		log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
+		d.removeItemFromFloor(item)
+		return
+	default:
+		log.appendMessage("Hmm... Can't pick that up.")
 	}
 }
 
@@ -152,7 +162,6 @@ func plr_doPickUpButton(d *dungeon) {
 		log.appendMessage("There is nothing here.")
 		return
 	}
-	log.appendMessage("Hmm... Can't pick that up.")
 }
 
 func plr_pickupInstantlyPickupables(d *dungeon) {
