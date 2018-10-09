@@ -141,7 +141,7 @@ func renderBullets(currCoords []*routines.Vector, currDirs []*routines.Vector, d
 		cw.PutChar(bulletRune, x, y)
 	}
 	cw.Flush_console()
-	time.Sleep(time.Duration(40 / len(currCoords)) * time.Millisecond)
+	time.Sleep(35 * time.Millisecond)
 }
 
 //

@@ -143,7 +143,7 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 					totalHitPellets++
 				}
 			}
-			renderBullets(bRealPositions, bDirVectors, d)
 		}
+		renderBullets(bRealPositions, bDirVectors, d)
 	}
 }
