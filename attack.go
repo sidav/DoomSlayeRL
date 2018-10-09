@@ -89,5 +89,34 @@ func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
 			return
 		}
 	}
+}
 
+func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
+	const BULLET_TRACE_RANGE = 20
+	aw := attacker.weaponInHands
+	ax, ay := attacker.getCoords()
+	damage := aw.weaponData.hitscanData.damageDice.roll()
+	bulletRealPosition := &routines.Vector{}
+	bulletRealPosition.InitByIntegers(ax, ay)
+	directionVector := &routines.Vector{}
+	directionVector.InitByStartAndEndInt(ax, ay, tox, toy)
+	directionVector.TransformIntoUnitVector()
+	for {
+		bulletRealPosition.Add(directionVector)
+		bx, by := bulletRealPosition.GetRoundedCoords()
+		if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
+			break
+		}
+		victim := d.getPawnAt(bx, by)
+		renderBullet(bx, by, tox, toy, d)
+		if victim != nil {
+			// TODO: miss shots
+			victim.receiveDamage(damage)
+			log.appendMessagef("The %s is hit!", victim.name)
+			return
+		}
+		if d.isTileOpaque(bx, by) {
+			return
+		}
+	}
 }
