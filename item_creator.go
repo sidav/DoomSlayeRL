@@ -20,23 +20,31 @@ func i_createItem(name string, x, y int) *i_item {
 		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_YELLOW}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{6, 0, 0, 0}}}
 	case "cell":
 		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_CYAN}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{0, 0, 0, 5}}}
+	case "shells":
+		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_RED}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{0, 4, 0, 0}}}
 	case "ammunition crate":
 		i = i_item{ccell: &consoleCell{'=', tcell_wrapper.DARK_MAGENTA}, name: name, ammoData: &i_ammoData{ammo: [4]int{10, 10, 1, 5}}}
 
 
 	// weapons
+		//BULLS:
 	case "pistol":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
 			weaponData: &i_weaponData{maxammo: 6, hitscanData: &w_hitscan{damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}
-	case "shotgun":
-		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BLUE}, name: name,
-			weaponData: &i_weaponData{maxammo: 5, hitscanData: &w_hitscan{pelletsPerShot: 6, spreadAngle: 60, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
 	case "chaingun":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.YELLOW}, name: name,
 			weaponData: &i_weaponData{maxammo: 20, hitscanData: &w_hitscan{shotsPerAttack: 4, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
 	case "bolt-action rifle":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_GREEN}, name: name,
 			weaponData: &i_weaponData{maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 5, dval: 3, dmod: 0}}}}
+		// SHELLS:
+	case "shotgun":
+		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BLUE}, name: name,
+			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 5, hitscanData: &w_hitscan{pelletsPerShot: 5, spreadAngle: 45, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
+	case "super shotgun":
+		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_RED}, name: name,
+			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 1, hitscanData: &w_hitscan{pelletsPerShot: 20, spreadAngle: 60, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
+		// CELLS:
 	case "gauss rifle":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_CYAN}, name: name,
 			weaponData: &i_weaponData{ammoType: AMMO_CELL, maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 10, dval: 6, dmod: 10}}}}
