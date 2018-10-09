@@ -81,17 +81,20 @@ func plr_aimAndFire(d *dungeon) {
 	}
 	targets := d.getListOfPawnsVisibleFor(p)
 	curr_target_index := 0
+	aimx, aimy := p.x, p.y
 	// choose target
 	if len(targets) > 0 {
+		aimx, aimy = targets[curr_target_index].x, targets[curr_target_index].y
+	}
 		log.appendMessagef("You target with your %s.", p.weaponInHands.name)
-		aimx, aimy := targets[curr_target_index].x, targets[curr_target_index].y
 	aimLoop:
 		for {
 			renderLevel(d, false)
 			renderTargetingLine(p.x, p.y, aimx, aimy, true, d)
 			keypressed := readKey()
+			aimModx, aimMody := plr_keyToDirection(keypressed)
 			switch keypressed {
-			case "n":
+			case "n", "TAB":
 				curr_target_index++
 				if curr_target_index >= len(targets) {
 					curr_target_index = 0
@@ -99,14 +102,6 @@ func plr_aimAndFire(d *dungeon) {
 				if len(targets) > 0 {
 					aimx, aimy = targets[curr_target_index].x, targets[curr_target_index].y
 				}
-			case "w":
-				aimy -= 1
-			case "s":
-				aimy += 1
-			case "a":
-				aimx -= 1
-			case "d":
-				aimx += 1
 			case "f":
 				m_rangedAttack(p, aimx, aimy, d)
 				break aimLoop
@@ -114,12 +109,11 @@ func plr_aimAndFire(d *dungeon) {
 				log.appendMessage("Okay, then.")
 				break aimLoop
 			}
+			aimx += aimModx
+			aimy += aimMody
 		}
-	} else {
-		log.appendMessage("No targets in sight.")
 	}
 
-}
 
 func plr_pickUpAnItem(item *i_item, d *dungeon){
 	p := d.player
