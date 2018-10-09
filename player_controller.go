@@ -89,7 +89,6 @@ func plr_aimAndFire(d *dungeon) {
 		log.appendMessagef("You target with your %s.", p.weaponInHands.name)
 	aimLoop:
 		for {
-			renderLevel(d, false)
 			renderTargetingLine(p.x, p.y, aimx, aimy, true, d)
 			keypressed := readKey()
 			aimModx, aimMody := plr_keyToDirection(keypressed)
@@ -103,6 +102,10 @@ func plr_aimAndFire(d *dungeon) {
 					aimx, aimy = targets[curr_target_index].x, targets[curr_target_index].y
 				}
 			case "f":
+				if aimx == p.x && aimy == p.y {
+					log.appendMessage("Why would you want to do that?")
+					return
+				}
 				m_rangedAttack(p, aimx, aimy, d)
 				break aimLoop
 			case "ESCAPE":

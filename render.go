@@ -190,10 +190,17 @@ func renderPlayerStats(d *dungeon) {
 }
 
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
+	renderLevel(d, false)
 	line := routines.GetLine(fromx, fromy, tox, toy)
 	char := '?'
 	if len(line) > 1 {
-		char = getTargetingChar(line[1].X-line[0].X, line[1].Y-line[0].Y)
+		dirVector := routines.CreateVectorByStartAndEndInt(fromx, fromy, tox, toy)
+		dirVector.TransformIntoUnitVector()
+		dirx, diry := dirVector.GetRoundedCoords()
+		char = getTargetingChar(dirx, diry)
+	}
+	if fromx == tox && fromy == toy {
+		renderPawn(d.player, true)
 	}
 	for i := 1; i < len(line); i++ {
 		x, y := line[i].X, line[i].Y
