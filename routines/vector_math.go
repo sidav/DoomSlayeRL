@@ -6,14 +6,20 @@ type Vector struct {
 	X, Y float64
 }
 
-func (v *Vector) InitByStartAndEndInt(sx, sy, ex, ey int) {
+//func (v *Vector) InitByStartAndEndInt(sx, sy, ex, ey int) {
+//	v.X = float64(ex-sx)
+//	v.Y = float64(ey-sy)
+//}
+
+func CreateVectorByStartAndEndInt(sx, sy, ex, ey int) *Vector {
+	var v Vector
 	v.X = float64(ex-sx)
 	v.Y = float64(ey-sy)
+	return &v
 }
 
-func (v *Vector) InitByIntegers(x, y int){
-	v.X = float64(x)
-	v.Y = float64(y)
+func CreateVectorByIntegers(x, y int) *Vector{
+	return &Vector{float64(x), float64(y)}
 }
 
 func (v *Vector) Add(w *Vector){

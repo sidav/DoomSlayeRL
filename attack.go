@@ -49,12 +49,16 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 		if shots < 1 {
 			shots = 1
 		}
-		for i:=0; i<shots; i++ {
-			m_traceBullet(attacker, vx, vy, dung)
+		for i := 0; i < shots; i++ {
+			if aw.weaponData.hitscanData.pelletsPerShot > 1 {
+				m_traceSpreadshot(attacker, vx, vy, dung)
+			} else {
+				m_traceBullet(attacker, vx, vy, dung)
+			}
 			if aw.weaponData.maxammo > 0 {
 				aw.weaponData.ammo -= 1 // TODO: investigate
 				if aw.weaponData.ammo == 0 {
-					break 
+					break
 				}
 			}
 		}
@@ -66,10 +70,8 @@ func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
 	damage := aw.weaponData.hitscanData.damageDice.roll()
-	bulletRealPosition := &routines.Vector{}
-	bulletRealPosition.InitByIntegers(ax, ay)
-	directionVector := &routines.Vector{}
-	directionVector.InitByStartAndEndInt(ax, ay, tox, toy)
+	bulletRealPosition := routines.CreateVectorByIntegers(ax, ay)
+	directionVector := routines.CreateVectorByStartAndEndInt(ax, ay, tox, toy)
 	directionVector.TransformIntoUnitVector()
 	for {
 		bulletRealPosition.Add(directionVector)
@@ -95,28 +97,55 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 	const BULLET_TRACE_RANGE = 20
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
-	damage := aw.weaponData.hitscanData.damageDice.roll()
-	bulletRealPosition := &routines.Vector{}
-	bulletRealPosition.InitByIntegers(ax, ay)
-	directionVector := &routines.Vector{}
-	directionVector.InitByStartAndEndInt(ax, ay, tox, toy)
-	directionVector.TransformIntoUnitVector()
+	pellets := aw.weaponData.hitscanData.pelletsPerShot
+	spreadAngle := aw.weaponData.hitscanData.spreadAngle
+
+	// init spread bound vectors
+	leftSpreadVector := routines.CreateVectorByStartAndEndInt(ax, ay, tox, toy)
+	leftSpreadVector.Rotate(spreadAngle / 2)
+	rightSpreadVector := routines.CreateVectorByStartAndEndInt(ax, ay, tox, toy)
+	rightSpreadVector.Rotate(-spreadAngle / 2)
+
+	// init an array of vectors for trace
+	bRealPositions := make([]*routines.Vector, 0)
+	bPelletIsHit := make([]bool, pellets)
+	bDirVectors := make([]*routines.Vector, 0)
+
+	for i := 0; i < pellets; i++ {
+		bRealPositions = append(bRealPositions, routines.CreateVectorByIntegers(ax, ay))
+		bDirVectors = append(bDirVectors, routines.CreateRandomVectorBetweenTwo(leftSpreadVector, rightSpreadVector))
+	}
+
+	// now lets trace each pellet
+	shotloop:
 	for {
-		bulletRealPosition.Add(directionVector)
-		bx, by := bulletRealPosition.GetRoundedCoords()
-		if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
-			break
-		}
-		victim := d.getPawnAt(bx, by)
-		renderBullet(bx, by, tox, toy, d)
-		if victim != nil {
-			// TODO: miss shots
-			victim.receiveDamage(damage)
-			log.appendMessagef("The %s is hit!", victim.name)
-			return
-		}
-		if d.isTileOpaque(bx, by) {
-			return
+		pelletloop:
+		for i := 0; i < pellets; i++ {
+			if !bPelletIsHit[i] {
+				bRealPositions[i].Add(bDirVectors[i])
+				bx, by := bRealPositions[i].GetRoundedCoords()
+				if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
+					continue
+				}
+				victim := d.getPawnAt(bx, by)
+				renderBullet(bx, by, tox, toy, d)
+				if victim != nil {
+					// TODO: miss shots
+					damage := aw.weaponData.hitscanData.damageDice.roll()
+					victim.receiveDamage(damage)
+					log.appendMessagef("The %s is hit!", victim.name)
+					bPelletIsHit[i] = true
+				}
+				if d.isTileOpaque(bx, by) {
+					bPelletIsHit[i] = true
+				}
+			}
+			for i := 0; i < pellets; i++ {
+				if !bPelletIsHit[i] {
+					continue pelletloop
+				}
+				break shotloop
+			}
 		}
 	}
 }
