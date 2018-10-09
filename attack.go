@@ -114,6 +114,7 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 	for i := 0; i < pellets; i++ {
 		bRealPositions = append(bRealPositions, routines.CreateVectorByIntegers(ax, ay))
 		bDirVectors = append(bDirVectors, routines.CreateRandomVectorBetweenTwo(leftSpreadVector, rightSpreadVector))
+		bDirVectors[i].TransformIntoUnitVector()
 	}
 
 	// now lets trace each pellet
