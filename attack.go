@@ -125,6 +125,7 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 				bRealPositions[i].Add(bDirVectors[i])
 				bx, by := bRealPositions[i].GetRoundedCoords()
 				if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
+					bPelletIsHit[i] = true
 					continue
 				}
 				victim := d.getPawnAt(bx, by)
