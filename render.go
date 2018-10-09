@@ -30,7 +30,7 @@ const (
 
 func r_CoordsToViewport(x, y int) (int, int) {
 	vpx, vpy := x-R_VIEWPORT_CURR_X, y-R_VIEWPORT_CURR_Y
-	if vpx > R_VIEWPORT_WIDTH || vpy > R_VIEWPORT_HEIGHT {
+	if vpx >= R_VIEWPORT_WIDTH || vpy >= R_VIEWPORT_HEIGHT {
 		return -1, -1
 	}
 	return vpx, vpy
@@ -126,17 +126,22 @@ func renderItem(i *i_item) {
 	cw.PutChar(i.ccell.appearance, x, y)
 }
 
-func renderBullet(currx, curry, tox, toy int, d *dungeon) {
+func renderBullets(currCoords []*routines.Vector, currDirs []*routines.Vector, d *dungeon) {
 	renderLevel(d, false)
-	setFgColor(cw.YELLOW)
-	bulletRune := '*'
-	if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
-		bulletRune = getTargetingChar(tox-currx, toy-curry)
+
+	for i:=0; i<len(currCoords); i++ {
+		currx, curry := currCoords[i].GetRoundedCoords()
+		tox, toy := currDirs[i].GetRoundedCoords()
+		setFgColor(cw.YELLOW)
+		bulletRune := '*'
+		if !d.isPawnPresent(currx, curry) && !d.isTileOpaque(currx, curry) {
+			bulletRune = getTargetingChar(tox, toy)
+		}
+		x, y := r_CoordsToViewport(currx, curry)
+		cw.PutChar(bulletRune, x, y)
 	}
-	x, y := r_CoordsToViewport(currx, curry)
-	cw.PutChar(bulletRune, x, y)
 	cw.Flush_console()
-	time.Sleep(25 * time.Millisecond)
+	time.Sleep(time.Duration(40 / len(currCoords)) * time.Millisecond)
 }
 
 //

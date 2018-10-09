@@ -80,7 +80,7 @@ func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
 			break
 		}
 		victim := d.getPawnAt(bx, by)
-		renderBullet(bx, by, tox, toy, d)
+		renderBullets([]*routines.Vector{bulletRealPosition}, []*routines.Vector{directionVector}, d)
 		if victim != nil {
 			// TODO: miss shots
 			victim.receiveDamage(damage)
@@ -94,7 +94,7 @@ func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
 }
 
 func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
-	const BULLET_TRACE_RANGE = 20
+	const BULLET_TRACE_RANGE = 30
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
 	pellets := aw.weaponData.hitscanData.pelletsPerShot
@@ -118,36 +118,32 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 	}
 
 	// now lets trace each pellet
-	shotloop:
-	for {
-		pelletloop:
+	totalHitPellets := 0
+	for totalHitPellets < pellets {
 		for i := 0; i < pellets; i++ {
 			if !bPelletIsHit[i] {
 				bRealPositions[i].Add(bDirVectors[i])
 				bx, by := bRealPositions[i].GetRoundedCoords()
 				if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
 					bPelletIsHit[i] = true
+					totalHitPellets++
 					continue
 				}
 				victim := d.getPawnAt(bx, by)
-				renderBullet(bx, by, tox, toy, d)
 				if victim != nil {
 					// TODO: miss shots
 					damage := aw.weaponData.hitscanData.damageDice.roll()
 					victim.receiveDamage(damage)
 					log.appendMessagef("The %s is hit!", victim.name)
 					bPelletIsHit[i] = true
+					totalHitPellets++
 				}
 				if d.isTileOpaque(bx, by) {
 					bPelletIsHit[i] = true
+					totalHitPellets++
 				}
 			}
-			for i := 0; i < pellets; i++ {
-				if !bPelletIsHit[i] {
-					continue pelletloop
-				}
-				break shotloop
-			}
+			renderBullets(bRealPositions, bDirVectors, d)
 		}
 	}
 }
