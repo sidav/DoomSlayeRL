@@ -138,12 +138,14 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 		d.removeItemFromFloor(item)
 		return
 	case "medical":
-		p.hp += item.medicalData.healAmount
-		if !item.medicalData.ignoresMaximum && p.hp >p.maxhp {
-			p.hp = p.maxhp
+		if p.hp < p.maxhp || item.medicalData.ignoresMaximum {
+			p.hp += item.medicalData.healAmount
+			if !item.medicalData.ignoresMaximum && p.hp > p.maxhp {
+				p.hp = p.maxhp
+			}
+			log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
+			d.removeItemFromFloor(item)
 		}
-		log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
-		d.removeItemFromFloor(item)
 		return
 	default:
 		log.appendMessage("Hmm... Can't pick that up.")

@@ -13,6 +13,12 @@ func i_createItem(name string, x, y int) *i_item {
 	case "health bonus":
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.CYAN}, name: name, instantlyPickupable: true,
 		medicalData: &i_medicalData{healAmount:4, ignoresMaximum:false}}
+	case "stimpack":
+		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.RED}, name: name, instantlyPickupable: true,
+			medicalData: &i_medicalData{healAmount:25, ignoresMaximum:false}}
+	case "soulsphere":
+		i = i_item{ccell: &consoleCell{'o', tcell_wrapper.BLUE}, name: name, instantlyPickupable: true,
+			medicalData: &i_medicalData{healAmount:100, ignoresMaximum:true}}
 
 
 	// ammo

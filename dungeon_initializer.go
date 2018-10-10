@@ -20,12 +20,14 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 		dung.spawnPawnAtRandomPosition("imp")
 	}
 	for i := 0; i < 5; i++ {
+		dung.spawnItemAtRandomPosition("stimpack")
 		dung.spawnItemAtRandomPosition("pistol")
 		dung.spawnItemAtRandomPosition("clip")
 		dung.spawnItemAtRandomPosition("cell")
 		dung.spawnItemAtRandomPosition("shells")
 		dung.spawnItemAtRandomPosition("ammunition crate")
 	}
+	dung.spawnItemAtRandomPosition("soulsphere")
 	dung.spawnItemAtRandomPosition("chaingun")
 	dung.spawnItemAtRandomPosition("shotgun")
 	dung.spawnItemAtRandomPosition("super shotgun")
