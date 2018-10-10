@@ -9,8 +9,13 @@ const (
 
 func drawTitle(title string) {
 	cw.SetColor(cw.BLACK, TITLE_COLOR)
-	cw.PutString("     "+title+"     ", 10, 0)
-	cw.SetBgColor(cw.BLACK)
+	consoleWidth, _ := cw.GetConsoleSize()
+	for x:=0; x<consoleWidth; x++{
+		cw.PutChar(' ', x, 0)
+	}
+	cw.SetColor(TITLE_COLOR, cw.BLACK)
+	titleXCoord := consoleWidth / 2 - len(title) / 2
+	cw.PutString(" "+title+" ", titleXCoord, 0)
 }
 
 func ShowSingleChoiceMenu(title string, lines []string) int { //returns the index of selected line or -1 if nothing was selected.
@@ -25,7 +30,7 @@ func ShowSingleChoiceMenu(title string, lines []string) int { //returns the inde
 			} else  {
 				cw.SetColor(TEXT_COLOR, cw.BLACK)
 			}
-			cw.PutString(" "+ val[i] +" ", 1, 1+i)
+			cw.PutString(" "+ val[i] +" ", 1, 2+i)
 			cw.SetBgColor(cw.BLACK)
 		}
 		cw.Flush_console()
