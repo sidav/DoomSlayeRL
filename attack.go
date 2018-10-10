@@ -50,11 +50,7 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 			shots = 1
 		}
 		for i := 0; i < shots; i++ {
-			if aw.weaponData.hitscanData.pelletsPerShot > 1 {
-				m_traceSpreadshot(attacker, vx, vy, dung)
-			} else {
-				m_traceBullet(attacker, vx, vy, dung)
-			}
+			m_traceHitscanShot(attacker, vx, vy, dung)
 			checkDeadPawns(dung)
 			if aw.weaponData.maxammo > 0 {
 				aw.weaponData.ammo -= 1 // TODO: investigate
@@ -66,40 +62,18 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 	}
 }
 
-func m_traceBullet(attacker *p_pawn, tox, toy int, d *dungeon) {
-	const BULLET_TRACE_RANGE = 20
-	aw := attacker.weaponInHands
-	ax, ay := attacker.getCoords()
-	damage := aw.weaponData.hitscanData.damageDice.roll()
-	bulletRealPosition := routines.CreateVectorByIntegers(ax, ay)
-	directionVector := routines.CreateVectorByStartAndEndInt(ax, ay, tox, toy)
-	directionVector.TransformIntoUnitVector()
-	for {
-		bulletRealPosition.Add(directionVector)
-		bx, by := bulletRealPosition.GetRoundedCoords()
-		if !areCoordinatesInRangeFrom(ax, ay, bx, by, BULLET_TRACE_RANGE) {
-			break
-		}
-		victim := d.getPawnAt(bx, by)
-		renderBullets([]*routines.Vector{bulletRealPosition}, []*routines.Vector{directionVector}, d)
-		if victim != nil {
-			// TODO: miss shots
-			victim.receiveDamage(damage)
-			log.appendMessagef("The %s is hit!", victim.name)
-			return
-		}
-		if d.isTileOpaque(bx, by) {
-			return
-		}
-	}
-}
-
-func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
+func m_traceHitscanShot(attacker *p_pawn, tox, toy int, d *dungeon) {
 	const BULLET_TRACE_RANGE = 30
 	aw := attacker.weaponInHands
 	ax, ay := attacker.getCoords()
 	pellets := aw.weaponData.hitscanData.pelletsPerShot
+	if pellets < 1 {
+		pellets = 1
+	}
 	spreadAngle := aw.weaponData.hitscanData.spreadAngle
+	if spreadAngle == 0 {
+		spreadAngle = 15 // TODO: think about that.
+	}
 
 	// init spread bound vectors
 	leftSpreadVector := routines.CreateVectorByStartAndEndInt(ax, ay, tox, toy)
@@ -131,16 +105,13 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 					continue
 				}
 				victim := d.getPawnAt(bx, by)
-				if victim != nil {
+				if victim != nil { // todo: bullets/pellets penetration
 					// TODO: miss shots
 					damage := aw.weaponData.hitscanData.damageDice.roll()
 					victim.receiveDamage(damage)
 					log.appendMessagef("The %s is hit!", victim.name)
 					bPelletIsHit[i] = true
 					totalHitPellets++
-					if victim.isDead() {
-						checkDeadPawns(d)
-					}
 				}
 				if d.isTileOpaque(bx, by) {
 					bPelletIsHit[i] = true
