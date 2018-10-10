@@ -30,6 +30,9 @@ func plr_playerControl(d *dungeon) {
 			case "[": // debug
 				RENDER_DISABLE_LOS = !RENDER_DISABLE_LOS
 				log.appendMessage("Changed LOS setting.")
+			case "M": // debug
+				d.init_placeItemsAndEnemies()
+				log.appendMessage("Spawned MOAR!!!")
 			default:
 				valid_key_pressed = false
 				log.appendMessagef("Unknown key %s (Wrong keyboard layout?)", key_pressed)
