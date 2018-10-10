@@ -55,6 +55,7 @@ func m_rangedAttack(attacker *p_pawn, vx, vy int, dung *dungeon) {
 			} else {
 				m_traceBullet(attacker, vx, vy, dung)
 			}
+			checkDeadPawns(dung)
 			if aw.weaponData.maxammo > 0 {
 				aw.weaponData.ammo -= 1 // TODO: investigate
 				if aw.weaponData.ammo == 0 {
@@ -137,6 +138,9 @@ func m_traceSpreadshot(attacker *p_pawn, tox, toy int, d *dungeon) {
 					log.appendMessagef("The %s is hit!", victim.name)
 					bPelletIsHit[i] = true
 					totalHitPellets++
+					if victim.isDead() {
+						checkDeadPawns(d)
+					}
 				}
 				if d.isTileOpaque(bx, by) {
 					bPelletIsHit[i] = true

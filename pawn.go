@@ -23,6 +23,10 @@ type (
 	}
 )
 
+func (p *p_pawn) isDead() bool {
+	return p.hp <= 0
+}
+
 func (p *p_pawn) canMelee() bool {
 	return p.meleeData != nil
 }

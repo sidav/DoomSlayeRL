@@ -56,7 +56,7 @@ func checkDeadPawns(d *dungeon) {
 	var indicesOfPawnsToRemove []int
 	for i := 0; i < len(d.pawns); i++ {
 		p := d.pawns[i]
-		if p.hp < 0 {
+		if p.isDead() {
 			indicesOfPawnsToRemove = append(indicesOfPawnsToRemove, i)
 		}
 	}
