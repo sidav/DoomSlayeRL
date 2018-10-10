@@ -11,22 +11,26 @@ func (dung *dungeon) initialize_level() { //crap of course
 	dung.pawns = make([]*p_pawn, 0)
 
 	dung.MakeMapFromGenerated()
+	dung.init_placeItemsAndEnemies()
+}
 
+func (dung *dungeon) init_placeItemsAndEnemies() {
 	for i := 0; i < 25; i++ {
 		// dung.spawnPawnAtRandomPosition("zombie")
 		dung.spawnPawnAtRandomPosition("imp")
 	}
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 5; i++ {
 		dung.spawnItemAtRandomPosition("pistol")
 		dung.spawnItemAtRandomPosition("clip")
 		dung.spawnItemAtRandomPosition("cell")
 		dung.spawnItemAtRandomPosition("shells")
-		dung.spawnItemAtRandomPosition("chaingun")
-		dung.spawnItemAtRandomPosition("shotgun")
-		dung.spawnItemAtRandomPosition("super shotgun")
+		dung.spawnItemAtRandomPosition("ammunition crate")
 	}
-	dung.spawnItemAtRandomPosition("ammunition crate")
-	dung.spawnItemAtRandomPosition("ammunition crate")
+	dung.spawnItemAtRandomPosition("chaingun")
+	dung.spawnItemAtRandomPosition("shotgun")
+	dung.spawnItemAtRandomPosition("super shotgun")
+	dung.spawnItemAtRandomPosition("assault rifle")
+	dung.spawnItemAtRandomPosition("Pancor Jackhammer")
 	dung.spawnItemAtRandomPosition("bolt-action rifle")
 	dung.spawnItemAtRandomPosition("gauss rifle")
 }

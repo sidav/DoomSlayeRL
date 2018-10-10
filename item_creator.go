@@ -23,7 +23,7 @@ func i_createItem(name string, x, y int) *i_item {
 	case "shells":
 		i = i_item{ccell: &consoleCell{'"', tcell_wrapper.DARK_RED}, name: name, instantlyPickupable: true, ammoData: &i_ammoData{ammo: [4]int{0, 4, 0, 0}}}
 	case "ammunition crate":
-		i = i_item{ccell: &consoleCell{'=', tcell_wrapper.DARK_MAGENTA}, name: name, ammoData: &i_ammoData{ammo: [4]int{10, 10, 1, 5}}}
+		i = i_item{ccell: &consoleCell{'=', tcell_wrapper.DARK_MAGENTA}, name: name, ammoData: &i_ammoData{ammo: [4]int{20, 10, 1, 5}}}
 
 
 	// weapons
@@ -31,6 +31,9 @@ func i_createItem(name string, x, y int) *i_item {
 	case "pistol":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
 			weaponData: &i_weaponData{maxammo: 6, hitscanData: &w_hitscan{damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}
+	case "assault rifle":
+		i = i_item{ccell: &consoleCell{'\\', tcell_wrapper.BEIGE}, name: name,
+			weaponData: &i_weaponData{maxammo: 20, hitscanData: &w_hitscan{shotsPerAttack: 3, damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}
 	case "chaingun":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.YELLOW}, name: name,
 			weaponData: &i_weaponData{maxammo: 20, hitscanData: &w_hitscan{shotsPerAttack: 4, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
@@ -40,10 +43,13 @@ func i_createItem(name string, x, y int) *i_item {
 		// SHELLS:
 	case "shotgun":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BLUE}, name: name,
-			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 5, hitscanData: &w_hitscan{pelletsPerShot: 5, spreadAngle: 45, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
+			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 5, hitscanData: &w_hitscan{pelletsPerShot: 5, spreadAngle: 30, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
 	case "super shotgun":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_RED}, name: name,
-			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 1, hitscanData: &w_hitscan{pelletsPerShot: 20, spreadAngle: 60, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
+			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 1, hitscanData: &w_hitscan{pelletsPerShot: 16, spreadAngle: 45, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
+	case "Pancor Jackhammer":
+		i = i_item{ccell: &consoleCell{'\\', tcell_wrapper.DARK_RED}, name: name,
+			weaponData: &i_weaponData{ammoType: AMMO_SHEL, maxammo: 10, hitscanData: &w_hitscan{shotsPerAttack: 3, pelletsPerShot: 4, spreadAngle: 30, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
 		// CELLS:
 	case "gauss rifle":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_CYAN}, name: name,
