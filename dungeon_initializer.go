@@ -21,7 +21,6 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 	}
 	for i := 0; i < 5; i++ {
 		dung.spawnItemAtRandomPosition("stimpack")
-		dung.spawnItemAtRandomPosition("pistol")
 		dung.spawnItemAtRandomPosition("clip")
 		dung.spawnItemAtRandomPosition("cell")
 		dung.spawnItemAtRandomPosition("shells")
@@ -30,6 +29,7 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 	}
 	dung.spawnItemAtRandomPosition("soulsphere")
 	dung.spawnItemAtRandomPosition("chaingun")
+	dung.spawnItemAtRandomPosition("heavy pistol")
 	dung.spawnItemAtRandomPosition("shotgun")
 	dung.spawnItemAtRandomPosition("super shotgun")
 	dung.spawnItemAtRandomPosition("assault rifle")

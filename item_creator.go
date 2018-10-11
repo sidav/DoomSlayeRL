@@ -40,6 +40,9 @@ func i_createItem(name string, x, y int) *i_item {
 	case "pistol":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
 			weaponData: &i_weaponData{maxammo: 6, hitscanData: &w_hitscan{damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}
+	case "heavy pistol":
+		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BEIGE}, name: name,
+			weaponData: &i_weaponData{maxammo: 5, hitscanData: &w_hitscan{damageDice: &dice{dnum: 2, dval: 5, dmod: 0}}}}
 	case "assault rifle":
 		i = i_item{ccell: &consoleCell{'\\', tcell_wrapper.BEIGE}, name: name,
 			weaponData: &i_weaponData{maxammo: 20, hitscanData: &w_hitscan{shotsPerAttack: 3, damageDice: &dice{dnum: 1, dval: 6, dmod: 0}}}}
