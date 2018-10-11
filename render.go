@@ -13,11 +13,6 @@ var (
 	R_VIEWPORT_CURR_X  = 0
 	R_VIEWPORT_CURR_Y  = 0
 	RENDER_DISABLE_LOS bool
-	cons_pawnColors    = map[rune]int{
-		'@': cw.GREEN,
-		'z': cw.BEIGE,
-		'i': cw.RED,
-	}
 )
 
 const (
@@ -106,11 +101,12 @@ func renderProjectile(p *projectile) {
 }
 
 func renderPawn(p *p_pawn, inverse bool) {
-	app := p.appearance
+	app := p.ccell.appearance
+	clr := p.ccell.color
 	if inverse {
-		setColor(cw.BLACK, cons_pawnColors[p.appearance])
+		setColor(cw.BLACK, clr)
 	} else {
-		setFgColor(cons_pawnColors[p.appearance])
+		setFgColor(clr)
 		if p.isPlayer() == false && p.aiData.state == AI_STAGGERED {
 			setColor(cw.BLACK, cw.DARK_YELLOW)
 		}

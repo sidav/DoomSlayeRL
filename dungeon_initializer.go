@@ -15,8 +15,10 @@ func (dung *dungeon) initialize_level() { //crap of course
 }
 
 func (dung *dungeon) init_placeItemsAndEnemies() {
-	for i := 0; i < 25; i++ {
-		// dung.spawnPawnAtRandomPosition("zombie")
+	for i := 0; i < 15; i++ {
+		dung.spawnPawnAtRandomPosition("unwilling")
+		dung.spawnPawnAtRandomPosition("zombie soldier")
+		dung.spawnPawnAtRandomPosition("zombie sergeant")
 		dung.spawnPawnAtRandomPosition("imp")
 	}
 	for i := 0; i < 5; i++ {

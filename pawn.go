@@ -12,7 +12,7 @@ type (
 	}
 
 	p_pawn struct {
-		appearance                                 rune
+		ccell                                      *consoleCell
 		hp, maxhp, x, y, nextTurnToAct, sightRange int
 		name                                       string
 		meleeData                                  *p_meleeAttackData
