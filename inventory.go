@@ -39,6 +39,11 @@ func (inv *inventory) getNamesSliceForAllItems() []string{
 	return slice
 }
 
-func (inv *inventory) selectItem(owner *p_pawn) {
-	routines.ShowSingleChoiceMenu("INVENTORY", inv.getNamesSliceForAllItems())
+func (inv *inventory) selectItem() *i_item {
+	items := inv.items
+	index := routines.ShowSingleChoiceMenu("INVENTORY", "Your items:", inv.getNamesSliceForAllItems())
+	if index != -1 {
+		return items[index]
+	}
+	return nil
 }

@@ -22,7 +22,11 @@ func plr_playerControl(d *dungeon) {
 			case "f":
 				plr_aimAndFire(d)
 			case "i":
-				p.inventory.selectItem(p)
+				if len(p.inventory.items) > 0 {
+					plr_UseItemFromInventory(p)
+				} else {
+					log.appendMessage("You have no items.")
+				}
 			case "r":
 				plr_reload(p)
 			case "ESCAPE":
@@ -119,38 +123,6 @@ func plr_aimAndFire(d *dungeon) {
 			aimy += aimMody
 		}
 	}
-
-
-func plr_pickUpAnItem(item *i_item, d *dungeon){
-	p := d.player
-	switch item.getType() {
-	case "weapon":
-		if p.weaponInHands != nil {
-			p.inventory.addItem(p.weaponInHands)
-		}
-		p.weaponInHands = item
-		d.removeItemFromFloor(item)
-		log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
-		return
-	case "ammo":
-		p.inventory.addItem(item)
-		log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
-		d.removeItemFromFloor(item)
-		return
-	case "medical":
-		if p.hp < p.maxhp || item.medicalData.ignoresMaximum {
-			p.hp += item.medicalData.healAmount
-			if !item.medicalData.ignoresMaximum && p.hp > p.maxhp {
-				p.hp = p.maxhp
-			}
-			log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
-			d.removeItemFromFloor(item)
-		}
-		return
-	default:
-		log.appendMessage("Hmm... Can't pick that up.")
-	}
-}
 
 func plr_doPickUpButton(d *dungeon) {
 	p := d.player

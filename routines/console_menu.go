@@ -18,12 +18,14 @@ func drawTitle(title string) {
 	cw.PutString(" "+title+" ", titleXCoord, 0)
 }
 
-func ShowSingleChoiceMenu(title string, lines []string) int { //returns the index of selected line or -1 if nothing was selected.
+func ShowSingleChoiceMenu(title, subheading string, lines []string) int { //returns the index of selected line or -1 if nothing was selected.
 	val := lines
 	cursor := 0
 	for {
 		cw.Clear_console()
 		drawTitle(title)
+		cw.SetFgColor(cw.BEIGE)
+		cw.PutString(subheading, 0, 1)
 		for i, _ := range val {
 			if cursor == i {
 				cw.SetColor(cw.BLACK, TEXT_COLOR)
