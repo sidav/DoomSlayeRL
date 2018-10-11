@@ -13,26 +13,6 @@ type dungeon struct {
 	projectiles []*projectile
 }
 
-func (dung *dungeon) spawnPawnAtRandomPosition(name string) {
-	for tries := 0; tries < 1000; tries++ {
-		x, y := routines.Random(levelsizex), routines.Random(levelsizey)
-		if dung.isTilePassableAndNotOccupied(x, y) {
-			dung.pawns = append(dung.pawns, p_createPawn(name, x, y))
-			return
-		}
-	}
-}
-
-func (dung *dungeon) spawnItemAtRandomPosition(name string) {
-	for tries := 0; tries < 1000; tries++ {
-		x, y := routines.Random(levelsizex), routines.Random(levelsizey)
-		if dung.isTilePassableAndNotOccupied(x, y) {
-			dung.items = append(dung.items, i_createItem(name, x, y))
-			return
-		}
-	}
-}
-
 func (dung *dungeon) isPawnPresent(ix, iy int) bool {
 	x, y := dung.player.x, dung.player.y
 	if ix == x && iy == y {
