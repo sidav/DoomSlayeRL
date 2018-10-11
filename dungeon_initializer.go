@@ -26,6 +26,7 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 		dung.spawnItemAtRandomPosition("cell")
 		dung.spawnItemAtRandomPosition("shells")
 		dung.spawnItemAtRandomPosition("ammunition crate")
+		dung.spawnItemAtRandomPosition("small medikit")
 	}
 	dung.spawnItemAtRandomPosition("soulsphere")
 	dung.spawnItemAtRandomPosition("chaingun")
