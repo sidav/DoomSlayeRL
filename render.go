@@ -150,6 +150,7 @@ func renderBullets(currCoords []*routines.Vector, currDirs []*routines.Vector, d
 
 func renderPlayerStats(d *dungeon) {
 	player := d.player
+	pinv := player.inventory
 	statusbarsWidth := 80 - R_VIEWPORT_WIDTH - 3
 
 	hpPercent := player.getHpPercent()
@@ -179,16 +180,22 @@ func renderPlayerStats(d *dungeon) {
 		cw.PutString("Barehanded", R_VIEWPORT_WIDTH+1, 2)
 	}
 
-	setColor(cw.BEIGE, cw.BLACK)
-	ammoLine := fmt.Sprintf("BULL:%d SHLL:%d RCKT:%d CELL:%d",
-		player.inventory.ammo[AMMO_BULL], player.inventory.ammo[AMMO_SHEL], player.inventory.ammo[AMMO_RCKT], player.inventory.ammo[AMMO_CELL])
-	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 4)
+	setFgColor(cw.BEIGE)
+	cw.PutString(fmt.Sprintf("INV: %d/%d", len(pinv.items), pinv.maxItems), R_VIEWPORT_WIDTH+1, 3)
 
-	cw.PutString(fmt.Sprintf("INV: (%d/%d)", len(player.inventory.items), player.inventory.maxItems), R_VIEWPORT_WIDTH+1, 3)
+	setColor(cw.BEIGE, cw.BLACK)
+	ammoLine := fmt.Sprintf("BULL:%d/%d", pinv.ammo[AMMO_BULL], pinv.maxammo[AMMO_BULL])
+	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 4)
+	ammoLine = fmt.Sprintf("SHLL:%d/%d", pinv.ammo[AMMO_SHEL], pinv.maxammo[AMMO_SHEL])
+	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 5)
+	ammoLine = fmt.Sprintf("RCKT:%d/%d", pinv.ammo[AMMO_RCKT], pinv.maxammo[AMMO_RCKT])
+	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 6)
+	ammoLine = fmt.Sprintf("CELL:%d/%d", pinv.ammo[AMMO_CELL], pinv.maxammo[AMMO_CELL])
+	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 7)
 
 	timeline := fmt.Sprintf("TIME: %d.%d (%d.%d)", CURRENT_TURN/10, CURRENT_TURN%10,
 		player.playerData.lastSpentTimeAmount/10, player.playerData.lastSpentTimeAmount%10)
-	cw.PutString(timeline, R_VIEWPORT_WIDTH+1, 5)
+	cw.PutString(timeline, R_VIEWPORT_WIDTH+1, 9)
 }
 
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {

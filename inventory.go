@@ -3,14 +3,26 @@ package main
 import "DoomSlayeRL/routines"
 
 type inventory struct {
-	items                           []*i_item
-	maxItems                        int
-	ammo [4]int
+	items         []*i_item
+	maxItems      int
+	ammo, maxammo [4]int
+}
+
+func (inv *inventory) canAmmoBeAdded(itm *i_item) bool {
+	for i := 0; i < 4; i++ {
+		if inv.ammo[i] < inv.maxammo[i] {
+			return true
+		}
+	}
+	return false
 }
 
 func (inv *inventory) _addAmmo(itm *i_item) {
 	for i := 0; i < 4; i++ {
 		inv.ammo[i] += itm.ammoData.ammo[i]
+		if inv.ammo[i] > inv.maxammo[i] {
+			inv.ammo[i] = inv.maxammo[i]
+		}
 	}
 }
 
@@ -30,7 +42,7 @@ func (inv *inventory) removeItem(i *i_item) {
 	}
 }
 
-func (inv *inventory) getNamesSliceForAllItems() []string{
+func (inv *inventory) getNamesSliceForAllItems() []string {
 	var slice []string
 	slice = make([]string, 0)
 	for i := 0; i < len(inv.items); i++ {

@@ -6,6 +6,10 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 	p := d.player
 	switch item.getType() {
 	case "weapon":
+		if len(p.inventory.items) >= p.inventory.maxItems {
+			log.appendMessage("Your inventory is full.")
+			return
+		}
 		if p.weaponInHands != nil {
 			p.inventory.addItem(p.weaponInHands)
 		}
@@ -14,10 +18,12 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 		log.appendMessage(fmt.Sprintf("You pick up and equip the %s.", p.weaponInHands.name))
 		return
 	case "ammo":
-		p.inventory.addItem(item)
-		log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
-		d.removeItemFromFloor(item)
-		return
+		if p.inventory.canAmmoBeAdded(item) {
+			p.inventory.addItem(item)
+			log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
+			d.removeItemFromFloor(item)
+			return
+		}
 	case "medical":
 		if item.instantlyPickupable {
 			if p.hp < p.maxhp || item.medicalData.ignoresMaximum {
@@ -28,6 +34,10 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 				log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
 			}
 		} else {
+			if len(p.inventory.items) >= p.inventory.maxItems {
+				log.appendMessage("Your inventory is full.")
+				return
+			}
 			log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
 			p.inventory.addItem(item)
 		}

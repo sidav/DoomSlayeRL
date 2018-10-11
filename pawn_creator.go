@@ -28,7 +28,7 @@ func p_createPawn(name string, x, y int) *p_pawn {
 func p_createPlayer(x, y int) *p_pawn {
 	var p p_pawn
 	p = p_pawn{appearance: '@', name: "you", maxhp: 100, playerData: &p_playerData{},
-		meleeData: &p_meleeAttackData{meleeAttackString: "punch", damageDice: &dice{dnum: 2, dval: 6, dmod: 0}}, inventory: &inventory{maxItems: 4}}
+		meleeData: &p_meleeAttackData{meleeAttackString: "punch", damageDice: &dice{dnum: 2, dval: 6, dmod: 0}}, inventory: &inventory{maxItems: 4, maxammo: [4]int{20, 10, 1, 10}}}
 	p.x = x
 	p.y = y
 	p.hp = p.maxhp

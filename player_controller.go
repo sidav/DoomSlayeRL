@@ -126,10 +126,6 @@ func plr_aimAndFire(d *dungeon) {
 
 func plr_doPickUpButton(d *dungeon) {
 	p := d.player
-	if len(p.inventory.items) >= p.inventory.maxItems {
-		log.appendMessage("Your inventory is full.")
-		return
-	}
 	items := d.getListOfItemsAt(p.x, p.y)
 	for i := 0; i < len(items); i++ {
 		item := items[i]
