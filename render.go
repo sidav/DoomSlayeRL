@@ -184,6 +184,8 @@ func renderPlayerStats(d *dungeon) {
 		player.inventory.ammo[AMMO_BULL], player.inventory.ammo[AMMO_SHEL], player.inventory.ammo[AMMO_RCKT], player.inventory.ammo[AMMO_CELL])
 	cw.PutString(ammoLine, R_VIEWPORT_WIDTH+1, 4)
 
+	cw.PutString(fmt.Sprintf("INV: (%d/%d)", len(player.inventory.items), player.inventory.maxItems), R_VIEWPORT_WIDTH+1, 3)
+
 	timeline := fmt.Sprintf("TIME: %d.%d (%d.%d)", CURRENT_TURN/10, CURRENT_TURN%10,
 		player.playerData.lastSpentTimeAmount/10, player.playerData.lastSpentTimeAmount%10)
 	cw.PutString(timeline, R_VIEWPORT_WIDTH+1, 5)
