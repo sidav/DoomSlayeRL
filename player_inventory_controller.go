@@ -31,6 +31,7 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 				if !item.medicalData.ignoresMaximum && p.hp > p.maxhp {
 					p.hp = p.maxhp
 				}
+				d.removeItemFromFloor(item)
 				log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
 			}
 		} else {
@@ -40,8 +41,8 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 			}
 			log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
 			p.inventory.addItem(item)
+			d.removeItemFromFloor(item)
 		}
-		d.removeItemFromFloor(item)
 		return
 	default:
 		log.appendMessage("Hmm... Can't pick that up.")

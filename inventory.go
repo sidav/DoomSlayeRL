@@ -10,7 +10,7 @@ type inventory struct {
 
 func (inv *inventory) canAmmoBeAdded(itm *i_item) bool {
 	for i := 0; i < 4; i++ {
-		if inv.ammo[i] < inv.maxammo[i] {
+		if inv.ammo[i] < inv.maxammo[i] && itm.ammoData.ammo[i] > 0 {
 			return true
 		}
 	}
