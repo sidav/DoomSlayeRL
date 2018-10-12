@@ -18,18 +18,21 @@ func (dung *dungeon) initialize_level() { //crap of course
 
 func (dung *dungeon) init_placeItemsAndEnemies() {
 	dung.spawnPawnAtRandomPosition("unwilling", 15)
-	dung.spawnPawnAtRandomPosition("zombie soldier", 10)
-	dung.spawnPawnAtRandomPosition("zombie sergeant", 10)
+	dung.spawnPawnAtRandomPosition("zombie soldier", 12)
+	dung.spawnPawnAtRandomPosition("zombie sergeant", 12)
 	dung.spawnPawnAtRandomPosition("heavy weapon dude", 10)
 	dung.spawnPawnAtRandomPosition("imp", 7)
+	dung.spawnPawnAtRandomPosition("pinky", 7)
+	dung.spawnPawnAtRandomPosition("hellknight", 4)
 
-	dung.spawnItemAtRandomPosition("stimpack", 10)
-	dung.spawnItemAtRandomPosition("clip", 5)
+	dung.spawnItemAtRandomPosition("clip", 15)
 	dung.spawnItemAtRandomPosition("cell", 5)
-	dung.spawnItemAtRandomPosition("shells", 10)
+	dung.spawnItemAtRandomPosition("shells", 15)
 	dung.spawnItemAtRandomPosition("ammunition crate", 3)
 
-	dung.spawnItemAtRandomPosition("small medikit", 5)
+	dung.spawnItemAtRandomPosition("stimpack", 15)
+	dung.spawnItemAtRandomPosition("small medikit", 7)
+	dung.spawnItemAtRandomPosition("large medikit", 4)
 	dung.spawnItemAtRandomPosition("soulsphere", 2)
 
 	dung.spawnItemAtRandomPosition("green armor", 3)
@@ -38,9 +41,9 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 
 	dung.spawnItemAtRandomPosition("chaingun", 1)
 	dung.spawnItemAtRandomPosition("heavy pistol", 3)
-	dung.spawnItemAtRandomPosition("shotgun", 2)
-	dung.spawnItemAtRandomPosition("super shotgun", 1)
-	dung.spawnItemAtRandomPosition("assault rifle", 2)
+	dung.spawnItemAtRandomPosition("shotgun", 4)
+	dung.spawnItemAtRandomPosition("super shotgun", 2)
+	dung.spawnItemAtRandomPosition("assault rifle", 3)
 	dung.spawnItemAtRandomPosition("Pancor Jackhammer", 1)
 	dung.spawnItemAtRandomPosition("bolt-action rifle", 3)
 	dung.spawnItemAtRandomPosition("gauss rifle", 1)
@@ -48,7 +51,7 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 
 func (dung *dungeon) MakeMapFromGenerated() {
 	BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
-	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 5, 0, 0, 40, 5)
+	generated_map := BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 7, 60, 0, 50, 5)
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			currDungCell := &dung.tiles[x][y]

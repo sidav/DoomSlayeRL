@@ -15,10 +15,13 @@ func i_createItem(name string, x, y int) *i_item {
 		medicalData: &i_medicalData{healAmount:4, ignoresMaximum:false}}
 	case "stimpack":
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.RED}, name: name, instantlyPickupable: false,
-			medicalData: &i_medicalData{healAmount:15, ignoresMaximum:false}}
+			medicalData: &i_medicalData{healAmount:10, ignoresMaximum:false}}
 	case "small medikit":
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.DARK_RED}, name: name, instantlyPickupable: false,
-			medicalData: &i_medicalData{healAmount:15, ignoresMaximum:false}}
+			medicalData: &i_medicalData{healAmount:25, ignoresMaximum:false}}
+	case "large medikit":
+		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.DARK_GREEN}, name: name, instantlyPickupable: false,
+			medicalData: &i_medicalData{healAmount:50, ignoresMaximum:false}}
 	case "soulsphere":
 		i = i_item{ccell: &consoleCell{'o', tcell_wrapper.BLUE}, name: name, instantlyPickupable: true,
 			medicalData: &i_medicalData{healAmount:100, ignoresMaximum:true}}
@@ -61,7 +64,7 @@ func i_createItem(name string, x, y int) *i_item {
 			weaponData: &i_weaponData{maxammo: 20, hitscanData: &w_hitscan{shotsPerAttack: 4, damageDice: &dice{dnum: 2, dval: 3, dmod: 0}}}}
 	case "bolt-action rifle":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.DARK_GREEN}, name: name,
-			weaponData: &i_weaponData{maxammo: 1, hitscanData: &w_hitscan{damageDice: &dice{dnum: 5, dval: 3, dmod: 0}}}}
+			weaponData: &i_weaponData{maxammo: 2, hitscanData: &w_hitscan{damageDice: &dice{dnum: 5, dval: 3, dmod: 2}}}}
 		// SHELLS:
 	case "shotgun":
 		i = i_item{ccell: &consoleCell{')', tcell_wrapper.BLUE}, name: name,

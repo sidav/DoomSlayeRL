@@ -28,6 +28,14 @@ func p_createPawn(name string, x, y int) *p_pawn {
 			meleeData: &p_meleeAttackData{meleeAttackString: "claws", damageDice: &dice{dnum: 3, dval: 5, dmod: 1}},
 			weaponInHands: &i_item{weaponData: &i_weaponData{
 				projectileExample: &projectile{turnsForOneTile: 6, damageDice: &dice{3, 3, 3}}}}}
+	case "pinky":
+		p = p_pawn{ccell:&consoleCell{'p', cw.DARK_MAGENTA}, name: name, maxhp: 65,
+			meleeData: &p_meleeAttackData{meleeAttackString: "chews", damageDice: &dice{dnum: 3, dval: 6, dmod: 2}}}
+	case "hellknight":
+		p = p_pawn{ccell:&consoleCell{'H', cw.DARK_YELLOW}, name: name, maxhp: 125,
+			meleeData: &p_meleeAttackData{meleeAttackString: "tears", damageDice: &dice{dnum: 3, dval: 10, dmod: 0}},
+			weaponInHands: &i_item{weaponData: &i_weaponData{
+				projectileExample: &projectile{turnsForOneTile: 5, damageDice: &dice{3, 6, 3}}}}}
 	default:
 		p = p_pawn{ccell:&consoleCell{'?', cw.MAGENTA}, name: "Unknown monster " + name, maxhp: 25, meleeData: &p_meleeAttackData{meleeAttackString: "claws", damageDice: &dice{dnum: 3, dval: 5, dmod: 1}}}
 	}
@@ -43,7 +51,7 @@ func p_createPlayer(x, y int) *p_pawn {
 	p = p_pawn{ccell:&consoleCell{'@', cw.GREEN}, name: "you", maxhp: 100, playerData: &p_playerData{},
 		weaponInHands: i_createItem("pistol", x, y),
 		meleeData: &p_meleeAttackData{meleeAttackString: "punch", damageDice: &dice{dnum: 2, dval: 6, dmod: 0}},
-		inventory: &inventory{maxItems: 4, maxammo: [4]int{20, 10, 1, 10}}}
+		inventory: &inventory{maxItems: 5, maxammo: [4]int{30, 20, 1, 10}}}
 	p.x = x
 	p.y = y
 	p.hp = p.maxhp

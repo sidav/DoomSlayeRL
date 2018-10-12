@@ -201,6 +201,9 @@ func renderPlayerStats(d *dungeon) {
 	timeline := fmt.Sprintf("TIME: %d.%d (%d.%d)", CURRENT_TURN/10, CURRENT_TURN%10,
 		player.playerData.lastSpentTimeAmount/10, player.playerData.lastSpentTimeAmount%10)
 	cw.PutString(timeline, R_VIEWPORT_WIDTH+1, 9)
+
+	remEnemiesLine := fmt.Sprintf("ENEMIES LEFT: %d", len(d.pawns))
+	cw.PutString(remEnemiesLine, R_VIEWPORT_WIDTH+1, 10)
 }
 
 func renderTargetingLine(fromx, fromy, tox, toy int, flush bool, d *dungeon) {
