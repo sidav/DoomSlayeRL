@@ -51,8 +51,8 @@ func (dung *dungeon) MakeMapFromGenerated() {
 			switch currGenCell {
 			case '+':
 				currDungCell.cCell = &consoleCell{appearance: '╬', color: cw.DARK_CYAN}
-				currDungCell.IsPassable = true
 				currDungCell.opaque = true
+				currDungCell.doorData = &d_doorData{chrForOpened: '\''}
 			case '~':
 				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.DARK_GREEN}
 				currDungCell.IsPassable = false

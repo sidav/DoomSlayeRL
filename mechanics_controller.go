@@ -7,6 +7,9 @@ import (
 func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 	// px, py := p.x, p.y
 	nx, ny := p.x+x, p.y+y
+	if !areCoordinatesValid(nx, ny) {
+		return
+	}
 	if d.isTilePassableAndNotOccupied(nx, ny) {
 		p.x += x
 		p.y += y
@@ -15,18 +18,22 @@ func m_movePawn(p *p_pawn, d *dungeon, x, y int) {
 		} else { // non-diagonal movement
 			p.spendTurnsForAction(turnCostFor("step"))
 		}
+	} else if d.isTileADoor(nx, ny) {
+		d.openDoor(nx, ny)
+		p.spendTurnsForAction(turnCostFor("open door"))
 	}
+
 }
 
 func m_moveOrMeleeAttackPawn(p *p_pawn, d *dungeon, x, y int) {
 	nx, ny := p.x+x, p.y+y
-	if d.isTilePassableAndNotOccupied(nx, ny) {
-		m_movePawn(p, d, x, y)
-	} else if d.isPawnPresent(nx, ny) {
+	if d.isPawnPresent(nx, ny) {
 		victim := d.getPawnAt(nx, ny)
 		if victim.isPlayer() || p.isPlayer() {
 			m_meleeAttack(p, victim, d)
 		}
+	} else {
+		m_movePawn(p, d, x, y)
 	}
 }
 

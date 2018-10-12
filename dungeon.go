@@ -83,19 +83,35 @@ func (d *dungeon) removeItemFromFloor(item *i_item) {
 }
 
 func (dung *dungeon) isTilePassable(x, y int) bool {
-	if x < 0 || x >= levelsizex || y < 0 || y >= levelsizey {
+	if !areCoordinatesValid(x, y) {
 		log.warningf("Passability for unexistent index %d requested!", x)
 		return false
 	}
-	return dung.tiles[x][y].IsPassable
+	return dung.tiles[x][y].isPassable()
 }
 
 func (dung *dungeon) isTileOpaque(x, y int) bool {
-	if x < 0 || x >= levelsizex || y < 0 || y >= levelsizey {
+	if !areCoordinatesValid(x, y) {
 		log.warningf("Opacity for unexistent index %d requested!", x)
 		return true
 	}
-	return dung.tiles[x][y].opaque
+	return dung.tiles[x][y].isOpaque()
+}
+
+func (dung *dungeon) isTileADoor(x, y int) bool {
+	if !areCoordinatesValid(x, y) {
+		log.warning("Unexistent tile requested for door presence check!")
+		return false
+	}
+	return dung.tiles[x][y].doorData != nil
+}
+
+func (dung *dungeon) openDoor(x, y int) {
+	if !areCoordinatesValid(x, y) {
+		log.warning("Unexistent door coords requested for opening!")
+		return
+	}
+	dung.tiles[x][y].doorData.isOpened = true
 }
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
