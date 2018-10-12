@@ -20,6 +20,7 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 	dung.spawnPawnAtRandomPosition("unwilling", 15)
 	dung.spawnPawnAtRandomPosition("zombie soldier", 10)
 	dung.spawnPawnAtRandomPosition("zombie sergeant", 10)
+	dung.spawnPawnAtRandomPosition("heavy weapon dude", 10)
 	dung.spawnPawnAtRandomPosition("imp", 7)
 
 	dung.spawnItemAtRandomPosition("stimpack", 10)

@@ -18,6 +18,11 @@ func p_createPawn(name string, x, y int) *p_pawn {
 			meleeData: &p_meleeAttackData{meleeAttackString: "hits", damageDice: &dice{dnum: 1, dval: 6, dmod: 0}},
 			weaponInHands: &i_item{weaponData: &i_weaponData{
 				hitscanData: &w_hitscan{pelletsPerShot: 4, spreadAngle: 30, damageDice: &dice{2,3,0}}}}}
+	case "heavy weapon dude":
+		p = p_pawn{ccell:&consoleCell{'h', cw.RED}, name: name, maxhp: 35,
+			meleeData: &p_meleeAttackData{meleeAttackString: "hits", damageDice: &dice{dnum: 1, dval: 6, dmod: 0}},
+			weaponInHands: &i_item{weaponData: &i_weaponData{
+				hitscanData: &w_hitscan{shotsPerAttack: 5, spreadAngle: 30, damageDice: &dice{1,3,0}}}}}
 	case "imp":
 		p = p_pawn{ccell:&consoleCell{'i', cw.RED}, name: name, maxhp: 25,
 			meleeData: &p_meleeAttackData{meleeAttackString: "claws", damageDice: &dice{dnum: 3, dval: 5, dmod: 1}},

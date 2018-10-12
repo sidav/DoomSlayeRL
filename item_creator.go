@@ -14,7 +14,7 @@ func i_createItem(name string, x, y int) *i_item {
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.CYAN}, name: name, instantlyPickupable: true,
 		medicalData: &i_medicalData{healAmount:4, ignoresMaximum:false}}
 	case "stimpack":
-		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.RED}, name: name, instantlyPickupable: true,
+		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.RED}, name: name, instantlyPickupable: false,
 			medicalData: &i_medicalData{healAmount:15, ignoresMaximum:false}}
 	case "small medikit":
 		i = i_item{ccell: &consoleCell{'+', tcell_wrapper.DARK_RED}, name: name, instantlyPickupable: false,
