@@ -21,6 +21,8 @@ func plr_playerControl(d *dungeon) {
 				plr_doPickUpButton(d)
 			case "f":
 				plr_aimAndFire(d)
+			case "D":
+				plr_doDropButton(d)
 			case "i":
 				if len(p.inventory.items) > 0 {
 					plr_UseItemFromInventory(p)
@@ -123,6 +125,21 @@ func plr_aimAndFire(d *dungeon) {
 			aimy += aimMody
 		}
 	}
+
+func plr_doDropButton(d *dungeon) {
+	p := d.player
+	items := p.inventory.items
+	if len(items) == 0 {
+		log.appendMessage("You have nothing to drop.")
+		return
+	} else {
+		item := p.inventory.selectItem()
+		item.x, item.y = p.x, p.y
+		p.inventory.removeItem(item)
+		d.addItemToFloor(item)
+		log.appendMessagef("You drop your %s.", item.name)
+	}
+}
 
 func plr_doPickUpButton(d *dungeon) {
 	p := d.player
