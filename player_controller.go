@@ -134,10 +134,14 @@ func plr_doDropButton(d *dungeon) {
 		return
 	} else {
 		item := p.inventory.selectItem()
-		item.x, item.y = p.x, p.y
-		p.inventory.removeItem(item)
-		d.addItemToFloor(item)
-		log.appendMessagef("You drop your %s.", item.name)
+		if item != nil {
+			item.x, item.y = p.x, p.y
+			p.inventory.removeItem(item)
+			d.addItemToFloor(item)
+			log.appendMessagef("You drop your %s.", item.name)
+		} else {
+			log.appendMessage("Okely-dokely.")
+		}
 	}
 }
 
