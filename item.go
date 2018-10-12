@@ -13,19 +13,28 @@ type (
 		weaponData          *i_weaponData
 		ammoData            *i_ammoData
 		medicalData         *i_medicalData
+		armorData           *i_armorData
 		instantlyPickupable bool
 	}
 )
 
 func (i *i_item) getType() string {
-	if i.weaponData != nil {
+	switch {
+
+	case i.weaponData != nil:
 		return "weapon"
-	}
-	if i.ammoData != nil {
+
+	case i.ammoData != nil:
 		return "ammo"
-	}
-	if i.medicalData != nil {
+
+	case i.medicalData != nil:
 		return "medical"
+
+	case i.armorData != nil:
+		return "armor"
+
+	default:
+		return "item"
+
 	}
-	return "item"
 }

@@ -17,6 +17,7 @@ type (
 		name                                       string
 		meleeData                                  *p_meleeAttackData
 		playerData                                 *p_playerData
+		wearedArmor                                *i_item
 		weaponInHands                              *i_item
 		inventory                                  *inventory
 		aiData                                     *p_aiData

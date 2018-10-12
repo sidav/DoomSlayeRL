@@ -32,6 +32,10 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 	dung.spawnItemAtRandomPosition("small medikit", 5)
 	dung.spawnItemAtRandomPosition("soulsphere", 2)
 
+	dung.spawnItemAtRandomPosition("green armor", 3)
+	dung.spawnItemAtRandomPosition("red armor", 2)
+	dung.spawnItemAtRandomPosition("blue armor", 1)
+
 	dung.spawnItemAtRandomPosition("chaingun", 1)
 	dung.spawnItemAtRandomPosition("heavy pistol", 3)
 	dung.spawnItemAtRandomPosition("shotgun", 2)

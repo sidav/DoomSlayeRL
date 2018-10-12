@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func plr_pickUpAnItem(item *i_item, d *dungeon){
+func plr_pickUpAnItem(item *i_item, d *dungeon) {
 	p := d.player
 	switch item.getType() {
 	case "weapon":
@@ -44,12 +44,16 @@ func plr_pickUpAnItem(item *i_item, d *dungeon){
 			d.removeItemFromFloor(item)
 		}
 		return
+	case "armor":
+		p.inventory.addItem(item)
+		d.removeItemFromFloor(item)
+		log.appendMessage(fmt.Sprintf("You pick up the %s.", item.name))
 	default:
 		log.appendMessage("Hmm... Can't pick that up.")
 	}
 }
 
-func plr_UseItemFromInventory(p *p_pawn){
+func plr_UseItemFromInventory(p *p_pawn) {
 	item := p.inventory.selectItem()
 	if item == nil {
 		return
@@ -69,6 +73,10 @@ func plr_UseItemFromInventory(p *p_pawn){
 			}
 			log.appendMessage(fmt.Sprintf("The %s heals you.", item.name))
 		}
+	case "armor":
+		p.wearedArmor = item
+		p.wearedArmor.armorData.currArmor = item.armorData.maxArmor
+		log.appendMessage(fmt.Sprintf("You wear the %s.", item.name))
 	default:
 		log.appendMessage("Hmm... Can't pick that up.")
 	}

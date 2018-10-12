@@ -167,6 +167,15 @@ func renderPlayerStats(d *dungeon) {
 	renderStatusbar(fmt.Sprintf("HP: (%d/%d)", player.hp, player.maxhp), player.hp, player.maxhp,
 		R_VIEWPORT_WIDTH+1, 0, statusbarsWidth, hpColor)
 
+	if player.wearedArmor == nil {
+		setFgColor(cw.BEIGE)
+		cw.PutString("No armor", R_VIEWPORT_WIDTH+1, 1)
+	} else {
+		setFgColor(player.wearedArmor.ccell.color)
+		renderStatusbar(fmt.Sprintf("ARMOR: (%d/%d)", player.wearedArmor.armorData.currArmor, player.wearedArmor.armorData.maxArmor),
+			player.wearedArmor.armorData.currArmor, player.wearedArmor.armorData.maxArmor, R_VIEWPORT_WIDTH+1, 1, statusbarsWidth, player.wearedArmor.ccell.color)
+	}
+
 	setFgColor(cw.BEIGE)
 	if player.weaponInHands != nil {
 		renderStatusbar(fmt.Sprintf("%s (%d/%d)", player.weaponInHands.name, player.weaponInHands.weaponData.ammo,

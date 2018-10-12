@@ -23,6 +23,16 @@ func i_createItem(name string, x, y int) *i_item {
 		i = i_item{ccell: &consoleCell{'o', tcell_wrapper.BLUE}, name: name, instantlyPickupable: true,
 			medicalData: &i_medicalData{healAmount:100, ignoresMaximum:true}}
 
+	// armor
+	case "green armor":
+		i = i_item{ccell: &consoleCell{'[', tcell_wrapper.GREEN}, name: name, instantlyPickupable: false,
+			armorData: &i_armorData{maxArmor: 100, damageConsumingPercent: 25}}
+	case "red armor":
+		i = i_item{ccell: &consoleCell{'[', tcell_wrapper.RED}, name: name, instantlyPickupable: false,
+			armorData: &i_armorData{maxArmor: 125, damageConsumingPercent: 40}}
+	case "blue armor":
+		i = i_item{ccell: &consoleCell{'[', tcell_wrapper.BLUE}, name: name, instantlyPickupable: false,
+			armorData: &i_armorData{maxArmor: 200, damageConsumingPercent: 66}}
 
 	// ammo
 	case "clip":

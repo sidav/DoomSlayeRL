@@ -21,7 +21,19 @@ func (victim *p_pawn) receiveDamage(damage int) { //deals with armor, staggered 
 		STAGGER_PERCENT_THRESHOLD = 30
 		STAGGERED_TIME_AMOUNT     = 60
 	)
-	victim.hp -= damage
+	if victim.wearedArmor != nil {
+		percent := victim.wearedArmor.armorData.damageConsumingPercent
+		damageToArmor := damage * percent / 100
+		victim.wearedArmor.armorData.currArmor -= damageToArmor
+		damageToPawn := damage - damageToArmor
+		if victim.wearedArmor.armorData.currArmor < 0 {
+			damageToPawn -= victim.wearedArmor.armorData.currArmor
+			victim.wearedArmor.armorData.currArmor = 0
+		}
+		victim.hp -= damageToPawn
+	} else {
+		victim.hp -= damage
+	}
 	if victim.isPlayer() == false {
 		if victim.getHpPercent() < STAGGER_PERCENT_THRESHOLD {
 			victim.aiData.state = AI_STAGGERED
