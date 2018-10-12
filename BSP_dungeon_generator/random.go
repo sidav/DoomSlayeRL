@@ -3,7 +3,7 @@ package BSP_dungeon_generator
 const (
 	r_a = 513
 	r_c = 313
-	r_m = 65536
+	r_m = 262147
 )
 
 var (

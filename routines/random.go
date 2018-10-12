@@ -7,7 +7,7 @@ import (
 const (
 	a = 513
 	c = 313
-	m = 65536
+	m = 262147
 )
 
 var (
