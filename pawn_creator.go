@@ -1,6 +1,6 @@
 package main
 
-import cw "TCellConsoleWrapper/tcell_wrapper"
+import cw "GoSdlConsole/GoSdlConsole"
 
 func p_createPawn(name string, x, y int) *p_pawn {
 	var p p_pawn

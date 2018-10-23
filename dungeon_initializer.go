@@ -3,7 +3,7 @@ package main
 import (
 	"DoomSlayeRL/BSP_dungeon_generator"
 	"DoomSlayeRL/routines"
-	cw "TCellConsoleWrapper/tcell_wrapper"
+	cw "GoSdlConsole/GoSdlConsole"
 )
 
 func (dung *dungeon) initialize_level() { //crap of course
@@ -58,7 +58,7 @@ func (dung *dungeon) MakeMapFromGenerated() {
 			currGenCell := generated_map.GetCell(x, y)
 			switch currGenCell {
 			case '+':
-				currDungCell.cCell = &consoleCell{appearance: '╬', color: cw.DARK_CYAN}
+				currDungCell.cCell = &consoleCell{appearance: 16*12+14, color: cw.DARK_CYAN}
 				currDungCell.opaque = true
 				currDungCell.doorData = &d_doorData{chrForOpened: '\''}
 			case '~':
@@ -66,7 +66,7 @@ func (dung *dungeon) MakeMapFromGenerated() {
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
 			case '#':
-				currDungCell.cCell = &consoleCell{appearance: '▒', color: cw.BEIGE}
+				currDungCell.cCell = &consoleCell{appearance: 16*11+1, color: cw.BEIGE}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = true
 			default:

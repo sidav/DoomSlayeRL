@@ -1,7 +1,7 @@
 package main
 
 import (
-	cw "TCellConsoleWrapper/tcell_wrapper"
+	cw "GoSdlConsole/GoSdlConsole"
 )
 
 // This file is NOT a console wrapper.

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"TCellConsoleWrapper/tcell_wrapper"
+	cw "GoSdlConsole/GoSdlConsole"
 )
 
 func readKey() string {
-	return tcell_wrapper.ReadKey()
+	return cw.ReadKey()
 }

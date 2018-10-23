@@ -2,7 +2,7 @@ package main
 
 import (
 	"DoomSlayeRL/routines"
-	cw "TCellConsoleWrapper/tcell_wrapper"
+	cw "GoSdlConsole/GoSdlConsole"
 )
 
 type dungeon struct {
