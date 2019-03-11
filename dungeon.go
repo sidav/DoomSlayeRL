@@ -2,6 +2,7 @@ package main
 
 import (
 	"DoomSlayeRL/routines"
+	astar "github.com/sidav/goLibRL/astar"
 	cw "github.com/sidav/goLibRL/console"
 )
 
@@ -112,6 +113,28 @@ func (dung *dungeon) openDoor(x, y int) {
 		return
 	}
 	dung.tiles[x][y].doorData.isOpened = true
+}
+
+func (dung *dungeon) createCostMapForPathfinding() *[][]int {
+	width, height := len(dung.tiles), len((dung.tiles)[0])
+
+	costmap := make([][]int, width)
+	for j := range costmap {
+		costmap[j] = make([]int, height)
+	}
+	for i := 0; i < width; i++ {
+		for j := 0; j < height; j++ {
+			// TODO: optimize by iterating through pawns separately
+			if !(dung.tiles[i][j].doorData != nil || dung.tiles[i][j].isPassable()) || dung.getPawnAt(i, j) != nil {
+				costmap[i][j] = -1
+			}
+		}
+	}
+	return &costmap
+}
+
+func (dung *dungeon) getPathFromTo(fx, fy, tx, ty int) *astar.Cell {
+	return astar.FindPath(dung.createCostMapForPathfinding(), fx, fy, tx, ty, true, true)
 }
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
