@@ -1,7 +1,7 @@
 package main
 
 import (
-	cw "GoSdlConsole/GoSdlConsole"
+	cw "github.com/sidav/goLibRL/console"
 )
 
 func readKey() string {

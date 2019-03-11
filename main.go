@@ -1,11 +1,11 @@
 package main
 
 import (
-	cw "GoSdlConsole/GoSdlConsole"
+	cw "github.com/sidav/goLibRL/console"
 )
 
 func main() {
-	cw.Init_console()
+	cw.Init_console("DoomSlayeRL", cw.SDLRenderer)
 	defer cw.Close_console()
 	g := game{}
 	g.runGame()

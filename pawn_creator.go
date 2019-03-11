@@ -1,6 +1,6 @@
 package main
 
-import cw "GoSdlConsole/GoSdlConsole"
+import cw "github.com/sidav/goLibRL/console"
 
 func p_createPawn(name string, x, y int) *p_pawn {
 	var p p_pawn

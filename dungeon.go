@@ -2,7 +2,7 @@ package main
 
 import (
 	"DoomSlayeRL/routines"
-	cw "GoSdlConsole/GoSdlConsole"
+	cw "github.com/sidav/goLibRL/console"
 )
 
 type dungeon struct {
