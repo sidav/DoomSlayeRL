@@ -1,7 +1,7 @@
 package main
 
 import (
-	cw "github.com/sidav/goLibRL/console"
+	cw "github.com/sidav/golibrl/console"
 )
 
 // This file is NOT a console wrapper.

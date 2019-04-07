@@ -2,7 +2,7 @@ package main
 
 import (
 	"DoomSlayeRL/routines"
-	cw "github.com/sidav/goLibRL/console"
+	cw "github.com/sidav/golibrl/console"
 	"fmt"
 	"time"
 )

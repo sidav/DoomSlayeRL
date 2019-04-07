@@ -1,6 +1,6 @@
 package main
 
-import cw "github.com/sidav/goLibRL/console"
+import cw "github.com/sidav/golibrl/console"
 
 func p_createPawn(name string, x, y int) *p_pawn {
 	var p p_pawn

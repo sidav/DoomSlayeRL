@@ -3,7 +3,7 @@ package main
 import (
 	"DoomSlayeRL/BSP_dungeon_generator"
 	"DoomSlayeRL/routines"
-	cw "github.com/sidav/goLibRL/console"
+	cw "github.com/sidav/golibrl/console"
 )
 
 func (dung *dungeon) initialize_level() { //crap of course

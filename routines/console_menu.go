@@ -1,6 +1,6 @@
 package routines
 
-import cw "github.com/sidav/goLibRL/console"
+import cw "github.com/sidav/golibrl/console"
 
 const (
 	TITLE_COLOR = cw.DARK_BLUE

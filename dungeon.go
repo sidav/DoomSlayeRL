@@ -2,8 +2,8 @@ package main
 
 import (
 	"DoomSlayeRL/routines"
-	astar "github.com/sidav/goLibRL/astar"
-	cw "github.com/sidav/goLibRL/console"
+	astar "github.com/sidav/golibrl/astar"
+	cw "github.com/sidav/golibrl/console"
 )
 
 type dungeon struct {
@@ -134,7 +134,7 @@ func (dung *dungeon) createCostMapForPathfinding() *[][]int {
 }
 
 func (dung *dungeon) getPathFromTo(fx, fy, tx, ty int) *astar.Cell {
-	return astar.FindPath(dung.createCostMapForPathfinding(), fx, fy, tx, ty, true, true)
+	return astar.FindPath(dung.createCostMapForPathfinding(), fx, fy, tx, ty, true, true, true)
 }
 
 func (dung *dungeon) isTilePassableAndNotOccupied(x, y int) bool {
