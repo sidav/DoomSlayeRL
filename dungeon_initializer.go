@@ -18,6 +18,13 @@ func (dung *dungeon) initialize_level() { //crap of course
 	dung.init_placeItemsAndEnemies()
 }
 
+func (dung *dungeon) initTilesArrayForSize() {
+	dung.tiles = make([][]d_tile, levelsizex)
+	for i := range dung.tiles {
+		dung.tiles[i] = make([]d_tile, levelsizey)
+	}
+}
+
 func (dung *dungeon) init_placeItemsAndEnemies() {
 	dung.spawnPawnAtRandomPosition("unwilling", 15)
 	dung.spawnPawnAtRandomPosition("zombie soldier", 12)
@@ -55,8 +62,11 @@ func (dung *dungeon) MakeMapFromGenerated() {
 	// BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
 	layout, _ := dungen.Generate(-1, 5, 5) //BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 7, 60, 0, 50, 5)
 	generated_map := dungToTiled.GetTileMap(layout)
-	//levelsizex = len(*generated_map)
-	//levelsizey = len((*generated_map)[0])
+	
+	levelsizex = len(*generated_map)
+	levelsizey = len((*generated_map)[0])
+	dung.initTilesArrayForSize()
+
 	for x := 0; x < levelsizex; x++ {
 		for y := 0; y < levelsizey; y++ {
 			currDungCell := &dung.tiles[x][y]

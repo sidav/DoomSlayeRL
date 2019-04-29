@@ -2,9 +2,8 @@ package main
 
 import "DoomSlayeRL/routines"
 
-const (
-	levelsizex = 11*5+1
-	levelsizey = 11*5+1
+var (
+	levelsizex, levelsizey int
 )
 
 var (

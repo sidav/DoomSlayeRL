@@ -8,7 +8,7 @@ import (
 
 type dungeon struct {
 	player      *p_pawn
-	tiles       [levelsizex][levelsizey]d_tile
+	tiles       [][]d_tile
 	pawns       []*p_pawn
 	items       []*i_item
 	projectiles []*projectile

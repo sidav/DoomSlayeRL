@@ -43,8 +43,22 @@ func (d *dungeon) getListOfPawnsVisibleFor(seer *p_pawn) []*p_pawn {
 	return list
 }
 
-func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) [levelsizex][levelsizey]bool {
-	var final, first, second [levelsizex][levelsizey]bool
+func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) *[][]bool {
+	// var final, first, second [levelsizex][levelsizey]bool
+	final := make([][]bool, levelsizex)
+	for i := range final {
+		final[i] = make([]bool, levelsizey)
+	}
+
+	first := make([][]bool, levelsizex)
+	for i := range first {
+		first[i] = make([]bool, levelsizey)
+	}
+
+	second := make([][]bool, levelsizex)
+	for i := range second {
+		second[i] = make([]bool, levelsizey)
+	}
 
 	sRange := seer.sightRange
 	if sRange == 0 {
@@ -92,5 +106,5 @@ func (d *dungeon) GetFieldOfVisionFor(seer *p_pawn) [levelsizex][levelsizey]bool
 		}
 	}
 
-	return final
+	return &final
 }

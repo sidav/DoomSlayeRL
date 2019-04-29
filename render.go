@@ -38,7 +38,7 @@ func updateViewportCoords(p *p_pawn) {
 
 func renderLevel(d *dungeon, flush bool) {
 	cw.Clear_console()
-	vismap := d.GetFieldOfVisionFor(d.player)
+	vismap := *(d.GetFieldOfVisionFor(d.player))
 	updateViewportCoords(d.player)
 	// render level. vpx, vpy are viewport coords, whereas x, y are real coords.
 	for x := R_VIEWPORT_CURR_X; x < R_VIEWPORT_CURR_X+R_VIEWPORT_WIDTH; x++ {
