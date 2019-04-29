@@ -3,8 +3,8 @@ package main
 import "DoomSlayeRL/routines"
 
 const (
-	levelsizex = 100
-	levelsizey = 100
+	levelsizex = 11*5+1
+	levelsizey = 11*5+1
 )
 
 var (
