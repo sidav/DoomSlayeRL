@@ -60,9 +60,9 @@ func (dung *dungeon) init_placeItemsAndEnemies() {
 
 func (dung *dungeon) MakeMapFromGenerated() {
 	// BSP_dungeon_generator.SetGeneratorRandomSeed(routines.Random(0))
-	layout, _ := dungen.Generate(-1, 5, 5) //BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 7, 60, 0, 50, 5)
+	layout, _ := dungen.Generate(-1, 6, 6) //BSP_dungeon_generator.GenerateDungeon(levelsizex, levelsizey, 7, 60, 0, 50, 5)
 	generated_map := dungToTiled.GetTileMap(layout)
-	
+
 	levelsizex = len(*generated_map)
 	levelsizey = len((*generated_map)[0])
 	dung.initTilesArrayForSize()
@@ -80,7 +80,7 @@ func (dung *dungeon) MakeMapFromGenerated() {
 				currDungCell.cCell = &consoleCell{appearance: currGenCell, color: cw.DARK_GREEN}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = false
-			case '#':
+			case '#', rune(0):
 				currDungCell.cCell = &consoleCell{appearance: 16*11+1, color: cw.BEIGE}
 				currDungCell.IsPassable = false
 				currDungCell.opaque = true
