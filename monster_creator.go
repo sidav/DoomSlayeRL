@@ -29,8 +29,8 @@ func p_createPawn(name string, x, y int) *p_pawn {
 			weaponInHands: &i_item{weaponData: &i_weaponData{
 				projectileExample: &projectile{turnsForOneTile: 6, damageDice: &dice{3, 3, 3}}}}}
 	case "pinky":
-		p = p_pawn{ccell:&consoleCell{'p', cw.DARK_MAGENTA}, name: name, maxhp: 65,
-			meleeData: &p_meleeAttackData{meleeAttackString: "chews", damageDice: &dice{dnum: 3, dval: 6, dmod: 2}}}
+		p = p_pawn{ccell:&consoleCell{'p', cw.DARK_MAGENTA}, name: name, maxhp: 55,
+			meleeData: &p_meleeAttackData{meleeAttackString: "chews", damageDice: &dice{dnum: 3, dval: 4, dmod: 2}}}
 	case "hellknight":
 		p = p_pawn{ccell:&consoleCell{'H', cw.DARK_YELLOW}, name: name, maxhp: 125,
 			meleeData: &p_meleeAttackData{meleeAttackString: "tears", damageDice: &dice{dnum: 3, dval: 10, dmod: 0}},
